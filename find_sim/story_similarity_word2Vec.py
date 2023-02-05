@@ -6,12 +6,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import requests
 import re
-
+from konlpy.tag import Okt
 from gensim.models import Word2Vec
 from gensim.models import KeyedVectors
 from sklearn.metrics.pairwise import cosine_similarity
 import io
 from gensim.models import Word2Vec
+
+#텍스트 전처리
+def preprocessing(df):
+    df['story'] = df['story'].str.replace("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]","")
+
+    with open('../output/stopwords.txt', 'r') as f:
+        list_file = f.readlines()
+    stopwords = list_file[0].split(",")
+    df['story'] = [x for x in df['story'] if x not in stopwords]
+
+    tokenized_data = []
 
 #단어 벡터 평균 구하기
 def vectors(document_list):
@@ -64,7 +75,7 @@ def recommendations(title):
         print('-------------')
 
 if __name__ == "__main__":
-    df = pd.read_csv('C:/Users/dan/Desktop/info.csv')
+    df = pd.read_csv('../output/info.csv')
     print('전체 문서의 수 : ', len(df))
     #토큰화하여 리스트에 저장
     corpus = []

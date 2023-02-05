@@ -117,7 +117,7 @@ def recommendations(title):
         print('-------------')
 
 if __name__ == "__main__":
-    df = pd.read_csv('C:/Users/dan/Desktop/info.csv')
+    df = pd.read_csv('../output/info.csv')
     df['story'].apply(lambda text: words_tokonizer(text))
     
     print('전체 문서의 수 : ', len(df))

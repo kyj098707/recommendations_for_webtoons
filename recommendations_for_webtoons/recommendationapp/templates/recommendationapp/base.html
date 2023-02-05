@@ -7,7 +7,20 @@
 </head>
 
 <body>
-  test!!
+  {% if post %}
+   {{ similarity }}
+  {% else %}
+  <h1>Django 사용자 입력받기</h1>
+  <h2>HTML Form 이용하기</h2>
+  <hr>
+  <form method="POST">
+    {% csrf_token %}
+    <div>
+      <label for="studentID">재밌게 본 웹툰</label>
+      <input type="text" name="webtoon_title" id="webtoon_title">
+    </div>
+  </form>
+  {% endif %}
 </body>
 
 </html>​

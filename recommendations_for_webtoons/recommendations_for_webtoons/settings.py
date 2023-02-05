@@ -76,12 +76,12 @@ WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_test',
-        'USER': 'root',
-        'PASSWORD': 'dbdnjs12!@',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'djongo',
+        'NAME': 'webtoon_db',
+        'CLIENT': {
+            'host': 'localhost',
+            'port': 27017
+        }
     }
 }
 

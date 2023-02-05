@@ -14,15 +14,57 @@ import io
 from gensim.models import Word2Vec
 
 #텍스트 전처리
-def preprocessing(df):
-    df['story'] = df['story'].str.replace("[^ㄱ-ㅎㅏ-ㅣ가-힣 ]","")
+def text_preprocessor(s):
+    
+    ## (1-1) [], (), {}, <> 괄호와 괄호 안 문자 제거하기
+    pattern = r'\([^)]*\)'  # ()
+    s = re.sub(pattern=pattern, repl='', string=s)
 
-    with open('../output/stopwords.txt', 'r') as f:
-        list_file = f.readlines()
-    stopwords = list_file[0].split(",")
-    df['story'] = [x for x in df['story'] if x not in stopwords]
+    pattern = r'\[[^)]*\]'  # []
+    s = re.sub(pattern=pattern, repl='', string=s)
 
-    tokenized_data = []
+    pattern = r'\<[^)]*\>'  # <>
+    s = re.sub(pattern=pattern, repl='', string=s)
+
+    pattern = r'\{[^)]*\}'  # {}
+    s = re.sub(pattern=pattern, repl='', string=s)
+    
+ 
+    
+    ## (3) 특수문자 제거
+    pattern = r'[^a-zA-Z가-힣]'
+    s = re.sub(pattern=pattern, repl=' ', string=s)
+    
+    # (5) 공백 기준으로 분할하기
+    s_split = s.split()
+    
+    # (6) 글자 1개만 있으면 제외하기
+    s_list = []
+    for word in s_split:
+        if len(word) !=1:
+            s_list.append(word)
+            
+    return s_list
+
+def words_tokonizer(text):
+    from konlpy.tag import Kkma # NLP of the Korean language
+    kkma = Kkma()
+    
+    words = []
+    
+    # Text preprocessing using the UDF above
+    s_list = text_preprocessor(text)
+    
+    # POS tagging
+    for s in s_list:
+        words_ = kkma.pos(s)   
+        
+        # NNG indexing
+        for word in words_:
+            if word[1] == 'NNG':
+                words.append(word[0])
+            
+    return words
 
 #단어 벡터 평균 구하기
 def vectors(document_list):
@@ -50,7 +92,7 @@ def vectors(document_list):
     return document_embedding_list
 
 def recommendations(title):
-    books = df[['title', 'story','genre']]
+    books = df[['title','genre']]
 
     # 책의 제목을 입력하면 해당 제목의 인덱스를 리턴받아 idx에 저장.
     indices = pd.Series(df.index, index = df['title']).drop_duplicates()    
@@ -75,7 +117,9 @@ def recommendations(title):
         print('-------------')
 
 if __name__ == "__main__":
-    df = pd.read_csv('../output/info.csv')
+    df = pd.read_csv('C:/Users/dan/Desktop/info.csv')
+    df['story'].apply(lambda text: words_tokonizer(text))
+    
     print('전체 문서의 수 : ', len(df))
     #토큰화하여 리스트에 저장
     corpus = []

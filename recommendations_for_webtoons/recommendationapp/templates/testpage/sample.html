@@ -1,0 +1,16 @@
+{% extends "../body.html" %}
+{% comment %} 상위 폴더. body.html을 상속받아 이어갑니다. {% endcomment %}
+{% load static %}
+
+{% comment %} 크롬으로 들어가서 개발자 도구로 보면, url 호출 부분이 정식 url로 바뀌어 있습니다. {% endcomment %}
+
+{% block topmenu %}
+{% comment %} body html 내의 topmenu 블럭을 이와 같이 채우겠습니다. {% endcomment %}
+    <li><a href="{% url 'rcmd:testpage' %}" class="nav-link px-5 link-light">페이지 이동1</a></li>
+    <li><a href="{% url 'rcmd:testpage' %}" class="nav-link px-5 link-light">페이지 이동2</a></li>
+    <li><a href="#" class="nav-link px-5 link-light">Package</a></li>
+    <li><a href="#" class="nav-link px-5 link-light">About</a></li>
+{% endblock %}
+
+
+

@@ -42,3 +42,6 @@ share/python-wheels/
 *.egg
 MANIFEST
 .idea/
+
+dataset/
+webvenv/

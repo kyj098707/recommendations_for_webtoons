@@ -1,6 +1,9 @@
 from django.urls import path
-from .views import home
+from . import views
+
+app_name = 'rcmd'
 
 urlpatterns = [
-    path('', home, name="recommendations-home")
+    path('testpage', views.testpage, name='testpage'),
+    path('', views.home, name="recommendations-home")
 ]

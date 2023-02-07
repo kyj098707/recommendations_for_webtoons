@@ -1,0 +1,4 @@
+
+# 개인 실행파일 및 설정파일 무시
+recommendations_for_webtoons/start.bat
+recommendations_for_webtoons/db_info.conf

@@ -119,7 +119,6 @@ def recommendations(title):
 if __name__ == "__main__":
     df = pd.read_csv('../output/info.csv')
     df['story'].apply(lambda text: words_tokonizer(text))
-    
     print('전체 문서의 수 : ', len(df))
     #토큰화하여 리스트에 저장
     corpus = []

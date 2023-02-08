@@ -6,4 +6,4 @@ app_name = 'rcmd'
 urlpatterns = [
     path('testpage', views.testpage, name='testpage'),
     path('', views.home, name="recommendations-home")
-]
+]   

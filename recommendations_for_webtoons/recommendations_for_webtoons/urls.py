@@ -18,7 +18,6 @@ from django.urls import path, include
 from selectionapp.views import SelectionView
 
 urlpatterns = [
-    path("", SelectionView.as_view(), name='home'),
     path("admin/", admin.site.urls),
     path("recommendation/",include("recommendationapp.urls"))
 ]

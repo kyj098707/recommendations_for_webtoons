@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-!z37_()e=a3fe_n6*-5(va9qh#==5%4tw_1tbknt$io)-sbait"
 #===============================================================
-#todo 배포단에서 꼭 해당 Secret_Key 수정할 것
+#todo 배포단에서 꼭 해당 Secret_Key 변경하고, 외부 .conf 통해 별도 관리할 것.
 #===============================================================
 
 

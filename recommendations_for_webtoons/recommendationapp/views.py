@@ -3,7 +3,7 @@ from .parser import crawl_naverwebtoon
 from .models import *
 from django.db import transaction
 
-def testpage(request):
+def testpage(request):  
     # http://localhost:8000/testpage
 
     # 생성 및 트랜잭션 Example.
@@ -12,7 +12,7 @@ def testpage(request):
         with transaction.atomic(): # 다중 쿼리 실행에서, 하나라도 실패한다면 롤백. (with문 내에서)
             bulk_crt = crawl_naverwebtoon()
             Artwork.objects.bulk_create(bulk_crt)
-            # 대용량 생성
+            
     # 즉, 연산 도중에 DB에 값을 쓰면서 내려가다가 뻗으면 더미 데이터가 남지만,
     # 이 방식을 쓰면 괜찮습니다.
     
@@ -33,9 +33,6 @@ def testpage(request):
     # 사용자 출력 Example
     data = {'pack' : model_data} # front로 데이터를 던지기 위해 pack (body.html 참조하세요)
     return render(request, "./testpage/sample.html", data) # app 내의 templete 폴더 참조
-
-def crawltest(request):
-    print(crawl_naverwebtoon())
 
 def selection(request):
     # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")

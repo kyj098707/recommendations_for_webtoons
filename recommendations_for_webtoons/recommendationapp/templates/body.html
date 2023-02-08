@@ -61,21 +61,22 @@
 
         {% comment %} views.py 에서 전송한 데이터를 이와 같이 풀어냅니다. {% endcomment %}
         <table>
-            {% for i in data_set_1 %}
             <tr>
-                <td>{{i}}</td>
+                <td width='15%'>uid</td>
+                <td width='25%'>title</td>
+                <td width='50%'>story</td>
+                <td width='10%'>enable</td>
             </tr>
-            {% endfor %}
-        </table>
-
-
-        {% comment %} views.py 에서 전송한 데이터를 이와 같이 풀어냅니다. {% endcomment %}
-        <table>
-            {% for i in data_set_2 %}
+            {% comment %} pack으로 넘어온 데이터만큼 for문 반복합니다. {% endcomment %}
+            {% comment %} 데이터엔 uid, title, story 등의 정보가 있습니다. {% endcomment %}
+            {% for i in pack %} 
             <tr>
-                <td>{{i}}</td>
+                <td>{{i.uid}}</td>
+                <td>{{i.title}}</td>
+                <td>{{i.story}}</td>
+                <td>{{i.enable}}</td>
             </tr>
-            {% endfor %}
+            {% endfor %} 
         </table>
 
 

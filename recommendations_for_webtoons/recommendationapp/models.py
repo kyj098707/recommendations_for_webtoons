@@ -27,7 +27,7 @@ class Publisher(models.Model):
 
 
 class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니다. 이하 컬럼 소문자.
-    uid = models.IntegerField(default=0, unique=True) # 폐기예정
+    uid = models.IntegerField(default=0, null=True, blank=True) # 폐기예정
     title = models.CharField(max_length=255, default='', null=True, blank=True)
     artist = models.CharField(max_length=100, default='', null=True, blank=True)
     # 외래키

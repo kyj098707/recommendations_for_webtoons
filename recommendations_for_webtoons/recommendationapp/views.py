@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .parser import crawl_naverwebtoon
 # import pymongo
 
 
@@ -9,6 +10,8 @@ def testpage(request):
     
     return render(request, "./testpage/sample.html", dict) # app 내의 templete 폴더 참조
 
+def crawltest(request):
+    print(crawl_naverwebtoon())
 
 def selection(request):
     # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")

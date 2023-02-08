@@ -7,5 +7,4 @@ urlpatterns = [
     path('testpage', views.testpage, name='testpage'),
     path('recommendation', views.recommendation, name="recommendationpage"),
     path('', views.selection, name="selectionpage"),
-    path('crawl', views.crawltest, name="crwaltest")
 ]

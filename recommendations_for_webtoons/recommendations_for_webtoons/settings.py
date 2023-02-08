@@ -93,7 +93,7 @@ DATABASES = {
         'USER': configs['DB']['ID'],
         'PASSWORD': configs['DB']['PW'],
         'HOST': configs['DB']['HOST'],
-        'PORT':  configs['DB']['PORT'],
+        'PORT':  configs['DB']['PORT'],     
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
             'charset': 'utf8mb4',

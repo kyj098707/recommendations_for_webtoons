@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
+import re
+from .models import *
 
 def crawl_naverwebtoon():
     naver_webtoon_url = "https://comic.naver.com/webtoon/weekday"
@@ -13,10 +15,13 @@ def crawl_naverwebtoon():
         detail_webtoon_url = base_path+webtoon_url.select_one('a').attrs['href']
         response_webtoon_detail = requests.get(detail_webtoon_url)
         soup_detail = BeautifulSoup(response_webtoon_detail.content, "html.parser")
+        uid = re.sub("[^0-9]","",detail_webtoon_url.split('titleId=')[1][:7])
         title = soup_detail.select_one('span.title').text
         story = soup_detail.select_one('p').text
+        webtoon_info_dic['uid'] = uid
         webtoon_info_dic['title'] = title
         webtoon_info_dic['url'] = detail_webtoon_url
         webtoon_info_dic['story'] = story
-        webtoon_info_list.append(webtoon_info_dic)
+        webtoon_info_dic['enable'] = False
+        webtoon_info_list.append(Artwork(**webtoon_info_dic))
     return webtoon_info_list

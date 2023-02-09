@@ -30,6 +30,7 @@ def crawl_naverwebtoon():
         uid = re.sub("[^0-9]","",detail_webtoon_url.split('titleId=')[1][:7])
         title = soup_detail.select_one('span.title').text
         story = soup_detail.select_one('p').text
+        path_thumb = soup_detail.select_one('img').attrs['src']
         writers = list(map(lambda x :x.lstrip(),soup_detail.select_one('span.wrt_nm').text.split(' / ')))        
         genre_types = list(map(lambda x :x.lstrip(),soup_detail.select_one('span.genre').text.split(',')))        
         
@@ -45,6 +46,7 @@ def crawl_naverwebtoon():
         webtoon_info_dic['story'] = story
         webtoon_info_dic['enable'] = False
         webtoon_info_dic['star'] = float(star)
+        webtoon_info_dic['path_thumb'] = path_thumb
         artwork = Artwork(**webtoon_info_dic)
         for k,v in writer_info.items():
             artist = ''

@@ -71,3 +71,9 @@ def recommendation(request):
     return render(request, "recommendationapp/recommendation.html")
 
 
+def select(request):
+    return render(request,'recommendationapp/select.html')
+
+
+def results(request):
+    return render(request,'recommendationapp/results.html')

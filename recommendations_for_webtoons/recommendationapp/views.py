@@ -8,7 +8,7 @@ def testpage(request):
 
     # 생성 및 트랜잭션 Example.
     # uid unique 해제했습니다.
-    if Artwork.objects.all().count() > 50 : # 현재 Artwork내 data가 50개 이상이면, 생성을 하지 않겠습니다.
+    if Artwork.objects.all().count() < 50 : # 현재 Artwork내 data가 50개 이상이면, 생성을 하지 않겠습니다.
         with transaction.atomic(): # 다중 쿼리 실행에서, 하나라도 실패한다면 롤백. (with문 내에서)
             bulk_crt = crawl_naverwebtoon()
             Artwork.objects.bulk_create(bulk_crt)

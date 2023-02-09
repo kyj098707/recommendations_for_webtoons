@@ -19,7 +19,7 @@ class Artist(models.Model):
     name = models.CharField(max_length=255, default='', null=True, blank=True)
 
 class Genre(models.Model):
-    name = models.CharField(max_length=255, default='', null=True, blank=True)
+    name = models.CharField(max_length=255, default='', null=True, blank= False)# 장르 이름에 blank 없앴습니다!
     count = models.IntegerField(default=0, blank=True, null=True)
 
 class Publisher(models.Model):

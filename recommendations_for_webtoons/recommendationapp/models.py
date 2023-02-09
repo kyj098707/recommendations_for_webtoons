@@ -31,7 +31,7 @@ class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니�
     star = models.FloatField(default=0, null=True, blank=True) # 평점
     title = models.CharField(max_length=255, default='', null=True, blank=True)
     artist = models.CharField(max_length=100, default='', null=True, blank=True)
-    # 외래키
+    #    외래키
     # on_delete = models.PROTECT : 장르가 지워질 때, 장르 아래 Artwork가 존재하면 지워지지 않게 함.
     genre = models.ForeignKey(Genre, on_delete = models.PROTECT, related_name='genre', blank=True, null=True)
     publisher = models.ForeignKey(Publisher, on_delete = models.PROTECT, related_name='publish', blank=True, null=True)

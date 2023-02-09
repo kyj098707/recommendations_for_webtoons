@@ -13,6 +13,14 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from pathlib import Path
 import configparser
 
+import os
+
+
+# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
+import pymysql
+# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
+
+
 configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
 
@@ -85,6 +93,8 @@ WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
+# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
+pymysql.install_as_MySQLdb()
 
 DATABASES = {
     'default': {
@@ -128,7 +138,9 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'ko-kr'
 TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
+
 USE_TZ = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
@@ -139,3 +151,6 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 이미지 추가
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]

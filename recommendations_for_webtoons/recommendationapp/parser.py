@@ -55,5 +55,12 @@ def crawl_naverwebtoon():
             res = Rel_ar_aw(r_artist=artist,r_artwork=artwork, type=k)
             writer_info_list.append(res)
         webtoon_info_list.append(artwork)
-        
-    return webtoon_info_list,writer_info_list
+        for gen in genre_types:
+            genre = ''
+            if not Genre.objects.filter(name=gen).exists():
+                genre = Genre(name=gen)
+                genre.save()
+            genre = Genre.objects.get(name=gen)
+            res = Rel_gr_aw(r_genre=genre,r_artwork=artwork)
+            genre_types_list.append(res)
+    return webtoon_info_list,writer_info_list,genre_types_list

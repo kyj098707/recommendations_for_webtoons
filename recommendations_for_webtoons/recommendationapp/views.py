@@ -19,10 +19,6 @@ def testpage(request):
     
     # 유무 확인 및 검색 Example
     ###count나 exists 모두 유무를 파악하지만, exists가 성능이 좋습니다. ###
-    if Artwork.objects.filter(title="용사").count() : #Artwork 내 "용사" 타이틀을 가진 작품이 5개 이상이면,
-        print("용사가 많이 있다.") # 콘솔에 용사가 나타났다.를 출력합니다.
-    elif Artwork.objects.filter(title__startswith="용사").exists() : #Artwork 내 "용사"로 시작하는 작품이 존재하면,
-        print("용사로 시작하는 친구가 존재하긴 한다.")
     
     model_data = Artwork.objects.all()[:30] # 전체 모델 중 30개만 불러오겠습니다.
 

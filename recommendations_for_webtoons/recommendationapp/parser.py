@@ -46,7 +46,6 @@ def crawl_naverwebtoon():
         webtoon_info_dic['enable'] = False
         webtoon_info_dic['star'] = float(star)
         artwork = Artwork(**webtoon_info_dic)
-        artwork.save()
         for k,v in writer_info.items():
             artist = ''
             if not Artist.objects.filter(name=v).exists():
@@ -54,7 +53,7 @@ def crawl_naverwebtoon():
                 artist.save()
             artist = Artist.objects.get(name=v)
             res = Rel_ar_aw(r_artist=artist,r_artwork=artwork, type=k)
-            res.save()
+            writer_info_list.append(res)
         webtoon_info_list.append(artwork)
         
-    return webtoon_info_list
+    return webtoon_info_list,writer_info_list

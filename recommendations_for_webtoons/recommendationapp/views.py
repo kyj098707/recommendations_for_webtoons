@@ -10,10 +10,9 @@ def testpage(request):
     # uid unique 해제했습니다.
     if Artwork.objects.all().count() < 50 : # 현재 Artwork내 data가 50개 이상이면, 생성을 하지 않겠습니다.
         with transaction.atomic(): # 다중 쿼리 실행에서, 하나라도 실패한다면 롤백. (with문 내에서)
-            webtoon_bulk_crt,writer_bulk_list = crawl_naverwebtoon()
+            webtoon_bulk_crt,writer_bulk_crt = crawl_naverwebtoon()
             Artwork.objects.bulk_create(webtoon_bulk_crt)
-            Rel_ar_aw.objects.bulk_create(writer_bulk_list)
-
+            Rel_ar_aw.objects.bulk_create(writer_bulk_crt)
     # 즉, 연산 도중에 DB에 값을 쓰면서 내려가다가 뻗으면 더미 데이터가 남지만,
     # 이 방식을 쓰면 괜찮습니다.
     

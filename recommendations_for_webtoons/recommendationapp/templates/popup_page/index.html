@@ -1,4 +1,3 @@
-{% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
 
@@ -128,7 +127,7 @@
 
         .container{
             margin-top: 10px;
-            overflow:scroll; 
+            
             
         }
         
@@ -137,7 +136,6 @@
             margin-top: 15px;
             width: 200px;
             height: 400px;
-            border-right: 0.5px solid #434343;
         }
 
         .container #contents{
@@ -145,7 +143,7 @@
             margin-top: 10px;
             float: right;
             width: 580px;
-
+            
         }
         
         th, td {
@@ -154,6 +152,7 @@
         
         .modal_table{
             table-layout: fixed;
+            float: right;
             width: 100%;
             height: 600px;
             overflow: scroll;
@@ -194,8 +193,8 @@
 
 
     <!-- 모달 -->
-    <div id="modal_add_feed" class="modal_overlay">
-        <div class="modal_window">
+    <div id="modal_add_feed" class="modal_overlay" >
+        <div class="modal_window"  style="overflow-y:scroll;">
             <!-- Header -->
             <div class="modal_title">
                 <div class="modal_title_side"></div>
@@ -215,9 +214,9 @@
                 </div>
             
                 <!-- 웹툰 이미지 -->
-                <div id="contents" > 
+                <div id="contents"> 
                     
-                    <table class="modal_table" style="overflow-y: scroll">
+                    <table class="modal_table" >
                         <tr>
                             
                             <!--
@@ -231,7 +230,17 @@
                             <td></td>
                             <td></td>
                         </tr>
-                        <tr><td></td><td></td><td></td></tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -245,7 +254,7 @@
        buttonAddFeed.addEventListener("click", e => {
            modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y위치를 바꿔줌 
            modal.style.display = "flex";
-           // document.body.style.overflowY = "auto"; // 스크롤 없애기
+           // document.body.style.overflowY = "scroll"; // 스크롤 없애기
        });
        // 모달 닫기
        const buttonCloseModal = document.getElementById("close_modal");

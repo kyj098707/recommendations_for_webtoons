@@ -17,15 +17,25 @@ def crawl_naverwebtoon():
 
     base_path = 'http://comic.naver.com'
     webtoon_info_list = []
+    writer_info = {}
     for webtoon_url in webtoons_url:
         webtoon_info_dic = {}
         star = webtoon_url.select_one('strong').text
         detail_webtoon_url = base_path+webtoon_url.select_one('a').attrs['href']
         response_webtoon_detail = requests.get(detail_webtoon_url)
+        
         soup_detail = BeautifulSoup(response_webtoon_detail.content, "html.parser")
         uid = re.sub("[^0-9]","",detail_webtoon_url.split('titleId=')[1][:7])
         title = soup_detail.select_one('span.title').text
         story = soup_detail.select_one('p').text
+        writers = list(map(lambda x :x.lstrip(),soup_detail.select_one('span.wrt_nm').text.split(' / ')))        
+        # 아직 스키마에 writer에 대한 정보를 어떻게 넣을 지정을 하지 않아서, 딕셔너리 형태로만 담아놨습니다.
+        if len(writers) == 1:
+            writer_info['author'] = writer_info['illust'] = writers[0]
+        elif len(writers) == 2:
+            writer_info['author'],writer_info['illust'] = writers
+        else:
+            writer_info['author'],writer_info['illust'],writer_info['origin'] = writers
         webtoon_info_dic['uid'] = "N_"+uid
         webtoon_info_dic['title'] = title
         webtoon_info_dic['url'] = detail_webtoon_url
@@ -33,4 +43,5 @@ def crawl_naverwebtoon():
         webtoon_info_dic['enable'] = False
         webtoon_info_dic['star'] = float(star)
         webtoon_info_list.append(Artwork(**webtoon_info_dic))
+        print(writer_info)
     return webtoon_info_list

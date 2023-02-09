@@ -12,11 +12,53 @@
         
         body{
             margin: 300px auto;
-            
             text-align: center;
         }
 
 
+        .top-bar {
+            background-color: #C0E3E2;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+            
+        .top-bar h1 {
+            font-size: 20px;
+            color: black;
+            margin: 0;
+        }
+        
+        .top-bar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .top-bar ul li {
+            margin-right: 20px;
+        }
+        
+        .top-bar ul a {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+        }
+
+
+        
         .modal_overlay {
             width: 100%;
             height: 100%;
@@ -57,54 +99,14 @@
             flex: 0 0 40px;
             text-align: center;
         }
-        .top-bar {
-        background-color: gray;
-        height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
-        position: fixed;
-        top: 0;
-        width: 100%;
-      }
-           
-      .top-bar h1 {
-        font-size: 20px;a
-        color: white;
-        margin: 0;
-      }
-      
-      .top-bar ul {
-        display: flex;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-      }
-      
-      .top-bar ul li {
-        margin-right: 20px;
-      }
-      
-      .top-bar ul a {
-        color: white;
-        text-decoration: none;
-        font-size: 16px;
-      }
-      
-      .top-bar .right {
-        display: flex;
-        align-items: center;
-      }
-      .material-icons-outlined{
+
+        .material-icons-outlined{
             font-size: 15px;   
         }
 
         .modal_search{
             text-align: left;
             position: absolute;
-            top: 10px;
             left: 20px;
             width: 200px;
             height: 30px;
@@ -118,12 +120,12 @@
           font-size: 16px;
           padding: 0 10px;
           position: absolute;
-          top: 10px;
-          left: 150px;
+          left: 145px;
           width: 50px;
           height: 30px;
+          font-size: 15px;
         }
-        
+
         .container{
             margin-top: 10px;
             overflow:scroll; 
@@ -145,15 +147,15 @@
             width: 580px;
 
         }
-
+        
         th, td {
             border: 1px solid #bcbcbc;
         }
-
+        
         .modal_table{
             table-layout: fixed;
             width: 100%;
-            height: 500px;
+            height: 600px;
             overflow: scroll;
         }
     </style>
@@ -162,20 +164,21 @@
 
 
 <body>
-  <div class="top-bar">
-    <h1>Top Bar</h1>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-    <div class="right">
-      <a href="#">mypage</a>
+    <div class="top-bar">
+        <h1>Top Bar</h1>
+        <ul>
+          <li><a href="#"> Home </a></li>
+          <li><a href="#"> About </a></li>
+          <li><a href="#"> Contact </a></li>
+        </ul>
+        <div class="right">
+          <a class='topbar_mypage' href="#">Mypage</a>
+        </div>
     </div>
-  </div>
-
-    <h3>웹툰 추천 시스템</h3>
-    <div id = "top">웹툰과 그림체를 선택하시면 유사한 웹툰을 추천합니다.</div><br>
+    
+    <h1>🥰 웹툰 추천 서비스 🥰</h1><br>
+    <div style="font-size: 15px;"> 재밌게 본 웹툰 5개를 선택하면 웹툰을 추천해줍니다 </div>
+    <br> </br>
 
     <script>
       function work() {
@@ -201,7 +204,6 @@
                     <span id="close_modal" class="material-icons-outlined">
                         확인
                     </span>
-
                 </div>
             </div>
 
@@ -217,7 +219,9 @@
                     
                     <table class="modal_table" style="overflow-y: scroll">
                         <tr>
-                            <!--<th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th>
+                            
+                            <!--
+                            <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th>
                             <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th>
                             <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th> -->
                         </tr>
@@ -233,11 +237,11 @@
             </div>
         </div>
     </div>
+
     <script>
         // 모달 띄우기 코드
        const modal = document.getElementById("modal_add_feed");
        const buttonAddFeed = document.getElementById("add_feed");
-       
        buttonAddFeed.addEventListener("click", e => {
            modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y위치를 바꿔줌 
            modal.style.display = "flex";

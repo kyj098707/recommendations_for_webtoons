@@ -6,7 +6,7 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
-
+.DS_Store
 recommendations_for_webtoons/start.bat
 recommendations_for_webtoons/db_info.conf
 

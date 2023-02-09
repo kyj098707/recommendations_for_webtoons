@@ -1,0 +1,88 @@
+{% extends "./base.html" %}
+{% comment %} 동일 폴더의 base. html에서 이어갑니다. {% endcomment %}
+    {% block body %}
+        {% comment %} base.html 내 body 라는 블록 내부를 이와 같이 채우겠습니다. {% endcomment %}
+
+
+        {% include "./_symbols.html" %}
+        {% comment %} 동일 경로의 symbol html 을 가져옵니다 (svg 아이콘 불러오기) {% endcomment %}
+
+
+        <header class="none_submenu navbar navbar-dark sticky-top bg-dark flex-md-nowrap pt-2 px-2 shadow" style="height:60px">
+            <div class="w-100 d-flex justify-content-between">
+                <div class="align-items-center">
+                    <a href="./" class="text-decoration-none" style="color:#FFF; vertical-align:middle">
+                        <svg class="bi pe-none logo--white py-0" width="30" height="100"><use xlink:href="#home"></use></svg>
+                    </a>
+                </div>
+                
+                <div class="flex-fill align-self-center">
+                    <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="font-size:1.5em">
+                        {% block topmenu %}
+                        {% endblock %}
+                    </ul>
+                </div>
+
+                <div class="dropdown align-self-center">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        바로가기
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end mb-auto">
+                        <li>
+                            <a href="#" class="nav-link dropdown-item align-middle">
+                                <svg class="bi pe-none me-3 logo--white pt-1" width="25" height="35"><use xlink:href="#chevron-right"></use></svg>
+                                <span style="vertical-align:middle">sample1</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link dropdown-item align-middle">
+                                <svg class="bi pe-none me-3 logo--white pt-1" width="25" height="35"><use xlink:href="#chevron-right"></use></svg>
+                                <span style="vertical-align:middle">sample2</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link dropdown-item align-middle">
+                                <svg class="bi pe-none me-3 logo--white pt-1" width="25" height="35"><use xlink:href="#chevron-right"></use></svg>
+                                <span style="vertical-align:middle">sample3</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link dropdown-item align-middle">
+                                <svg class="bi pe-none me-3 logo--white pt-1" width="25" height="35"><use xlink:href="#chevron-right"></use></svg>
+                                <span style="vertical-align:middle">sample4</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+
+
+        {% comment %} views.py 에서 전송한 데이터를 이와 같이 풀어냅니다. {% endcomment %}
+        <table>
+            <tr>
+                <td width='15%'>uid</td>
+                <td width='25%'>title</td>
+                <td width='50%'>story</td>
+                <td width='10%'>enable</td>
+            </tr>
+            {% comment %} pack으로 넘어온 데이터만큼 for문 반복합니다. {% endcomment %}
+            {% comment %} 데이터엔 uid, title, story 등의 정보가 있습니다. {% endcomment %}
+            {% for i in pack %} 
+            <tr>
+                <td>{{i.uid}}</td>
+                <td>{{i.title}}</td>
+                <td>{{i.story}}</td>
+                <td>{{i.enable}}</td>
+            </tr>
+            {% endfor %} 
+        </table>
+
+
+
+        {% block lower %}
+
+        {% endblock %}
+        
+    {% endblock %}

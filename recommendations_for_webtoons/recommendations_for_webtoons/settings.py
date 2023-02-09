@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import configparser
+
+configs = configparser.ConfigParser()
+configs.read('./db_info.conf', encoding = "utf-8")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,11 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-!z37_()e=a3fe_n6*-5(va9qh#==5%4tw_1tbknt$io)-sbait"
+#===============================================================
+#todo 배포단에서 꼭 해당 Secret_Key 변경하고, 외부 .conf 통해 별도 관리할 것.
+#===============================================================
+
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +58,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 
 ROOT_URLCONF = "recommendations_for_webtoons.urls"
 
@@ -74,14 +84,21 @@ WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': 'webtoon_db',
-        'CLIENT': {
-            'host': 'localhost',
-            'port': 27017
-        }
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': configs['DB']['NAME'],
+        'USER': configs['DB']['ID'],
+        'PASSWORD': configs['DB']['PW'],
+        'HOST': configs['DB']['HOST'],
+        'PORT':  configs['DB']['PORT'],     
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            'charset': 'utf8mb4',
+            'use_unicode': True,
+        },
     }
 }
 
@@ -108,14 +125,10 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
-
-TIME_ZONE = "UTC"
-
+LANGUAGE_CODE = 'ko-kr'
+TIME_ZONE = 'Asia/Seoul'
 USE_I18N = True
-
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

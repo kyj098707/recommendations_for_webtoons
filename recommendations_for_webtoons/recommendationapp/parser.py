@@ -11,10 +11,10 @@ def crawl_naverwebtoon():
     for naver_webtoon_url in naver_webtoon_urls:
         res = requests.get(naver_webtoon_url)
         soup = BeautifulSoup(res.content, "html.parser")
-        if naver_webtoon_url == naver_webtoon_urls[0]:
-            webtoons_url.extend(soup.find('div', class_ = 'list_area daily_img').find_all("li"))
-        if naver_webtoon_url == naver_webtoon_urls[1]:
+        if naver_webtoon_url == naver_webtoon_urls[-1]:
             webtoons_url.extend(soup.find('div', class_ = 'list_area').find_all("li"))
+        else:
+            webtoons_url.extend(soup.find('div', class_ = 'list_area daily_img').find_all("li"))
 
     base_path = 'http://comic.naver.com'
     webtoon_info_list = []

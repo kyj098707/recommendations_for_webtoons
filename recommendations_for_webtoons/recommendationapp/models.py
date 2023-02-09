@@ -14,21 +14,21 @@ class Detail(models.Model):
     class Meta:
         managed = False
         db_table = 'detail'
-        
-        
+
+class Artist(models.Model):
+    name = models.CharField(max_length=255, default='', null=True, blank=True)
+
 class Genre(models.Model):
     name = models.CharField(max_length=255, default='', null=True, blank=True)
     count = models.IntegerField(default=0, blank=True, null=True)
-
 
 class Publisher(models.Model):
     name = models.CharField(max_length=255, default='', null=True, blank=True)
     count = models.IntegerField(default=0, blank=True, null=True)
 
-
 class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니다. 이하 컬럼 소문자.
-    uid = models.CharField(max_length=20, default='', null=True, blank=True) # 폐기예정
-    star = models.FloatField(default=0,null=True,blank=True) # 평점
+    uid = models.CharField(max_length=20, default='', null=True, blank=True)
+    star = models.FloatField(default=0, null=True, blank=True) # 평점
     title = models.CharField(max_length=255, default='', null=True, blank=True)
     artist = models.CharField(max_length=100, default='', null=True, blank=True)
     # 외래키
@@ -48,3 +48,32 @@ class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니�
 
     class Meta:
         ordering = ['title'] # 기본적으로 db에서 불러올 때 title 순으로 정렬
+
+
+#============================================================================
+#============================================================================
+# 다대다 필드 구현 : manytomanyField 사용치 않고 직접 구현하겠습니다.
+# Through model을 포함하여 직접 정의합니다.
+
+class Rel_ar_aw(models.Model): #N개의 작가들이 N개의 작품에 대해 붙을 수 있으므로, 다대다 관계
+    r_artist = models.ForeignKey(Artist, on_delete = models.PROTECT, related_name='ar_aw', blank=True, null=True)
+    r_artwork = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='aw_ar', blank=True, null=True)
+    type = models.CharField(max_length=255, default='', null=True, blank=True)
+    # 해당 작가-작품이 어떤 관계인지(글작가, 그림작가, 원작자, 배급사) 타입 기재
+    
+    class Mete :
+        ordering = ['r_artist__name', 'r_artwork__title', 'type']
+        # 일반적으로 산출할 때, 한 작가의 같은 작품을 우선하여 type 순으로 가져옵니다.
+
+
+class Rel_gr_aw(models.Model): # 장르 - 작품 다대다 관계필드
+    # 장르 또한 다중장르 작업을 진행하기로 하였으므로. 위와 동일
+    r_genre = models.ForeignKey(Genre, on_delete = models.PROTECT, related_name='gr_aw', blank=True, null=True)
+    r_artwork = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='aw_gr', blank=True, null=True)
+
+    class Mete :
+        ordering = ['r_artwork__title']
+        # 일반적으로 산출할 때, 숫자순/알파벳순/가나다순으로 가져옵니다.
+    
+#============================================================================
+#============================================================================

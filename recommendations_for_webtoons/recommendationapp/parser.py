@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-from .models import Artwork
+from .models import Artwork,Artist,Rel_ar_aw
 
 def crawl_naverwebtoon():
     days = ['mon','tue','wed','thu','fri','sat','sun']
@@ -17,8 +17,9 @@ def crawl_naverwebtoon():
 
     base_path = 'http://comic.naver.com'
     webtoon_info_list = []
-    writer_info = {}
+    writer_info_list =[]
     for webtoon_url in webtoons_url:
+        writer_info = {}
         webtoon_info_dic = {}
         star = webtoon_url.select_one('strong').text
         detail_webtoon_url = base_path+webtoon_url.select_one('a').attrs['href']
@@ -31,17 +32,24 @@ def crawl_naverwebtoon():
         writers = list(map(lambda x :x.lstrip(),soup_detail.select_one('span.wrt_nm').text.split(' / ')))        
         # 아직 스키마에 writer에 대한 정보를 어떻게 넣을 지정을 하지 않아서, 딕셔너리 형태로만 담아놨습니다.
         if len(writers) == 1:
-            writer_info['author'] = writer_info['illust'] = writers[0]
+            writer_info['Author'] = writer_info['Illust'] = writers[0]
         elif len(writers) == 2:
-            writer_info['author'],writer_info['illust'] = writers
+            writer_info['Author'],writer_info['Illust'] = writers
         else:
-            writer_info['author'],writer_info['illust'],writer_info['origin'] = writers
+            writer_info['Author'],writer_info['Illust'],writer_info['Origin'] = writers
         webtoon_info_dic['uid'] = "N_"+uid
         webtoon_info_dic['title'] = title
         webtoon_info_dic['url'] = detail_webtoon_url
         webtoon_info_dic['story'] = story
         webtoon_info_dic['enable'] = False
         webtoon_info_dic['star'] = float(star)
-        webtoon_info_list.append(Artwork(**webtoon_info_dic))
-        print(writer_info)
-    return webtoon_info_list
+        artwork = Artwork(**webtoon_info_dic)
+        for k,v in writer_info.items():
+            if not Artist.objects.filter(name=v).exists():
+                artist = Artist(name=v)
+                artist.save()
+            res = Rel_ar_aw(r_artist=artist,r_artwork=artwork, type=k)
+            writer_info_list.append(res)
+        webtoon_info_list.append(artwork)
+        
+    return webtoon_info_list, writer_info_list

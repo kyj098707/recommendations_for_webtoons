@@ -61,7 +61,7 @@ class Rel_ar_aw(models.Model): #N개의 작가들이 N개의 작품에 대해 �
     type = models.CharField(max_length=255, default='', null=True, blank=True)
     # 해당 작가-작품이 어떤 관계인지(글작가, 그림작가, 원작자, 배급사) 타입 기재
     
-    class Mete :
+    class Meta :
         ordering = ['r_artist__name', 'r_artwork__title', 'type']
         # 일반적으로 산출할 때, 한 작가의 같은 작품을 우선하여 type 순으로 가져옵니다.
 
@@ -71,9 +71,16 @@ class Rel_gr_aw(models.Model): # 장르 - 작품 다대다 관계필드
     r_genre = models.ForeignKey(Genre, on_delete = models.PROTECT, related_name='gr_aw', blank=True, null=True)
     r_artwork = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='aw_gr', blank=True, null=True)
 
-    class Mete :
+    class Meta :
         ordering = ['r_artwork__title']
         # 일반적으로 산출할 때, 숫자순/알파벳순/가나다순으로 가져옵니다.
-    
+
+class Sim_st_st(models.Model): #story 유사도
+    r_artwork1 = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='st1_st2' ,blank=True, null=True)
+    r_artwork2 = models.ForeignKey(Artwork, on_delete = models.PROTECT,related_name='st2_st1',blank=True, null=True)
+    similarity = models.FloatField(default=0, null=True, blank=False)
+
+    class Meta:
+        ordering = ['similarity']
 #============================================================================
 #============================================================================

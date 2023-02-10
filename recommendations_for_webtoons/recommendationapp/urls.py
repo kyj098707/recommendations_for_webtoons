@@ -3,10 +3,17 @@ from . import views
 
 app_name = 'rcmd'
 
-urlpatterns = [ 
+urlpatterns = [
+    path('manage_data', views.manage_data, name="md"),
+    
     path('recommendation', views.recommendation, name="recommendationpage"),
     path('', views.select, name="selectpage"),
     path('results', views.results, name='resultpage'),
     path('testpage', views.testpage, name='testpage'),
     path('testpage2', views.testpage2, name='testpage2'),
+    path('recommendation', views.recommendation, name="recommendationpage"),
+    path('service/', views.selection, name="selectionpage"),
+
+    path('select/', views.select, name='select'),
+    path('results/', views.results, name='results'),
 ]

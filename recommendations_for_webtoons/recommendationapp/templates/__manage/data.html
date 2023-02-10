@@ -1,0 +1,113 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% comment %} 상위 폴더. body.html을 상속받아 이어갑니다. {% endcomment %}
+{% load static %}
+
+{% comment %} 크롬으로 들어가서 개발자 도구로 보면, url 호출 부분이 정식 url로 바뀌어 있습니다. {% endcomment %}
+
+{% block body %}
+<div class='row m-5'>
+    <div class='col m-2'> 
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">분류</th>
+                <th scope="col">기능명</th>
+                <th scope="col">기능상세</th>
+                <th scope="col">입력</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Delete</td>
+                    <td>전체 삭제</td>
+                    <td>DB의 전체 데이터를 삭제합니다.</td>
+                    <td>
+                        <button type="button" id='del_data' class="btn btn-sm btn-warning my-0 py-0 w-100">Warning</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Write</td>
+                    <td>전체 쓰기</td>
+                    <td>본서버 DB로부터 전체 데이터를 받아옵니다.</td>
+                    <td>
+                        <button type="button" id="get_data" class="btn btn-sm btn-warning my-0 py-0 w-100">Warning</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class='col m-2'> 
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Jacob</td>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+                </tr>
+                <tr>
+                <td>Jacob</td>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+    var submenu_status = false;
+    var ajax_url = "{% url 'rcmd:md' %}"
+
+    function request_ajax(url, data_dict) {
+            $.ajax({
+                url:url,
+                type:'POST',
+                async:false,
+                data:data_dict,
+                success: function (response) {
+                        result = response
+                        },
+            error: function (e) {
+                    alert("connenction error")
+                    result = "error"
+                    }
+            });
+        return result;
+    }
+
+    $(document).on("click","#del_data",function(){
+        data = {'indicator' : 'delete_all_data'}
+        var res = request_ajax(ajax_url, data)
+        if (res.response === 'complete') {
+            alert('데이터 삭제 완료')
+        } else {
+            alert("통신 오류")
+        }
+    })
+
+    $(document).on("click","#get_data",function(){
+        data = {'indicator' : 'download_all_data'}
+        var res = request_ajax(ajax_url, data)
+        if (res.response === 'complete') {
+            alert('데이터 등재 완료')
+        } else {
+            alert("통신 오류")
+        }
+    })
+
+
+{% endblock %}

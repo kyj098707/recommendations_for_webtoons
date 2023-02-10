@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from sentence_transformers import SentenceTransformer, util
 import requests
 import re
 from .models import *
@@ -66,3 +67,43 @@ def crawl_naverwebtoon():
             res = Rel_gr_aw(r_genre=genre,r_artwork=artwork)
             genre_types_list.append(res)
     return webtoon_info_list,writer_info_list,genre_types_list
+
+def find_sim(story1, story2, checkpoints):
+    
+    story_vector1 = checkpoints.encode(story1)
+    story_vector2 = checkpoints.encode(story2)
+    story_sims = util.cos_sim(story_vector1,story_vector2)
+    return story_sims
+
+def find_story_similarity():
+    base_title_list = [b.title for b in Artwork.objects.all()]
+    base_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',b.story) for b in Artwork.objects.all()]
+    
+    compare_title_list = [c.title for c in Artwork.objects.all()]
+    compare_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',c.story) for c in Artwork.objects.all()]
+    checkpoints = SentenceTransformer('snunlp/KR-SBERT-V40K-klueNLI-augSTS')
+    
+    sim_list = find_sim(base_story_list,compare_story_list,checkpoints)
+    sim_story_list = []
+    for idx,uid in enumerate(base_title_list):
+        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
+        print(sims)
+        sims = sorted(sims,reverse=True)[:20]
+        base_artwork = Artwork.objects.get(uid=sims[0][1])
+        for sim in sims[1:]:
+            try:
+                compare_artwork = Artwork.objects.get(uid=sim[1])
+            except:
+                print(sim[1])
+            res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
+            sim_story_list.append(res)
+
+    return sim_story_list
+    """sim_df = pd.DataFrame()  
+    webtoon_csv = pd.read_csv("../webtoon/webtoon_story.csv")
+    story_sims = find_sim(webtoon_csv)
+    sim_df["title_id"] = webtoon_csv['title_id']
+    for _id,story_sim in zip(webtoon_csv['title_id'],story_sims):
+        sim_df[_id] = story_sim
+    sim_df.to_csv("sim.csv")
+    print(sim_df)"""

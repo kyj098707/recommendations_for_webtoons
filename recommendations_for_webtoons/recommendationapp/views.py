@@ -1,14 +1,113 @@
+import json
 from django.shortcuts import render
 from .parser import *
 from .models import *
 from django.db import transaction
-from collections import Counter 
+from collections import Counter
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, Http404
+
+@csrf_exempt
+def manage_data(request):
+    # http://127.0.0.1:8000/manage_data
+    
+    indicator = request.POST.get('indicator')
+    if indicator == "delete_all_data":
+        Rel_ar_aw.objects.all().delete()
+        Rel_gr_aw.objects.all().delete()
+        Sim_st_st.objects.all().delete()
+        Artist.objects.all().delete()
+        Artwork.objects.all().delete()
+        Publisher.objects.all().delete()
+        Genre.objects.all().delete()
+        result = {'response': 'complete'}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+
+    elif indicator == "download_all_data":
+        s = Publisher(name = "Naver")
+        s.save()
+        s = Publisher(name = "Daum/KAKAO")
+        s.save()
+        Pub = {i.name : i for i in Publisher.objects.all()}
+        response = requests.get('http://kt-aivle.iptime.org:64000/test/get_base')
+        artists = response.json()['artist']
+        bulk = []
+        for i in artists :
+            dict = {'name' : i}
+            bulk.append(Artist(**dict))
+        Artist.objects.bulk_create(bulk)
+        genres = response.json()['genre']
+        bulk = []
+        for i in genres :
+            dict = {'name' : i.strip()}
+            bulk.append(Genre(**dict))
+        Genre.objects.bulk_create(bulk)
+        response = requests.get('http://kt-aivle.iptime.org:64000/test/get_artwork')
+        response = response.json()['response']
+        bulk = []
+        for i in response :
+            dict = {}
+            dict['token'] = i['token']
+            dict['uid'] = i['uid']
+            dict['title'] = i['title']
+            dict['publisher'] = Pub[i['publisher_name']]
+            dict['story'] = i['story']
+            dict['url'] = i['url']
+            dict['thumbnail_url'] = i['thumbnail_url']
+            if i['rating'] <= 5 :
+                dict['rating'] = 9+i['rating']/10
+            else :
+                dict['rating'] = i['rating']
+            bulk.append(Artwork(**dict))
+        Artwork.objects.bulk_create(bulk)
+        
+        gl = {i.name : i for i in Genre.objects.all()}
+        al = {i.name : i for i in Artist.objects.all()}
+        wl = {i.token+"%%%"+str(i.uid) : i for i in Artwork.objects.all()}
+        
+
+        response = requests.get('http://kt-aivle.iptime.org:64000/test/get_artist')
+        response = response.json()['response']
+        bulk = []
+        for i in response:
+            for j in response[i] :
+                token, uid = j
+                artist, type = i.split("%%")
+                dict = {}
+                dict['r_artist'] = al[artist]
+                dict['r_artwork'] = wl[token+"%%%"+str(uid)]
+                dict['type'] = type
+                bulk.append(Rel_ar_aw(**dict))
+        Rel_ar_aw.objects.bulk_create(bulk)
+        
+        response = requests.get('http://kt-aivle.iptime.org:64000/test/get_genre')
+        response = response.json()['response']
+        bulk = []
+        for i in response:
+            dict = {}
+            dict['r_genre'] = gl[i['name']]
+            token, uid = i['Artwork__token'], i['Artwork__uid']
+            dict['r_artwork'] = wl[token+"%%%"+str(uid)]
+            bulk.append(Rel_gr_aw(**dict))
+        Rel_gr_aw.objects.bulk_create(bulk)
+        
+            
+        
+        # response = requests.get('http://kt-aivle.iptime.org:64000/test/get_Genre/')
+        # print(response.json())
+        result = {'response': 'complete'}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    return render(request, "./__manage/data.html", {}) # app 내의 templete 폴더 참조
+
+
 
 def testpage(request):  
     # http://localhost:8000/testpage
 
     # 생성 및 트랜잭션 Example.
-    # uid unique 해제했습니다.
+    Rel_ar_aw.objects.all().delete()
+    Rel_gr_aw.objects.all().delete()
+    Artwork.objects.all().delete()
     if Artwork.objects.all().count() < 50 : # 현재 Artwork내 data가 50개 이상이면, 생성을 하지 않겠습니다.
         with transaction.atomic(): # 다중 쿼리 실행에서, 하나라도 실패한다면 롤백. (with문 내에서)
             webtoon_bulk_crt,writer_bulk_crt,genre_type_list = crawl_naverwebtoon()
@@ -38,9 +137,23 @@ def testpage2(request):
     with transaction.atomic():
         sim_bulk_crt = find_story_similarity()
         Sim_st_st.objects.bulk_create(sim_bulk_crt)
+        
+    data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
+    return render(request, "./testpage/sample.html", data) # app 내의 templete 폴더 참조
 #---------------------------------------------------------------------------------------#
 
 
+
+def selection(request):
+    # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")
+    # webtoon_db = conn.webtoon_db
+    # webtoon_collection = webtoon_db.webtoon_collection
+    # if request.POST:
+    #     webtoon_title = request.POST['webtoon_title']
+    #
+    #     similarity = webtoon_collection.find_one({'title':webtoon_title},{'_id':0,'similarity':1})['similarity']
+    #     return render(request, "recommendationapp/base.html",{"similarity":similarity,'post':True})
+    return render(request, "__main/service_page.html")
 
 def recommendation(request):
     return render(request, "recommendationapp/recommendation.html")

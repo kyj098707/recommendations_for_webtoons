@@ -7,12 +7,15 @@ from django.db import transaction
 from collections import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404
+from django.template.loader import render_to_string
 
 @csrf_exempt
 def manage_data(request):
     # http://127.0.0.1:8000/manage_data
     # 본 페이지 들어가시면 DB 제어할 수 있는 버튼 뜹니다.
     # 한번 누르고 기다리면 진행되며, alert 팝업으로 완료 여부가 출력됩니다.
+    
+    # 본 서버 데이터 內 작품 약 3700개. 작가 4k명 이상 집계.
     
     indicator = request.POST.get('indicator')
     if indicator == "delete_all_data":
@@ -31,9 +34,16 @@ def manage_data(request):
         write_rel(gl, al, wl)
         result = {'response': 'complete'}
         return HttpResponse(json.dumps(result), content_type="application/json")
+    
+    elif indicator == "read_genre":
+        model = Genre.objects.all()
+        html = render_to_string('./__manage/__genre_table.html', {'data': model})
+        result = {'response': 'complete', 'html':html}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    
     return render(request, "./__manage/data.html", {}) # app 내의 templete 폴더 참조
 
-
+    
 
 def testpage(request):  
     # http://localhost:8000/testpage

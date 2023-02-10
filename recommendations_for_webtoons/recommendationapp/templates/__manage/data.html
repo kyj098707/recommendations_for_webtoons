@@ -35,11 +35,25 @@
                         <button type="button" id="get_data" class="btn btn-sm btn-warning my-0 py-0 w-100">API 불러오기</button>
                     </td>
                 </tr>
+                <tr>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                    <td> </td>
+                </tr>
+                <tr>
+                    <td>Read</td>
+                    <td>장르 정보 읽기</td>
+                    <td>로컬 DB로부터 장르 데이터를 받아옵니다.</td>
+                    <td>
+                        <button type="button" id="read_genre" class="btn btn-sm btn-warning my-0 py-0 w-100">장르 불러오기</button>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
     <div class='col m-2'> 
-        <table class="table">
+        <table id='target_table' class="table">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -109,5 +123,14 @@
         }
     })
 
-
+    $(document).on("click","#read_genre",function(){
+        data = {'indicator' : 'read_genre'}
+        var res = request_ajax(ajax_url, data)
+        if (res.response === 'complete') {
+            alert('불러오기 완료')
+            $('#target_table').replaceWith(res.html)
+        } else {
+            alert("통신 오류")
+        }
+    })
 {% endblock %}

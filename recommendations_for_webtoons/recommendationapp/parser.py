@@ -16,7 +16,7 @@ def crawl_naverwebtoon():
             webtoons_url.extend(soup.find('div', class_ = 'list_area').find_all("li"))
         else:
             webtoons_url.extend(soup.find('div', class_ = 'list_area daily_img').find_all("li"))
-
+    uid_check = {}
     base_path = 'http://comic.naver.com'
     webtoon_info_list = []
     writer_info_list =[]
@@ -29,6 +29,9 @@ def crawl_naverwebtoon():
         response_webtoon_detail = requests.get(detail_webtoon_url)
         soup_detail = BeautifulSoup(response_webtoon_detail.content, "html.parser")
         uid = re.sub("[^0-9]","",detail_webtoon_url.split('titleId=')[1][:7])
+        if uid_check.get(uid):
+            continue
+        uid_check[uid] = 1
         title = soup_detail.select_one('span.title').text
         story = soup_detail.select_one('p').text
         path_thumb = soup_detail.select_one('img').attrs['src']
@@ -87,23 +90,13 @@ def find_story_similarity():
     sim_story_list = []
     for idx,uid in enumerate(base_title_list):
         sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
-        print(sims)
         sims = sorted(sims,reverse=True)[:20]
-        base_artwork = Artwork.objects.get(uid=sims[0][1])
+        
+        base_artwork = Artwork.objects.get(title=sims[0][1])
+        
         for sim in sims[1:]:
-            try:
-                compare_artwork = Artwork.objects.get(uid=sim[1])
-            except:
-                print(sim[1])
+            compare_artwork = Artwork.objects.get(title=sim[1])
             res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
             sim_story_list.append(res)
 
     return sim_story_list
-    """sim_df = pd.DataFrame()  
-    webtoon_csv = pd.read_csv("../webtoon/webtoon_story.csv")
-    story_sims = find_sim(webtoon_csv)
-    sim_df["title_id"] = webtoon_csv['title_id']
-    for _id,story_sim in zip(webtoon_csv['title_id'],story_sims):
-        sim_df[_id] = story_sim
-    sim_df.to_csv("sim.csv")
-    print(sim_df)"""

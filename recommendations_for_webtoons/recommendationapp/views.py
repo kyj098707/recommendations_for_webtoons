@@ -2,8 +2,9 @@ from django.shortcuts import render
 from .parser import crawl_naverwebtoon
 from .models import *
 from django.db import transaction
+from collections import Counter 
 
-"""def testpage(request):  
+def testpage(request):  
     # http://localhost:8000/testpage
 
     # 생성 및 트랜잭션 Example.
@@ -36,13 +37,14 @@ def testpage2(request):
     # http://localhost:8000/testpage2
     model_data = Rel_ar_aw.objects.filter(r_artist__name="박태준 만화회사", type='Author')
     # r_artist가 가리키는 Artist 테이블 내 이름을 검색
+    print(model_data)
     for i in model_data :
         print("박태준 만화회사가 글 작가가 참여한 작품 타이틀은", i.r_artwork.title)
 
     
     data = {'pack2': model_data}  # front로 데이터를 던지기 위해 pack2로 (body.html 참조)
     return render(request, "./testpage/sample.html", data)  # app 내의 templete 폴더 참조
-"""
+
 
 def recommendation(request):
     return render(request, "recommendationapp/recommendation.html")
@@ -53,4 +55,15 @@ def select(request):
 
 
 def results(request):
+    input_title_list = ['퀘스트지상주의','김부장','싸움독학','존망코인' , '신림/남/22']
+    genre_list = []
+    for input_title in input_title_list:
+        model_data = Rel_gr_aw.objects.filter(r_artwork__title=input_title)
+        for i in model_data:
+            genre_list.append(i.r_genre.name)
+    most_genre = Counter(genre_list).most_common()[0][0]
+    print(f"가장 많이 나온 장르는 {most_genre}입니다. 이런 {most_genre}작품들은 어떠세요?!")
+    model_data = Rel_gr_aw.objects.filter(r_genre__name=most_genre)[:10]
+    for i in model_data:
+        print(f"{most_genre} : {i.r_artwork.title}")
     return render(request,'recommendationapp/results.html')

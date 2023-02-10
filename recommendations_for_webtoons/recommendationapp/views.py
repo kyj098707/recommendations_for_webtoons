@@ -77,7 +77,13 @@ def results(request):
             continue
         print(f"{most_artist} : {g.r_artwork.title}")
     
-
+    for input_title in input_title_list:
+        print(f" << {input_title} >> 작품을 좋아하셨나요? 이 작품들은 어떤가요?")
+        r_artwork1 = Artwork.objects.get(title=input_title)
+        story_sim_data =Sim_st_st.objects.filter(r_artwork1=r_artwork1)
+        for data in story_sim_data[:10]:
+            print( "연관된 작품들: ", data.r_artwork2.title )
+    
 
 
     return render(request,'recommendationapp/results.html')

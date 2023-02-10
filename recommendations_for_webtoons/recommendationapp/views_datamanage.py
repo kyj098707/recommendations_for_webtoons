@@ -1,6 +1,8 @@
 from .models import *
 import requests
 
+##todo 본 DB 접속 url도 settings.py 내 key처럼 로컬 conf로 별도로 빼 둘 것.
+
 def clear_db():
 	Rel_ar_aw.objects.all().delete()
 	Rel_gr_aw.objects.all().delete()

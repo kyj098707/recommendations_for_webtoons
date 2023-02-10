@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .parser import crawl_naverwebtoon
+from .parser import *
 from .models import *
 from django.db import transaction
 from collections import Counter 
@@ -35,15 +35,11 @@ def testpage(request):
 
 def testpage2(request):
     # http://localhost:8000/testpage2
-    model_data = Rel_ar_aw.objects.filter(r_artist__name="박태준 만화회사", type='Author')
-    # r_artist가 가리키는 Artist 테이블 내 이름을 검색
-    print(model_data)
-    for i in model_data :
-        print("박태준 만화회사가 글 작가가 참여한 작품 타이틀은", i.r_artwork.title)
+     with transaction.atomic():
+        sim_bulk_crt = find_story_similarity()
+        Sim_st_st.objects.bulk_create(sim_bulk_crt)
+#---------------------------------------------------------------------------------------#
 
-    
-    data = {'pack2': model_data}  # front로 데이터를 던지기 위해 pack2로 (body.html 참조)
-    return render(request, "./testpage/sample.html", data)  # app 내의 templete 폴더 참조
 
 
 def recommendation(request):
@@ -65,17 +61,23 @@ def results(request):
             genre_list.append(g.r_genre.name)
             artist_list.append(a.r_artist.name)
             
-    most_genre = Counter(genre_list).most_common()[0][0]
+    most_genre = Counter(genre_list).most_common() # 장르 3개 정도 보여주기
     most_artist = Counter(artist_list).most_common()[0][0]
-    print(f"가장 많이 나온 장르는 {most_genre}입니다. 이런 {most_genre}작품들은 어떠세요?!")
-    genre_data = Rel_gr_aw.objects.filter(r_genre__name=most_genre)[:10]
-    for g in genre_data:
-        print(f"{most_genre} : {g.r_artwork.title}")
+    for i in range(3):
+        print(f"많이 나온 장르 {most_genre[i][0]}입니다. 이런 {most_genre[i][0]}작품들은 어떠세요?!")
+        genre_data = Rel_gr_aw.objects.filter(r_genre__name=most_genre[0][0])[:10]
+        for g in genre_data:
+            print(f"{most_genre[i][0]} : {g.r_artwork.title}")
 
-    print(f"가장 많이 나온 작가는 {most_artist}입니다. {most_artist}님의 작품들은 어떠세요?!")
+
+    print(f"가장 많이 나온 작가는 {most_artist}입니다. 다른 {most_artist}님의 작품들은 어떠세요?!") # 다른 작품이 있을 때만 뜨는 걸로
     artist_data = Rel_ar_aw.objects.filter(r_artist__name=most_artist)[:10]
     for g in artist_data:
+        if g.r_artwork.title in input_title_list:
+            continue
         print(f"{most_artist} : {g.r_artwork.title}")
+    
+
 
 
     return render(request,'recommendationapp/results.html')

@@ -35,7 +35,7 @@ def testpage(request):
 
 def testpage2(request):
     # http://localhost:8000/testpage2
-     with transaction.atomic():
+    with transaction.atomic():
         sim_bulk_crt = find_story_similarity()
         Sim_st_st.objects.bulk_create(sim_bulk_crt)
 #---------------------------------------------------------------------------------------#

@@ -57,13 +57,25 @@ def select(request):
 def results(request):
     input_title_list = ['퀘스트지상주의','김부장','싸움독학','존망코인' , '신림/남/22']
     genre_list = []
+    artist_list = []
     for input_title in input_title_list:
-        model_data = Rel_gr_aw.objects.filter(r_artwork__title=input_title)
-        for i in model_data:
-            genre_list.append(i.r_genre.name)
+        genre_model_data = Rel_gr_aw.objects.filter(r_artwork__title=input_title)
+        artist_model_data = Rel_ar_aw.objects.filter(r_artwork__title=input_title)
+        for g,a in zip(genre_model_data,artist_model_data):
+            genre_list.append(g.r_genre.name)
+            artist_list.append(a.r_artist.name)
+            
     most_genre = Counter(genre_list).most_common()[0][0]
+    most_artist = Counter(artist_list).most_common()[0][0]
     print(f"가장 많이 나온 장르는 {most_genre}입니다. 이런 {most_genre}작품들은 어떠세요?!")
-    model_data = Rel_gr_aw.objects.filter(r_genre__name=most_genre)[:10]
-    for i in model_data:
-        print(f"{most_genre} : {i.r_artwork.title}")
+    genre_data = Rel_gr_aw.objects.filter(r_genre__name=most_genre)[:10]
+    for g in genre_data:
+        print(f"{most_genre} : {g.r_artwork.title}")
+
+    print(f"가장 많이 나온 작가는 {most_artist}입니다. {most_artist}님의 작품들은 어떠세요?!")
+    artist_data = Rel_ar_aw.objects.filter(r_artist__name=most_artist)[:10]
+    for g in artist_data:
+        print(f"{most_artist} : {g.r_artwork.title}")
+
+
     return render(request,'recommendationapp/results.html')

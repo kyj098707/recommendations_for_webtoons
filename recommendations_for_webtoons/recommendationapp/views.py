@@ -3,7 +3,7 @@ from .parser import crawl_naverwebtoon
 from .models import *
 from django.db import transaction
 
-def testpage(request):  
+"""def testpage(request):  
     # http://localhost:8000/testpage
 
     # 생성 및 트랜잭션 Example.
@@ -42,28 +42,9 @@ def testpage2(request):
     
     data = {'pack2': model_data}  # front로 데이터를 던지기 위해 pack2로 (body.html 참조)
     return render(request, "./testpage/sample.html", data)  # app 내의 templete 폴더 참조
-
-
-def selection(request):
-    # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")
-    # webtoon_db = conn.webtoon_db
-    # webtoon_collection = webtoon_db.webtoon_collection
-    # if request.POST:
-    #     webtoon_title = request.POST['webtoon_title']
-    #
-    #     similarity = webtoon_collection.find_one({'title':webtoon_title},{'_id':0,'similarity':1})['similarity']
-    #     return render(request, "recommendationapp/base.html",{"similarity":similarity,'post':True})
-    return render(request, "popup_page/index.html")
+"""
 
 def recommendation(request):
-    # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")
-    # webtoon_db = conn.webtoon_db
-    # webtoon_collection = webtoon_db.webtoon_collection
-    # if request.POST:
-    #     webtoon_title = request.POST['webtoon_title']
-    #
-    #     similarity = webtoon_collection.find_one({'title':webtoon_title},{'_id':0,'similarity':1})['similarity']
-    #     return render(request, "recommendationapp/base.html",{"similarity":similarity,'post':True})
     return render(request, "recommendationapp/recommendation.html")
 
 

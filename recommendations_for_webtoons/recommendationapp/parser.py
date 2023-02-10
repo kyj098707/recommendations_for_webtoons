@@ -91,13 +91,10 @@ def find_story_similarity():
     for idx,uid in enumerate(base_title_list):
         sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
         sims = sorted(sims,reverse=True)[:20]
-        print(sims)
         
         base_artwork = Artwork.objects.get(title=sims[0][1])
         
-        print(sims[0][1])
         for sim in sims[1:]:
-            print(sim)
             compare_artwork = Artwork.objects.get(title=sim[1])
             res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
             sim_story_list.append(res)

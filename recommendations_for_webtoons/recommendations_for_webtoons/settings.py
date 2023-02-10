@@ -11,18 +11,16 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import configparser
+import configparser, platform, os
 
-import os
-
-
-# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
-import pymysql
-# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
-
+if "macOS" in str(platform.platform()):
+    import pymysql
+    pymysql.install_as_MySQLdb()
+    
 
 configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -91,10 +89,6 @@ WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-
-# 이지안: 제 부분이라서 만약에 이것땜에 에러 나시면 주석 처리하고 실행부탁드려요....
-pymysql.install_as_MySQLdb()
 
 DATABASES = {
     'default': {

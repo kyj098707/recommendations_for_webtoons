@@ -1,36 +1,55 @@
+import json
 from django.shortcuts import render
 from .parser import *
 from .models import *
+from .views_datamanage import *
 from django.db import transaction
-from collections import Counter 
+from collections import Counter
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, Http404
+from django.template.loader import render_to_string
+
+@csrf_exempt
+def manage_data(request):
+    # http://127.0.0.1:8000/manage_data
+    # 본 페이지 들어가시면 DB 제어할 수 있는 버튼 뜹니다.
+    # 한번 누르고 기다리면 진행되며, alert 팝업으로 완료 여부가 출력됩니다.
+    
+    # 본 서버 데이터 內 작품 약 3700개. 작가 4k명 이상 집계.
+    
+    indicator = request.POST.get('indicator')
+    if indicator == "delete_all_data":
+        clear_db()
+        result = {'response': 'complete'}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+
+    elif indicator == "download_all_data":
+        write_pub()
+        write_baseinfo()
+        Pub = {i.name : i for i in Publisher.objects.all()}
+        write_artwork(Pub)
+        gl = {i.name : i for i in Genre.objects.all()}
+        al = {i.name : i for i in Artist.objects.all()}
+        wl = {i.token+"%%%"+str(i.uid) : i for i in Artwork.objects.all()}
+        write_rel(gl, al, wl)
+        result = {'response': 'complete'}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    
+    elif indicator == "read_genre":
+        model = Genre.objects.all()
+        html = render_to_string('./__manage/__genre_table.html', {'data': model})
+        result = {'response': 'complete', 'html':html}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    
+    return render(request, "./__manage/data.html", {}) # app 내의 templete 폴더 참조
+
+    
 
 def testpage(request):  
     # http://localhost:8000/testpage
 
-    # 생성 및 트랜잭션 Example.
-    # uid unique 해제했습니다.
-    if Artwork.objects.all().count() < 50 : # 현재 Artwork내 data가 50개 이상이면, 생성을 하지 않겠습니다.
-        with transaction.atomic(): # 다중 쿼리 실행에서, 하나라도 실패한다면 롤백. (with문 내에서)
-            webtoon_bulk_crt,writer_bulk_crt,genre_type_list = crawl_naverwebtoon()
-            Artwork.objects.bulk_create(webtoon_bulk_crt)
-            Rel_ar_aw.objects.bulk_create(writer_bulk_crt)
-            Rel_gr_aw.objects.bulk_create(genre_type_list)
-    # 즉, 연산 도중에 DB에 값을 쓰면서 내려가다가 뻗으면 더미 데이터가 남지만,
-    # 이 방식을 쓰면 괜찮습니다.
-    
-    # 유무 확인 및 검색 Example
-    ###count나 exists 모두 유무를 파악하지만, exists가 성능이 좋습니다. ###
-    
-    model_data = Artwork.objects.all()[:30] # 전체 모델 중 30개만 불러오겠습니다.
-
-    # 콘솔 출력 Example
-    print(model_data) # 콘솔에, 불러온 데이터의 상황이 출력됩니다. (객체로)
-    for i in model_data: # 또는 이와 같이 콘솔에서 확인 가능합니다.
-        print("불러온 타이틀은", i.title, "입니다.")
-
-    # 사용자 출력 Example
-    data = {'pack' : model_data} # front로 데이터를 던지기 위해 pack (body.html 참조)
-    return render(request, "./testpage/sample.html", data) # app 내의 templete 폴더 참조
+    data = {'pack' : []}
+    return render(request, "./testpage/sample.html", data)
 
 
 def testpage2(request):
@@ -38,9 +57,22 @@ def testpage2(request):
     with transaction.atomic():
         sim_bulk_crt = find_story_similarity()
         Sim_st_st.objects.bulk_create(sim_bulk_crt)
+        
+    data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
+    return render(request, "./testpage/sample.html", data) # app 내의 templete 폴더 참조
 #---------------------------------------------------------------------------------------#
 
 
+def selection(request):
+    # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")
+    # webtoon_db = conn.webtoon_db
+    # webtoon_collection = webtoon_db.webtoon_collection
+    # if request.POST:
+    #     webtoon_title = request.POST['webtoon_title']
+    #
+    #     similarity = webtoon_collection.find_one({'title':webtoon_title},{'_id':0,'similarity':1})['similarity']
+    #     return render(request, "recommendationapp/base.html",{"similarity":similarity,'post':True})
+    return render(request, "__main/service_page.html")
 
 def recommendation(request):
     return render(request, "recommendationapp/recommendation.html")

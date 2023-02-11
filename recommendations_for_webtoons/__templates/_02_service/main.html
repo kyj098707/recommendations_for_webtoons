@@ -8,6 +8,7 @@
 
 {% block body %}
 
+  {% include "./_modal.html" %}
 
 
 
@@ -34,5 +35,7 @@
 {% endblock %}
 
 {% block scripts %}
-
+  const modals = document.querySelector('#test_modal');
+  var modal = bootstrap.Modal.getOrCreateInstance(modals)  
+  modal.show()
 {% endblock %}

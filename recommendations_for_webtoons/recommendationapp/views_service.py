@@ -11,5 +11,6 @@ from django.template.loader import render_to_string
 
 def service_test(request):
     # http://localhost:8000/service_test
-
-    return render(request, "./base.html")
+    data1 = Genre.objects.all()
+    data = {'data1': data1}
+    return render(request, "./_02_service/main.html", data)

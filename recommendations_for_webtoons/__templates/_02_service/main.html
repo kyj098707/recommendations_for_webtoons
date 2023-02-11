@@ -1,0 +1,38 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<div class='px-4'>
+    {% for gen in data1 %}
+    <div class='fs-4 row py-0 my-0 mt-4'>
+      <div class="col-6">
+      {{gen.name}}
+      </div>
+    </div>
+    <div class="row row-cols-12 py-0 my-0  artwork">
+      {% for i in gen.disp_artwork %}
+      <div class="col-1">
+        <img width="150px" class='py-1 rounded d-block' src="{{i.r_artwork.temp_thumbpath}}">
+      </div>
+      {% endfor %}
+    </div>
+
+    {% endfor %}
+
+
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

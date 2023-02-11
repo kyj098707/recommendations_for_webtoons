@@ -45,3 +45,7 @@ MANIFEST
 
 dataset/
 webvenv/
+training/wandb/
+training/data/
+training/comic.csv
+training/*.pth

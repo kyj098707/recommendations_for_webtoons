@@ -71,7 +71,7 @@ ROOT_URLCONF = "recommendations_for_webtoons.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        'DIRS': [os.path.join(BASE_DIR, '___templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -146,5 +146,11 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# 이미지 추가
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
+STATIC_DIR = os.path.join(BASE_DIR,'___static')
+STATIC_ROOT = os.path.join(BASE_DIR,'collect_static')
+
+STATICFILES_DIRS = [
+    ("static", STATIC_DIR),
+    ]

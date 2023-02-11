@@ -2,7 +2,14 @@
 {% load static %}
 
 {% block styles %}
-
+.artwork_img {
+    filter: brightness(1);
+    transition: 0.3s;
+}
+ 
+.artwork_img:hover {
+    filter: brightness(0.5);
+}
 {% endblock %}
 
 
@@ -22,7 +29,7 @@
     <div class="row row-cols-12 py-0 my-0  artwork">
       {% for i in gen.disp_artwork %}
       <div class="col-1">
-        <img width="150px" class='py-1 rounded d-block' src="{{i.r_artwork.temp_thumbpath}}">
+        <a><img width="150px" class='py-1 rounded d-block artwork_img' src="{{i.r_artwork.temp_thumbpath}}"></a>
       </div>
       {% endfor %}
     </div>
@@ -38,4 +45,12 @@
   const modals = document.querySelector('#test_modal');
   var modal = bootstrap.Modal.getOrCreateInstance(modals)  
   modal.show()
+
+  
+  $(document).on("click",".artwork_img",function(){
+    const modals = document.querySelector('#test_modal');
+    var modal = bootstrap.Modal.getOrCreateInstance(modals)  
+    modal.show()
+  })  
+
 {% endblock %}

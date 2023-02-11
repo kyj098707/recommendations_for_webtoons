@@ -42,13 +42,14 @@
 {% endblock %}
 
 {% block scripts %}
+setTimeout(function() {
   const modals = document.querySelector('#test_modal');
   var modal = bootstrap.Modal.getOrCreateInstance(modals)  
   modal.show()
-
+}, 250);
   
   $(document).on("click",".artwork_img",function(){
-    const modals = document.querySelector('#test_modal');
+    const modals = document.querySelector('#modal_detail_artwork');
     var modal = bootstrap.Modal.getOrCreateInstance(modals)  
     modal.show()
   })  

@@ -1,0 +1,246 @@
+import pandas as pd
+import numpy as np
+import os
+import argparse
+from copy import deepcopy
+
+
+import torch.optim as optim
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch.utils.data import Dataset, DataLoader
+
+import albumentations as A
+from albumentations.pytorch.transforms import ToTensorV2
+
+from tqdm.auto import tqdm
+
+import timm
+
+import cv2
+
+import random
+import wandb
+import warnings
+warnings.filterwarnings(action='ignore') 
+
+
+def seed_everything(seed):
+    random.seed(seed)
+    os.environ['PYTHONHASHSEED'] = str(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed(seed)
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = True
+    
+
+def get_labels(df):
+    return df.iloc[:,2:].values
+
+class EfficientV2(nn.Module):
+    def __init__(self, num_classes=5):
+        super().__init__()
+        self.backbone = timm.create_model('tf_efficientnetv2_m', pretrained=True, num_classes=num_classes)
+        nn.init.xavier_normal_(self.backbone.classifier.weight)
+    def forward(self, x):
+        x = F.sigmoid(self.backbone(x))
+        return x
+
+class CustomDataset(Dataset):
+    def __init__(self, img_path_list, label_list, transforms=None):
+        self.img_path_list = img_path_list
+        self.label_list = label_list
+        self.transforms = transforms
+        
+    def __getitem__(self, index):
+        img_path = self.img_path_list[index]
+        
+        image = cv2.imread(img_path)
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        
+        if self.transforms is not None:
+            image = self.transforms(image=image)['image']
+        
+        if self.label_list is not None:
+            label = torch.FloatTensor(self.label_list[index])
+            return image, label
+        else:
+            return image
+        
+    def __len__(self):
+        return len(self.img_path_list)
+
+def validation(model, criterion, val_loader, device):
+    model.eval()
+    val_loss = []
+    val_acc = []
+    classes_acc = []
+    with torch.no_grad():
+        for imgs, labels in tqdm(iter(val_loader)):
+            imgs = imgs.float().to(device)
+            labels = labels.to(device)
+            
+            probs = model(imgs)
+            
+            loss = criterion(probs, labels)
+            
+            probs  = probs.cpu().detach().numpy()
+            labels = labels.cpu().detach().numpy()
+            
+            preds = probs > 0.5
+            batch_acc = (labels == preds).mean()
+            class_acc = [labels[i] == preds[i] for i in range(len(labels))]
+
+            val_acc.append(batch_acc)
+            val_loss.append(loss.item())
+            classes_acc.append(np.mean(class_acc,axis=0))
+        
+        _classes_acc = np.mean(classes_acc, axis=0)
+        _val_loss = np.mean(val_loss)
+        _val_acc = np.mean(val_acc)
+    
+    return _val_loss, _val_acc, _classes_acc
+
+
+def train(args):
+    CLASSES = [
+    '1', '2', '3', '4', '5'
+    ]
+
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    early_stop = 0
+    
+    ## 데이터 셋 설정
+    df = pd.read_csv('./comic.csv')
+    df = df.sample(frac=1)
+    
+    train_len = int(len(df) * 0.9)
+    train_df = df[:train_len]
+    val_df = df[train_len:]
+
+    train_labels = get_labels(train_df)
+    val_labels = get_labels(val_df)
+
+    
+    train_transform = A.Compose([
+                            A.Resize(args.img_size,args.img_size),
+                            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, always_apply=False, p=1.0),
+                            ToTensorV2()
+                        ])
+    
+    test_transform = A.Compose([
+                            A.Resize(args.img_size,args.img_size),
+                            A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, always_apply=False, p=1.0),
+                            ToTensorV2()
+                        ])
+    
+    train_dataset = CustomDataset(train_df['img_path'].values, train_labels, train_transform)
+    train_loader = DataLoader(train_dataset, batch_size = args.batch_size, shuffle=True, num_workers=args.num_workers)
+
+    val_dataset = CustomDataset(val_df['img_path'].values, val_labels, test_transform)
+    val_loader = DataLoader(val_dataset, batch_size = args.batch_size, shuffle=False, num_workers=args.num_workers)
+
+    model = EfficientV2()
+    model.to(device)
+    
+    optimizer = optim.Adam(params = model.parameters(), lr = args.lr)
+    scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer=optimizer,
+                                                     mode='max',
+                                                     factor=0.5,
+                                                     patience=3,
+                                                     cooldown=5,
+                                                     min_lr=1e-9,
+                                                     threshold_mode='abs',
+                                                     )
+
+    best_val_acc = 0
+    best_model = None
+    
+    criterion = nn.BCELoss().to(device)
+    print(optimizer.param_groups[0]['lr'])
+
+
+    for epoch in range(1, args.epochs+1):
+        model.train()
+        train_loss = []
+        for imgs, labels in tqdm(iter(train_loader)):
+            imgs = imgs.float().to(device)
+            labels = labels.to(device)
+            
+            optimizer.zero_grad()
+            
+            output = model(imgs)
+            loss = criterion(output, labels)
+            
+            loss.backward()
+            nn.utils.clip_grad_norm_(model.parameters(), args.clip)
+            optimizer.step()
+            
+            train_loss.append(loss.item())
+                    
+        _val_loss, _val_acc, _classes_acc = validation(model, criterion, val_loader, device)
+        _train_loss = np.mean(train_loss)
+        
+        print(f'Epoch [{epoch}], Train Loss : [{_train_loss:.5f}] Val Loss : [{_val_loss:.5f}] Val ACC : [{_val_acc:.5f}]')
+        for _cls, _acc in zip(CLASSES, _classes_acc):
+            print(f'{_cls} acc : [{_acc}]')
+        
+        if scheduler is not None:
+            scheduler.step(_val_acc)
+            
+        if best_val_acc < _val_acc:
+            best_val_acc = _val_acc
+            best_model = deepcopy(model)
+            early_stop = 0
+        else:
+            early_stop += 1
+            
+    
+        
+        current_lr = float(optimizer.param_groups[0]['lr'])
+        wandb.log({
+            "train loss": _train_loss, 
+            "val loss": _val_loss,
+            "val acc": _val_acc,
+            "1 Acc": _classes_acc[0],
+            "2 Acc": _classes_acc[1],
+            "3 Acc": _classes_acc[2],
+            "4 Acc": _classes_acc[3],
+            "5 Acc": _classes_acc[4],
+            "learning rate": current_lr
+            })
+        
+        if early_stop > 5:
+            break
+
+    torch.save(best_model, f'./comic_{epoch}.pth')
+
+if __name__ == "__main__":
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--seed', type=int, default=777)
+    parser.add_argument('--epochs', type=int, default=20)
+    parser.add_argument('--lr', type=float, default=3e-4)
+    parser.add_argument('--img_size', type=int, default=384)
+    parser.add_argument('--num_workers', type=int, default=4) 
+    parser.add_argument('--batch_size', type=int, default=32)
+    parser.add_argument('--model_name', default="ConvNext")
+    parser.add_argument('--detail', default="xlarge_384")
+    parser.add_argument('--makecsvfile', type=bool ,default=False)
+    parser.add_argument('--ckpt', default=None)
+    parser.add_argument('--clip', default=1)
+    # parser.add_argument('--checkpoints', default="microsoft/beit-base-patch16-224-pt22k-ft22k")
+    args = parser.parse_args()
+    
+    seed_everything(args.seed)
+    
+    wandb.init(
+        entity="aivle_comic",
+        project=args.model_name,
+        name=args.detail,
+        config={"epochs": args.epochs, "batch_size": args.batch_size}
+    )
+      
+    train(args)

@@ -57,7 +57,7 @@ if __name__ == "__main__":
     device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
     img = sorted(glob("../../dataset/style/d/*.jpg"))
     # 사전 학습 모델 받아오기
-    checkpoints = "google/vit-base-patch16-224"
+    checkpoints = "jayanta/google-vit-base-patch16-224-cartoon-emotion-detection"
     model = ViTForImageClassification.from_pretrained(checkpoints)
     test_transform = A.Compose([A.Resize(224, 224),
                                 A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, always_apply=False, p=1.0),

@@ -67,11 +67,11 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = "recommendations_for_webtoons.urls"
-
+print(os.path.join(BASE_DIR, '__templates'))
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR, '___templates')],
+        'DIRS': [os.path.join(BASE_DIR, '__templates')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -148,8 +148,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
-STATIC_DIR = os.path.join(BASE_DIR,'___static')
-STATIC_ROOT = os.path.join(BASE_DIR,'collect_static')
+STATIC_DIR = os.path.join(BASE_DIR,'__static')
+STATIC_ROOT = os.path.join(BASE_DIR,'__collect_static')
 
 STATICFILES_DIRS = [
     ("static", STATIC_DIR),

@@ -14,7 +14,8 @@ urlpatterns = [
     # ==================       TOP_PAGES        =================
     # ===========================================================
     
-    path('servies_test', views_service.service_test, name='service')
-    
+    path('service_test/', views_service.service_test, name='service'),
+    path('intro/', views_static.intro, name='intro'),
+    path('about/', views_static.about, name='about'),
     
 ]

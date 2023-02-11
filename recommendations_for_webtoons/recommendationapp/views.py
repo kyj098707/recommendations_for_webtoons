@@ -87,7 +87,3 @@ def results(request):
         story_sim_data =Sim_st_st.objects.filter(r_artwork1=r_artwork1)
         for data in story_sim_data[:10]:
             print( "연관된 작품들: ", data.r_artwork2.title )
-    
-
-
-    return render(request,'recommendationapp/results.html')

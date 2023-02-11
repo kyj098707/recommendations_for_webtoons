@@ -12,4 +12,4 @@ from django.template.loader import render_to_string
 def service_test(request):
     # http://localhost:8000/service_test
 
-    return render(request, "./testpage/sample.html")
+    return render(request, "./base.html")

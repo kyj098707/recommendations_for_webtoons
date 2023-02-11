@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views
+from . import views, views_service, views_static
 
 app_name = 'rcmd'
 
@@ -16,4 +16,12 @@ urlpatterns = [
 
     path('select/', views.select, name='select'),
     path('results/', views.results, name='results'),
+    
+    # ===========================================================
+    # ==================       TOP_PAGES        =================
+    # ===========================================================
+    
+    path('servies_test', views_service.service_test, name='service')
+    
+    
 ]

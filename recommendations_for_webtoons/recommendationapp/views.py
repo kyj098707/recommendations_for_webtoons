@@ -43,44 +43,16 @@ def manage_data(request):
     
     return render(request, "./__manage/data.html", {}) # app 내의 templete 폴더 참조
 
-    
 
-def testpage(request):  
+def testpage(request):
     # http://localhost:8000/testpage
-
-    data = {'pack' : []}
-    return render(request, "./testpage/sample.html", data)
-
-
-def testpage2(request):
-    # http://localhost:8000/testpage2
     with transaction.atomic():
         sim_bulk_crt = find_story_similarity()
         Sim_st_st.objects.bulk_create(sim_bulk_crt)
         
     data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
-    return render(request, "./testpage/sample.html", data) # app 내의 templete 폴더 참조
+    return render(request, "./__test/__learn.html", data) # app 내의 templete 폴더 참조
 #---------------------------------------------------------------------------------------#
-
-
-def selection(request):
-    # conn = pymongo.MongoClient("mongodb://172.30.1.15:27017/?authMechanism=DEFAULT&authSource=webtoon_db")
-    # webtoon_db = conn.webtoon_db
-    # webtoon_collection = webtoon_db.webtoon_collection
-    # if request.POST:
-    #     webtoon_title = request.POST['webtoon_title']
-    #
-    #     similarity = webtoon_collection.find_one({'title':webtoon_title},{'_id':0,'similarity':1})['similarity']
-    #     return render(request, "recommendationapp/base.html",{"similarity":similarity,'post':True})
-    return render(request, "__main/service_page.html")
-
-def recommendation(request):
-    return render(request, "recommendationapp/recommendation.html")
-
-
-def select(request):
-    return render(request,'recommendationapp/select.html')
-
 
 def results(request):
     input_title_list = ['퀘스트지상주의','김부장','싸움독학','존망코인' , '신림/남/22']
@@ -115,7 +87,3 @@ def results(request):
         story_sim_data =Sim_st_st.objects.filter(r_artwork1=r_artwork1)
         for data in story_sim_data[:10]:
             print( "연관된 작품들: ", data.r_artwork2.title )
-    
-
-
-    return render(request,'recommendationapp/results.html')

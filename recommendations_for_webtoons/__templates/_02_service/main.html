@@ -1,0 +1,89 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block styles %}
+.artwork_img {
+    filter: brightness(1);
+    transition: 0.3s;
+}
+ 
+.artwork_img:hover {
+    filter: brightness(0.5);
+}
+{% endblock %}
+
+
+{% block body %}
+
+  {% include "./_modal.html" %}
+
+
+
+<div class='px-4'>
+    {% for gen in data1 %}
+    <div class='fs-4 row py-0 my-0 mt-4'>
+      <div class="col-6">
+      {{gen.name}}
+      </div>
+    </div>
+    <div class="row row-cols-12 py-0 my-0  artwork">
+      {% for i in gen.disp_artwork %}
+      <div class="col-1">
+        <a><img width="150px" class='py-1 rounded d-block artwork_img' src="{{i.r_artwork.temp_thumbpath}}"></a>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% endfor %}
+    
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+  var ajax_url = "{% url 'rcmd:service' %}"
+  
+  setTimeout(function() {
+    const modals = document.querySelector('#test_modal');
+    var modal = bootstrap.Modal.getOrCreateInstance(modals)  
+    modal.show()
+  }, 250);
+    
+  $(document).on("click",".artwork_img",function(){
+    const modals = document.querySelector('#modal_detail_artwork');
+    var modal = bootstrap.Modal.getOrCreateInstance(modals)  
+    modal.show()
+  })  
+    
+  function request_ajax(url, data_dict) {
+    $.ajax({
+        url:url,
+        type:'POST',
+        async:false,
+        data:data_dict,
+        success: function (response) {
+                result = response
+                },
+    error: function (e) {
+            alert("connenction error")
+            result = "error"
+            }
+            });
+        return result;
+  }
+  
+  $('#searchbar').on("keyup", function(){
+      var value = $(this).val()
+      if (value.length >= 2) {
+        data = {'keyword' : value,
+                'indicator' : 'get_startswith'}
+        res = request_ajax(ajax_url, data)
+        if (res != 'error') {
+          $('#search_list').replaceWith(res)
+        }
+      }
+      
+  })
+
+
+{% endblock %}

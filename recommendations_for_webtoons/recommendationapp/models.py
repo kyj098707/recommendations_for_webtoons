@@ -21,6 +21,11 @@ class Artist(models.Model):
 class Genre(models.Model):
     name = models.CharField(max_length=255, default='', null=True, blank= False)# 장르 이름에 blank 없앴습니다!
     count = models.IntegerField(default=0, blank=True, null=True)
+    
+    def disp_artwork(self):
+        print(self.name)
+        print(Rel_gr_aw.objects.filter(r_genre__name=self.name).count())
+        return Rel_gr_aw.objects.filter(r_genre__name=self.name)[1:13]
 
 class Publisher(models.Model):
     name = models.CharField(max_length=255, default='', null=True, blank=True)
@@ -50,6 +55,9 @@ class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니�
     class Meta:
         ordering = ['title'] # 기본적으로 db에서 불러올 때 title 순으로 정렬
         unique_together = ['token', 'uid']
+        
+    def temp_thumbpath(self):
+        return f'http://kt-aivle.iptime.org:64000/static/mainsource/thumb/{self.token}_{self.uid}.jpg'
 
 
 #============================================================================

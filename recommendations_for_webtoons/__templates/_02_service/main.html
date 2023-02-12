@@ -10,6 +10,10 @@
 .artwork_img:hover {
     filter: brightness(0.5);
 }
+
+.artwork_title {
+    font-family:"KOTRA_BOLD-Bold";
+}
 {% endblock %}
 
 
@@ -22,7 +26,7 @@
 <div class='px-4'>
     {% for gen in data1 %}
     <div class='fs-4 row py-0 my-0 mt-4'>
-      <div class="col-6">
+      <div class="artwork_title col-6">
       {{gen.name}}
       </div>
     </div>

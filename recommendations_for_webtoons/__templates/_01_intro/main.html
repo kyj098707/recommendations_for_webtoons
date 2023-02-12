@@ -1,6 +1,37 @@
 {% extends "../base.html" %}
 {% load static %}
 
+{% block styles %}
+.intromid2s {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+@keyframes bounce {
+    70% { transform:translateY(0%); }
+    80% { transform:translateY(-15%); }
+    90% { transform:translateY(0%); }
+    95% { transform:translateY(-7%); }
+    97% { transform:translateY(0%); }
+    99% { transform:translateY(-3%); }
+    100% { transform:translateY(0); }
+}
+
+.first-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 1s .5s ease;
+}
+
+.second-in {
+  opacity: 1;    
+  transform: translateY(0);
+  transition: all 1s 1.2s ease;
+}
+
+{% endblock %}
+
+
 {% block body %}
 <div id="carouselExampleControls" class="carousel slide carousel-dark mt-3" data-bs-ride="carousel">
   <div class="carousel-inner">
@@ -28,4 +59,18 @@
 
 
 {% block scripts %}
+
+const Econtents = document.querySelector('#intromid2');
+const callback = ([entry], observer) => {
+  if (entry.isIntersecting) {
+    const contents = entry.target.querySelectorAll('.intromid2s');
+    [0, 1].forEach(i => contents[i].classList.add('first-in'));
+    observer.disconnect(entry.target);
+  }
+} 
+const observer = new IntersectionObserver(callback);
+observer.observe(Econtents);
+
 {% endblock %}
+
+

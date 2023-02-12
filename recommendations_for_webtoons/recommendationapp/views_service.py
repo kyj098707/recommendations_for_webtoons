@@ -11,6 +11,15 @@ from django.template.loader import render_to_string
 
 def service_test(request):
     # http://localhost:8000/service_test
+    indicator = request.POST.get('indicator')
+
+    if indicator == "get_startswith":
+        keyword = request.POST.get('keyword')
+        print(keyword)
+        data = Artwork.objects.filter(title__startswith=keyword)[0:15]
+        html = render_to_string('_02_service\\__addon\\startswith_list.html', {'data': data})
+        return HttpResponse(html)
+    
     data1 = Genre.objects.all()
     data = {'data1': data1}
     return render(request, "./_02_service/main.html", data)

@@ -1,9 +1,14 @@
+{% load static %}
+
 <div class="modal fade" id='test_modal' tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content">
 
       <div class="modal-body">
         <p>Selection.</p>
+        <input id="searchbar" class="form-control w-100 p-1 m-0" type="text" list="search_list" placeholder="임시 검색창 테스트">
+        <datalist id="search_list">
+        </datalist>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>

@@ -35,23 +35,56 @@
     </div>
 
     {% endfor %}
-
-
-
+    
 </div>
 {% endblock %}
 
 {% block scripts %}
-setTimeout(function() {
-  const modals = document.querySelector('#test_modal');
-  var modal = bootstrap.Modal.getOrCreateInstance(modals)  
-  modal.show()
-}, 250);
+alert("A")
+
+  var ajax_url = "{% url 'rcmd:service' %}"
   
+  setTimeout(function() {
+    const modals = document.querySelector('#test_modal');
+    var modal = bootstrap.Modal.getOrCreateInstance(modals)  
+    modal.show()
+  }, 250);
+    
   $(document).on("click",".artwork_img",function(){
     const modals = document.querySelector('#modal_detail_artwork');
     var modal = bootstrap.Modal.getOrCreateInstance(modals)  
     modal.show()
   })  
+    
+  function request_ajax(url, data_dict) {
+    $.ajax({
+        url:url,
+        type:'POST',
+        async:false,
+        data:data_dict,
+        success: function (response) {
+                result = response
+                },
+    error: function (e) {
+            alert("connenction error")
+            result = "error"
+            }
+            });
+        return result;
+  }
+  
+  $('#searchbar').on("keyup", function(){
+      var value = $(this).val()
+      if (value.length >= 2) {
+        data = {'keyword' : value,
+                'indicator' : 'get_startswith'}
+        res = request_ajax(ajax_url, data)
+        if (res != 'error') {
+          $('#search_list').replaceWith(res)
+        }
+      }
+      
+  })
+
 
 {% endblock %}

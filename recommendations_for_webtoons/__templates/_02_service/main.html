@@ -40,9 +40,8 @@
     </div>
     <div class="row row-cols-12 py-0 my-0  artwork">
       {% for i in gen.disp_artwork %}
-      <div class="col-1">
-        <a><img width="150px" class='py-1 rounded d-block artwork_img' uid='{{i.r_artwork.token}}_{{i.r_artwork.uid}}' src="{{i.r_artwork.temp_thumbpath}}"></a>
-      </div>
+      <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4">
+        <a><img width="99%" class='py-1 rounded d-block artwork_img' uid='{{i.r_artwork.token}}_{{i.r_artwork.uid}}' src="{{i.r_artwork.temp_thumbpath}}"></a>      </div>
       {% endfor %}
     </div>
 

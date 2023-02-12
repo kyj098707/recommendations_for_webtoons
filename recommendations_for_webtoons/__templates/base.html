@@ -27,6 +27,9 @@
         
 
         <style>
+            html {
+                scroll-behavior: smooth !important;
+            }
             body{
                 -ms-overflow-style: none;
                 }
@@ -34,7 +37,6 @@
             ::-webkit-scrollbar {
                 display: none;
                 }
-
             {% include "./__font.html" %}
             
             {% block styles %}
@@ -54,6 +56,23 @@
         {% endblock %}
 
         <script type="text/javascript">
+            function request_ajax(url, data_dict) {
+                $.ajax({
+                    url:url,
+                    type:'POST',
+                    async:false,
+                    data:data_dict,
+                    success: function (response) {
+                            result = response
+                            },
+                error: function (e) {
+                        alert("connenction error")
+                        result = "error"
+                        }
+                        });
+                    return result;
+            }
+
             {% block scripts %}
 
             {% endblock %}

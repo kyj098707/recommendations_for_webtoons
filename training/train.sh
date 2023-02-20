@@ -1,6 +1,6 @@
 python train.py \
---model_name EfficientV2 \
---detail 5_labels_2700data \
+--model_name EfficientV2Tiny \
+--detail 165_labels_34000data \
 --batch_size 8 \
---epochs 5 \
+--epochs 10 \
 --img_size 480\

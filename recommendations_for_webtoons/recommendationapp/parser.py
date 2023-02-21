@@ -4,6 +4,12 @@ from transformers import ViTForImageClassification
 import requests
 import re
 from .models import *
+from glob import glob
+import albumentations as A
+from albumentations.pytorch.transforms import ToTensorV2
+import torch
+from .util.models import *
+from .util.dataset import *
 
 def crawl_naverwebtoon():
     days = ['mon','tue','wed','thu','fri','sat','sun']
@@ -73,56 +79,84 @@ def crawl_naverwebtoon():
     return webtoon_info_list,writer_info_list,genre_types_list
 
 def find_sim(story1, story2, checkpoints):
-    
     story_vector1 = checkpoints.encode(story1)
     story_vector2 = checkpoints.encode(story2)
     story_sims = util.cos_sim(story_vector1,story_vector2)
     return story_sims
 
 def find_story_similarity():
-    base_title_list = [b.title for b in Artwork.objects.all()]
+    base_uid_list = [b.uid for b in Artwork.objects.all()]
     base_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',b.story) for b in Artwork.objects.all()]
     
-    compare_title_list = [c.title for c in Artwork.objects.all()]
+    compare_uid_list = [c.uid for c in Artwork.objects.all()]
     compare_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',c.story) for c in Artwork.objects.all()]
     checkpoints = SentenceTransformer('snunlp/KR-SBERT-V40K-klueNLI-augSTS')
     
     sim_list = find_sim(base_story_list,compare_story_list,checkpoints)
     sim_story_list = []
-    for idx,uid in enumerate(base_title_list):
-        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
+    for idx,uid in enumerate(base_uid_list):
+        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_uid_list)]
         sims = sorted(sims,reverse=True)[:20]
         
-        base_artwork = Artwork.objects.get(title=sims[0][1])
+        base_artwork = Artwork.objects.get(uid=sims[0][1])
         
         for sim in sims[1:]:
-            compare_artwork = Artwork.objects.get(title=sim[1])
+            compare_artwork = Artwork.objects.get(uid=sim[1])
             res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
             sim_story_list.append(res)
 
     return sim_story_list
 
-def find_story_similarity():
-    base_title_list = [b.title for b in Artwork.objects.all()]
-    base_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',b.story) for b in Artwork.objects.all()]
+def infer(model, test_loader, device):
+    model.to(device)
+    model.eval()
+    predictions = []
+    with torch.no_grad():
+        for imgs in test_loader:
+            imgs = imgs.float().to(device)
+            
+            probs = model(imgs)
+            probs  = probs.cpu().detach().numpy()
+            preds = probs.astype(float)
+            predictions += preds.tolist() 
+    return predictions
+
+def find_thumbnail_similarity():
+    test_transform = A.Compose([A.Resize(480, 480),
+                                A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225), max_pixel_value=255.0, always_apply=False, p=1.0),
+                                ToTensorV2()])
     
-    compare_title_list = [c.title for c in Artwork.objects.all()]
-    compare_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',c.story) for c in Artwork.objects.all()]
-    checkpoints = ViTForImageClassification.from_pretrained('jayanta/google-vit-base-patch16-224-cartoon-emotion-detection')
+    device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')
+    base_uid_list = [b.uid for b in Artwork.objects.all()]
+    compare_uid_list = [c.uid for c in Artwork.objects.all()]
     
-    sim_list = find_sim(base_story_list,compare_story_list,checkpoints)
-    sim_story_list = []
-    for idx,uid in enumerate(base_title_list):
-        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
-        sims = sorted(sims,reverse=True)[:20]
+    model = torch.load("./comic_165label.pth")
+    newmodel = EfficientV2Backbone(model)
+    
+    th_similarity_list = []
+    sim_th_list = []
+    for base_uid in base_uid_list:
+        for compare_uid in compare_uid_list:
+            if base_uid == compare_uid:
+                continue
+            img1 = sorted(glob(f"./data/{base_uid}/*.jpg"))[1:]
+            img2 = sorted(glob(f"./data/{compare_uid}/*.jpg"))[1:]
+            test_dataset1 = WebtoonDataset(img1, None, test_transform)
+            test_loader1 = DataLoader(test_dataset1, batch_size = 16, shuffle=False)
+            test_dataset2 = WebtoonDataset(img2, None, test_transform)
+            test_loader2 = DataLoader(test_dataset2, batch_size = 16, shuffle=False)
+            preds1 = infer(newmodel, test_loader1, device)
+            preds2 = infer(newmodel, test_loader2, device)
+
+            sim = util.cos_sim(preds1,preds2)
+            mean_similarity = sim.numpy().mean()
+
+            th_similarity_list.append((mean_similarity,compare_uid))
+        th_similarity_list = sorted(th_similarity_list, reverse=True)[:20]
         
-        base_artwork = Artwork.objects.get(title=sims[0][1])
-        
-        for sim in sims[1:]:
-            compare_artwork = Artwork.objects.get(title=sim[1])
-            res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
-            sim_story_list.append(res)
-
-    return sim_story_list
-
-
+        base_artwork = Artwork.get(uid=base_uid)
+        for sim in th_similarity_list:
+            compare_artwork = Artwork.objects.get(uid=sim[1])
+            res = Sim_th_th(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=mean_similarity)
+            sim_th_list.append(res)
+    return sim_th_list

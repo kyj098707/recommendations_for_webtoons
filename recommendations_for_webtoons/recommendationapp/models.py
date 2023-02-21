@@ -60,6 +60,7 @@ class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니�
         return f'http://kt-aivle.iptime.org:64000/static/mainsource/thumb/{self.token}_{self.uid}.jpg'
 
 
+
 #============================================================================
 #============================================================================
 # 다대다 필드 구현 : manytomanyField 사용치 않고 직접 구현하겠습니다.
@@ -92,5 +93,14 @@ class Sim_st_st(models.Model): #story 유사도
 
     class Meta:
         ordering = ['similarity']
+
+class Sim_th_th(models.Model):
+    r_artwork1 = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='th1_th2' ,blank=True, null=True)
+    r_artwork2 = models.ForeignKey(Artwork, on_delete = models.PROTECT,related_name='th2_th1',blank=True, null=True)
+    similarity = models.FloatField(default=0, null=True, blank=False)   
+
+    class Meta:
+        ordering = ['similarity']
+
 #============================================================================
 #============================================================================

@@ -35,6 +35,15 @@ class CustomDataset(Dataset):
     def __len__(self):
         return len(self.img_path_list)
 
+class EfficientV2Base(nn.Module):
+    def __init__(self, num_classes=5):
+        super().__init__()
+        self.backbone = timm.create_model('tf_efficientnetv2_m', pretrained=True)
+
+    def forward(self, x):
+        x = torch.sigmoid(self.backbone(x))
+        return x
+
 class EfficientV2(nn.Module):
     def __init__(self, num_classes=5):
         super().__init__()
@@ -51,6 +60,16 @@ class EfficientV2Tiny(nn.Module):
         nn.init.xavier_normal_(self.backbone.classifier.weight)
     def forward(self, x):
         x = torch.sigmoid(self.backbone(x))
+        return x
+
+class EfficientV2Backbone(nn.Module):
+    def __init__(self, num_classes=5):
+        super().__init__()
+        self.backbone = torch.load("./comic_165abel_3.pth")
+        self.backbone.backbone.classifier = nn.Identity()
+
+    def forward(self, x):
+        x = self.backbone(x)
         return x
 
 def infer(model, test_loader, device):
@@ -115,12 +134,12 @@ def valid(model):
             trained_sims_list.append(mean_similarity)
         else:
             untrained_sims_list.append(mean_similarity)
-    print(f"학습된 데이터에 대한 유사도 평균 : {sum(trained_sims_list)/len(trained_sims_list)}")
-    print(f"학습되지 않은 데이터에 대한 유사도 평균 : {sum(untrained_sims_list)/len(untrained_sims_list)}")
-    return sum(trained_sims_list)/len(trained_sims_list), sum(untrained_sims_list)/len(untrained_sims_list)
+
+    return trained_sims_list,untrained_sims_list
 
 if __name__ == "__main__":
-    model = EfficientV2Tiny()
-    trained_sims_list,untrained_sims_list = valid(model)
+    model = torch.load("./comic_165label.pth")
+    newmodel = EfficientV2Backbone(model)
+    trained_sims_list,untrained_sims_list = valid(newmodel)
     print(f"학습된 데이터에 대한 유사도 평균 : {sum(trained_sims_list)/len(trained_sims_list)}")
     print(f"학습되지 않은 데이터에 대한 유사도 평균 : {sum(untrained_sims_list)/len(untrained_sims_list)}")

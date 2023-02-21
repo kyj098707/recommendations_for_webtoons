@@ -19,7 +19,15 @@ def service_test(request):
         data = Artwork.objects.filter(title__startswith=keyword)[0:15]
         html = render_to_string('_02_service\\__addon\\startswith_list.html', {'data': data})
         return HttpResponse(html)
-    
+
+    elif indicator == "get_aw_detail":
+        keyword = request.POST.get('keyword')
+        token, uid = keyword.split("_")
+        data = Artwork.objects.get(token=token, uid = uid)
+        html = render_to_string('_02_service\\__addon\\modal_detail_artwork.html', {'data': data})
+        return HttpResponse(html)
+
+
     data1 = Genre.objects.all()
     data = {'data1': data1}
     return render(request, "./_02_service/main.html", data)

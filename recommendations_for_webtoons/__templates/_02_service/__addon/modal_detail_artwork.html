@@ -1,0 +1,28 @@
+{% load static %}
+
+
+
+<div class="modal fade" id='modal_detail_artwork' tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <p>Artwork_detail 불러오기</p>
+        <div class="row">
+          <div class="col-3">
+            <img width="230px" src="{{data.temp_thumbpath}}">
+          </div>
+          <div class="col-9">
+            <p>{{data.title}}</p>
+            <p>{{data.rating}}</p>
+            <p>{{data.story}}</p>
+            <p>{{data.token}}</p>
+            <p>{{data.uid}}</p>
+          </div>
+        </div>
+        <div class="row">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -19,12 +19,17 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
+
+
         {% include "./__js_css.html" %}
 
         <link rel="icon" href="{% static 'static/icon/favicon.ico' %}">
         
 
         <style>
+            html {
+                scroll-behavior: smooth !important;
+            }
             body{
                 -ms-overflow-style: none;
                 }
@@ -32,6 +37,8 @@
             ::-webkit-scrollbar {
                 display: none;
                 }
+            {% include "./__font.html" %}
+            
             {% block styles %}
                 
             {% endblock %}
@@ -49,6 +56,23 @@
         {% endblock %}
 
         <script type="text/javascript">
+            function request_ajax(url, data_dict) {
+                $.ajax({
+                    url:url,
+                    type:'POST',
+                    async:false,
+                    data:data_dict,
+                    success: function (response) {
+                            result = response
+                            },
+                error: function (e) {
+                        alert("connenction error")
+                        result = "error"
+                        }
+                        });
+                    return result;
+            }
+
             {% block scripts %}
 
             {% endblock %}

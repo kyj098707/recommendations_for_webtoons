@@ -21,6 +21,32 @@
 .artwork_img:hover{
   transform: scale(1.1);
 }
+
+#contents_pack{
+ z-index: 100;
+}
+
+#bg {
+    position: fixed; 
+    left: 0%;
+    z-index:-100;
+    width: 100%;        
+    height: 100%;
+}
+
+#bg img {
+    position:absolute; 
+    z-index:-100;
+    top:0; 
+    left:0; 
+    right:0; 
+    bottom:0; 
+    min-width:50%;
+    min-height:50%;
+}	
+
+
+
 {% endblock %}
 
 
@@ -28,17 +54,20 @@
 
   {% include "./_modal.html" %}
 
-<img width="100%" class='py-1 rounded d-block' src="{% static 'static/img/_service_img01.png' %}">
+<div id='bg'>
+  <img id='service_banner' width="100%" class='py-1 rounded d-block' src="{% static 'static/img/_service_img01.png' %}">
+</div>
 
+<img id='mask_banner' width="100%" class='py-1 rounded d-block' src="{% static 'static/img/msk.png' %}">
 
-<div class='px-4'>
+<div id='contents_pack' class='px-4'>
     {% for gen in data1 %}
     <div class='fs-4 row py-0 my-0 mt-4'>
-      <div class="artwork_title col-6">
+      <div class="artwork_title col-6 text-white">
       {{gen.name}}
       </div>
     </div>
-    <div class="row row-cols-12 py-0 my-0  artwork">
+    <div class="row row-cols-12 py-0 mt-0 mb-5  artwork">
       {% for i in gen.disp_artwork %}
       <div class="col-xxl-1 col-xl-2 col-lg-3 col-md-4">
         <a><img width="99%" class='py-1 rounded d-block artwork_img' uid='{{i.r_artwork.token}}_{{i.r_artwork.uid}}' src="{{i.r_artwork.temp_thumbpath}}"></a>      </div>
@@ -89,6 +118,30 @@
       }
       
   })
+
+  var sb = document.getElementById('service_banner');
+  var mb = document.getElementById('mask_banner');
+
+  function fadeOutOnScroll(element, element_o) {
+    if (!element) {
+      return;
+    }
+    var distanceToTop = window.pageYOffset + element.getBoundingClientRect().top;
+    var elementHeight = element.offsetHeight;
+    var scrollTop = document.documentElement.scrollTop;
+    
+    var opacity = 1;
+    if (scrollTop > distanceToTop) {
+      opacity = 1 - (scrollTop) / elementHeight;
+    }
+    element_o.style.opacity = opacity;
+  }
+
+  function scrollHandler() {
+    fadeOutOnScroll(mb, sb);
+  }
+
+  window.addEventListener('scroll', scrollHandler);
 
 
 {% endblock %}

@@ -28,7 +28,7 @@
 
         <style>
             html {
-                scroll-behavior: smooth !important;
+                scroll-behavior: smooth;
             }
             body{
                 -ms-overflow-style: none;
@@ -46,7 +46,7 @@
     </head>
 
 
-    <body scroll=auto style="overflow-x:hidden;">
+    <body scroll=auto style="overflow-x:hidden; background-color:#111111">
         
         {% include "./_topmenu.html" %}
 
@@ -54,6 +54,7 @@
 
 
         {% endblock %}
+
 
         <script type="text/javascript">
             function request_ajax(url, data_dict) {

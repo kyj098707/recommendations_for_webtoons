@@ -85,9 +85,12 @@ BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 �
 ```
 
 ## Tools
+
+### AI PART
+
 | [<img src="https://user-images.githubusercontent.com/54027397/220613807-2f96deca-165c-4b66-9cff-f49da80414cd.png" width="96px;"/><br><sup>PYTORCH</sup>](https://pytorch.org/)| [<img src="https://user-images.githubusercontent.com/54027397/220612835-cf1f9b62-3337-4a0b-9e7e-09e7e0fa015a.png" width="96px;"/><br><sup>HUGGING FACE</sup>](https://huggingface.co/welcome)| [<img src="https://user-images.githubusercontent.com/54027397/220613512-87d633ab-a19c-4632-aeea-6b53b922c46b.png" width="96px;"/><br><sup>WANDB</sup>](https://wandb.ai)
 | :---: | :---: | :---: |
-### AI PART
+
 
 
 

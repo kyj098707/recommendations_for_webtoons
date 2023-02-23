@@ -18,7 +18,7 @@
 
 ## Project Member
 
-
+Thanks goes to these wonderful people<Br>
 <b> KT Aivler 3th, AI track :</b>
 
 <div align="center">

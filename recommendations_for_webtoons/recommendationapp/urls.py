@@ -1,5 +1,5 @@
 from django.urls import path
-from . import views, views_service, views_static
+from . import views, views_service, views_static,views_account
 
 app_name = 'rcmd'
 
@@ -19,4 +19,11 @@ urlpatterns = [
     path('intro/', views_static.intro, name='intro'),
     path('about/', views_static.about, name='about'),
     
+    # ===========================================================
+    # ==================       Account_PAGES        =================
+    # ===========================================================
+
+    path('signup',views_account.signup_test,name='signup'),
+    path('login',views_account.login_test,name='login'),
+
 ]

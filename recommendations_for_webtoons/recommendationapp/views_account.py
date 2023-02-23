@@ -9,7 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
 
-def login_test(request):
+def signup_test(request):
     # http://localhost:8000/service_test
     indicator = request.POST.get('indicator')
 
@@ -31,3 +31,23 @@ def login_test(request):
     data1 = Genre.objects.all()
     data = {'data1': data1}
     return render(request, "./_02_service/main.html", data)
+
+def login_test(request):
+    # http://localhost:8000/service_test
+    indicator = request.POST.get('indicator')
+
+    if indicator == "get_startswith":
+        keyword = request.POST.get('keyword')
+        print(keyword)
+        data = Artwork.objects.filter(title__startswith=keyword)[0:15]
+        html = render_to_string('_02_service\\__addon\\startswith_list.html', {'data': data})
+        return HttpResponse(html)
+
+    elif indicator == "get_aw_detail":
+        keyword = request.POST.get('keyword')
+        token, uid = keyword.split("_")
+        data = Artwork.objects.get(token=token, uid = uid)
+        html = render_to_string('_02_service\\__addon\\modal_detail_artwork.html', {'data': data})
+        return HttpResponse(html)
+
+    return render(request, "./_00_account/main.html")

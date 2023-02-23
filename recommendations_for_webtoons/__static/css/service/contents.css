@@ -1,0 +1,86 @@
+
+:root {
+    --picwidth: 180px;
+    --picheight: 234px;
+    --f_delay: 350ms;
+  }
+ 
+.genre_title {
+    font-family:"KOTRA_BOLD-Bold";
+}
+
+#bg {
+    left: 0%;
+    z-index:-100;
+}
+
+#bg img {
+    z-index:-100;
+    top:0; 
+    left:0; 
+    right:0; 
+    bottom:0; 
+    min-width:50%;
+    min-height:50%;
+}	
+
+.aw_array {
+    transition: var(--f_delay) transform;
+    white-space: nowrap;
+}
+
+.artwork {
+    width: var(--picwidth);
+    height: auto;
+    display: inline-block;
+    transition: var(--f_delay) all;
+    transform-origin: center left;
+}
+
+.artwork_img {
+    width: var(--picwidth);
+    height: auto;
+    transition: var(--f_delay) opacity;
+}
+
+.artwork_dimmed{
+    width: calc(var(--picwidth)*1.0025);
+    height: var(--picheight);
+    background: 
+    linear-gradient(180deg, 
+                    rgba(0,0,0,0) 70%,
+                    rgba(0,0,0,0.7) 85%,
+                    rgba(0,0,0,0.9) 95%,
+                    rgba(0,0,0,1) 100%);
+    opacity: 0;
+    transition: var(--f_delay) opacity;
+}
+
+.artwork_title {
+    bottom: 0;
+    opacity: 0;
+    transition: var(--f_delay) opacity;
+}
+
+.artwork:hover .artwork_title {
+    opacity: 1;
+}
+
+.artwork:hover .artwork_dimmed {
+    opacity: 1;
+}
+
+.aw_array:hover .artwork {
+  opacity: 1;
+  filter: brightness(0.3);
+}
+
+.aw_array:hover .artwork:hover {
+  transform: scale(1.2);
+  filter: brightness(1);
+  opacity: 1;
+}
+
+.artwork:hover ~.artwork {
+  transform: translate3d(calc(var(--picwidth)*0.22), 0, 0);
+}

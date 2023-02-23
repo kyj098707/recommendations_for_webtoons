@@ -55,7 +55,7 @@
 ## Detail
 
 ### 1. 그림체 유사도 산정
-Timm에서 제공해주는 imagenet1000으로 사전학습시킨 EfficientV2-S를 베이스 모델로 사용하였습니다. 해당 모델을 100화가 넘어가는 작품(165개)을 골라 이를 맞추는 방식(multi-label classification)으로 3epoch 미세조정하였으며 평가방식은 동일한 작품의 회차들끼리의 cosine 유사도를 계산한 값을 평가지표로 삼았습니다. 최종적으로 학습된 모델의 classifier layer에 들어오기 이전의 feature값을 추출하여 cosine 유사도를 통해 유사도를 체크하였습니다.
+timm에서 제공해주는 ImageNet1000으로 사전학습시킨 EfficientV2-S를 베이스 모델로 사용하였습니다. 해당 모델을 100화가 넘어가는 작품(165개)을 골라 이를 맞추는 방식(multi-label classification)으로 3epoch 미세조정하였으며 평가방식은 동일한 작품의 회차들끼리의 cosine 유사도를 계산한 값을 평가지표로 삼았습니다. 최종적으로 학습된 모델의 classifier layer에 들어오기 이전의 feature값을 추출하여 cosine 유사도를 통해 유사도를 체크하였습니다.
 
 아래는 해당 모델을 통해 알아 본 웹툰 '광마회귀'라는 작품과 비슷한 그림체를 가진 작품들입니다. (1열 광마회귀)
 

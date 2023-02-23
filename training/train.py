@@ -104,7 +104,7 @@ def train(args):
         log_dic["untrained similarity"] = _untrained_artworks_similarity
         wandb.log(log_dic)
         
-        if early_stop > 5:
+        if early_stop > 2:
             break
 
     torch.save(best_model, f'./tiny_comic_165abel_{epoch}.pth')

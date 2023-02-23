@@ -47,7 +47,9 @@ Timm에서 제공해주는 imagenet1000으로 사전학습시킨 EfficientV2-S�
 
 아래는 해당 모델을 통해 알아 본 웹툰 '광마회귀'라는 작품과 비슷한 그림체를 가진 작품들입니다. (1열 광마회귀)
 
-<img src="https://user-images.githubusercontent.com/54027397/220611728-2346e52d-de04-4516-8645-b953cdef0d4e.png">
+<p align="center">
+<img src="https://user-images.githubusercontent.com/54027397/220611728-2346e52d-de04-4516-8645-b953cdef0d4e.png" width="500px;"/>
+</p>
 
 ### 2. 줄거리 유사도
 BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 있도록 수정된 BERT인 SBERT를 사용하였습니다. 사전학습 모델로는 snunlp에서 사전학습시킨 KR-SBERT를 사용하였으며 이를 통해 줄거리의 임베딩 값을 구해 cosine 유사도를 구해 유사도를 비교하였습니다.

@@ -21,8 +21,6 @@
 <br>
 
 <img src="https://user-images.githubusercontent.com/62131378/220873185-d38e2010-7257-43d4-bb0b-4b80db5dcddf.png">
-Thanks goes to these wonderful people<Br>
-<b> KT Aivler 3th, AI track :</b>
 
 <div align="center">
 
@@ -32,7 +30,9 @@ Thanks goes to these wonderful people<Br>
 | [<img src="https://avatars.githubusercontent.com/u/54027397?v=4" width="96px;"/><br><sup>KIM YOONJONG</sup>](https://github.com/kyj098707)<br><a href="https://kyj098707.github.io"><img src="https://edent.github.io/SuperTinyIcons/images/svg/github.svg" width="20" title="GitHub" /></a> | [<img src="https://avatars.githubusercontent.com/u/62131378?v=4" width="96px;"/><br><sup>PARK KYOUNGDEOK </sup>](https://github.com/Ramdatech)<br><a href="https://github.com/Ramdatech"><img src="https://edent.github.io/SuperTinyIcons/images/svg/github.svg" width="20" title="GitHub" /></a> | [<img src="https://avatars.githubusercontent.com/u/80569773?v=4" width="96px;"/><br><sup>KIM DANEUN</sup>](https://github.com/dannxdr)<br><a href="https://github.com/dannxdr"><img src="https://edent.github.io/SuperTinyIcons/images/svg/github.svg" width="20" title="GitHub" /></a>   | [<img src="https://avatars.githubusercontent.com/u/77630266?v=4" width="96px;"/><br><sup>LEE JIAN</sup>](https://github.com/jian1114)<br><a href="https://github.com/jian1114"><img src="https://edent.github.io/SuperTinyIcons/images/svg/github.svg" width="20" title="GitHub" /></a> | [<img src="https://avatars.githubusercontent.com/u/59717550?v=4" width="96px;"/><br><sup>CHOI TAEYANG</sup>](https://github.com/Sunny14578)<br><a href="https://github.com/Sunny14578"><img src="https://edent.github.io/SuperTinyIcons/images/svg/github.svg" width="20" title="GitHub" /></a>
 | :---: | :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-
+"Thanks goes to these wonderful people"
+<Br>
+<b>KT Aivler 3rd, AI track</b>
 </div>
 <br>
 <hr>

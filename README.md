@@ -52,7 +52,7 @@
 <br>
 <img src="https://user-images.githubusercontent.com/62131378/220890750-c6a0ea3c-c541-4a0a-bd29-090e8167a82d.png">
 
-## Detail
+## Detail [More Information](https://americanoisice.tistory.com/219)
 
 ### 1. 그림체 유사도 산정
 timm에서 제공해주는 ImageNet1000으로 사전학습시킨 EfficientV2-S를 베이스 모델로 사용하였습니다. 해당 모델을 100화가 넘어가는 작품(165개)을 골라 이를 맞추는 방식(multi-label classification)으로 3epoch 미세조정하였으며 평가방식은 동일한 작품의 회차들끼리의 cosine 유사도를 계산한 값을 평가지표로 삼았습니다. 최종적으로 학습된 모델의 classifier layer에 들어오기 이전의 feature값을 추출하여 cosine 유사도를 통해 유사도를 체크하였습니다.

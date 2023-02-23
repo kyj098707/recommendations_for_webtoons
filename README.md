@@ -20,7 +20,7 @@
 <hr>
 <br>
 
-<img src="https://user-images.githubusercontent.com/62131378/220890728-ce7f552e-e174-4a44-bbbe-8f8746052ef2.png">
+<img src="https://user-images.githubusercontent.com/62131378/220957545-6e99bdcc-9608-44dc-9a99-ab90ea14e449.png">
 
 <div align="center">
 
@@ -37,20 +37,20 @@
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220890732-515dd22e-08d2-4ba1-b0d6-2508c6e28db7.png">
+<img src="https://user-images.githubusercontent.com/62131378/220957557-cac3392f-d9e8-491a-ab64-05f12044fafd.png">
 
     
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220890740-3e99b5e0-f325-41a4-808d-80c5068ecae2.png">
+<img src="https://user-images.githubusercontent.com/62131378/220957565-8195c772-4c76-4b30-a25c-1028f06f89c8.png">
 <img src="https://user-images.githubusercontent.com/54027397/220891020-f4eb4227-482a-4550-9db2-8054ab231d5e.png">
 
 
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220890750-c6a0ea3c-c541-4a0a-bd29-090e8167a82d.png">
+<img src="https://user-images.githubusercontent.com/62131378/220957588-6b0dbc29-de27-4ed7-8257-a17d57d86a18.png">
 
 ## Detail [More Information](https://americanoisice.tistory.com/219)
 
@@ -102,7 +102,7 @@ BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 �
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220890757-7accf5fe-478e-4562-97ad-fa251a7a0bb8.png">
+<img src="https://user-images.githubusercontent.com/62131378/220957599-deac6aef-7a0f-4f49-9740-2c7365a245ce.png">
 
 ### AI PART
 

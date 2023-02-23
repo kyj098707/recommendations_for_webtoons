@@ -1,5 +1,5 @@
 <p align="center">
-    <h1 align="center">AivleTOON</h1>
+    <img src="https://user-images.githubusercontent.com/62131378/220874392-0d3f6cb8-d069-434d-90b5-7c113276e71d.png" width="80%">
     <p align="center">
       <img src="https://user-images.githubusercontent.com/54027397/220604440-6ff34f30-06d5-4a87-8e13-5cf4473dcc31.png">
     </p>
@@ -16,8 +16,11 @@
     <br><br>
 </p>
 
-## Project Member
+<br>
+<hr>
+<br>
 
+<img src="https://user-images.githubusercontent.com/62131378/220873185-d38e2010-7257-43d4-bb0b-4b80db5dcddf.png">
 Thanks goes to these wonderful people<Br>
 <b> KT Aivler 3th, AI track :</b>
 
@@ -31,11 +34,16 @@ Thanks goes to these wonderful people<Br>
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 </div>
+<br>
+<hr>
+<br>
+<img src="https://user-images.githubusercontent.com/62131378/220873195-69263a50-ab0f-4b30-b523-70bca091f13e.png">
 
-## FLOW CHART   
-
-
-## ERD 설계
+    
+<br>
+<hr>
+<br>
+<img src="https://user-images.githubusercontent.com/62131378/220873171-4e58cc62-0cfc-4fa2-a1dc-e052bfec1504.png">
 <img src="https://user-images.githubusercontent.com/54027397/220841905-c8d3628a-add7-413e-a603-1bcb9505e11b.png">
 
 

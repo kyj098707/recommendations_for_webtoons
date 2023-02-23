@@ -20,7 +20,7 @@
 <hr>
 <br>
 
-<img src="https://user-images.githubusercontent.com/62131378/220883329-01d3a190-3082-4655-a541-3cf32e9390f0.png">
+<img src="https://user-images.githubusercontent.com/62131378/220890728-ce7f552e-e174-4a44-bbbe-8f8746052ef2.png">
 
 <div align="center">
 
@@ -37,17 +37,20 @@
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220883363-9215d1d5-882c-4367-bc29-825f6064f854.png">
+<img src="https://user-images.githubusercontent.com/62131378/220890732-515dd22e-08d2-4ba1-b0d6-2508c6e28db7.png">
 
     
 <br>
 <hr>
 <br>
-<img src="https://user-images.githubusercontent.com/62131378/220883379-b8c273d6-2ec7-494c-ba37-c6f84e706b53.png">
+<img src="https://user-images.githubusercontent.com/62131378/220890740-3e99b5e0-f325-41a4-808d-80c5068ecae2.png">
 <img src="https://user-images.githubusercontent.com/54027397/220841905-c8d3628a-add7-413e-a603-1bcb9505e11b.png">
 
 
-## 아키텍쳐 설계
+<br>
+<hr>
+<br>
+<img src="https://user-images.githubusercontent.com/62131378/220890750-c6a0ea3c-c541-4a0a-bd29-090e8167a82d.png">
 
 ## Detail
 
@@ -95,7 +98,11 @@ BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 �
 일곱개의 운명이 엮어져, 그들에 맞서기 위해 무기를 든다. 이제 범을 사냥할 시간이다
 ```
 
-## Tools
+    
+<br>
+<hr>
+<br>
+<img src="https://user-images.githubusercontent.com/62131378/220890757-7accf5fe-478e-4562-97ad-fa251a7a0bb8.png">
 
 ### AI PART
 

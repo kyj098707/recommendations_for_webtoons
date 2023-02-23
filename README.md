@@ -4,7 +4,7 @@
       <img src="https://user-images.githubusercontent.com/54027397/220604440-6ff34f30-06d5-4a87-8e13-5cf4473dcc31.png">
     </p>
     <p align="center">
-        딥러닝기반 네이버 다음 웹툰 추천 시스템 .<br><br> I'll recommend a webtoon.
+        당신에게 맞는 웹툰을 에이블러들이 추천해줄께요 .<br><br> Aivler will recommend a webtoon for you
     </p>
     <h3>
         <p align="center">
@@ -20,7 +20,7 @@
 
 KT AIVLE AI TRACK 3th </b>
 
-<b>Thanks goes to these wonderful people :</b>
+<b> KT Aivler 3th, AI track :</b>
 
 <div align="center">
 

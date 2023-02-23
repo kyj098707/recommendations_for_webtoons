@@ -102,5 +102,39 @@ class Sim_th_th(models.Model):
     class Meta:
         ordering = ['similarity']
 
+
+#============================================================================
+# 회원가입관련 DB
+#============================================================================
+
+class Password(models.Model):
+    password = models.CharField(max_length=30,null=False,blank=False)
+    salt = models.CharField(max_length=255,null=False,blank=False)
+
+class Userprofile(models.Model):
+    nickname = models.CharField(max_length=10,null=True,blank=False)
+    gender = models.IntegerField(default=0,null=False,blank=False)
+    age = models.IntegerField(default=0,null=True,blank=False)
+
+class User(models.Model):
+    uid = models.IntegerField(default=0)
+    email = models.CharField(max_length=50, null=False, blank=False)
+    passwrod = models.ForeignKey(Password,on_delete=models.PROTECT,related_name='user_password')
+    userprofile = models.ForeignKey(Userprofile,on_delete=models.PROTECT,related_name='user_profile')
+
+class Searching_record(models.Model):
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='user_searching')
+    record = models.CharField(max_length=50, null=True, blank=True)
+
+class Luv_user_ar(models.Model):
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='luv_user_artwork')
+    artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='luv_artwork_user')
+    score = models.IntegerField(default=0, null=True, blank=False)
+
+class Viewing_record(models.Model):
+    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='vw_user_artwork')
+    artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='vw_artwork_user')
+
+
 #============================================================================
 #============================================================================

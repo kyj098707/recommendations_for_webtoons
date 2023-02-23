@@ -1,0 +1,275 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'polls/style.css' %}">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>웹툰 추천 시스템</title>
+    <style>
+        
+        body{
+            margin: 300px auto;
+            text-align: center;
+        }
+
+
+        .top-bar {
+            background-color: #C0E3E2;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+            
+        .top-bar h1 {
+            font-size: 20px;
+            color: black;
+            margin: 0;
+        }
+        
+        .top-bar ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .top-bar ul li {
+            margin-right: 20px;
+        }
+        
+        .top-bar ul a {
+            color: black;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .top-bar .right {
+            display: flex;
+            align-items: center;
+        }
+
+
+        
+        .modal_overlay {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(1.5px);
+            -webkit-backdrop-filter: blur(1.5px);
+        }
+
+        .modal_window {
+            background: white;
+            backdrop-filter: blur(13.5px);
+            -webkit-backdrop-filter: blur(13.5px);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            width: 800px;
+            height: 600px;
+            position: relative;
+            padding: 10px;
+        }
+
+        .modal_title{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 20px;
+            margin-top: 5px;
+        }
+
+        .modal_title_side{
+            flex: 0 0 40px;
+            text-align: center;
+        }
+
+        .material-icons-outlined{
+            font-size: 15px;   
+        }
+
+        .modal_search{
+            text-align: left;
+            position: absolute;
+            left: 20px;
+            width: 200px;
+            height: 30px;
+        }
+
+        .modal_search_check{
+          background-color: gray;
+          border: none;
+          color: white;
+          cursor: pointer;
+          font-size: 16px;
+          padding: 0 10px;
+          position: absolute;
+          left: 145px;
+          width: 50px;
+          height: 30px;
+          font-size: 15px;
+        }
+
+        .container{
+            margin-top: 10px;
+            
+            
+        }
+        
+        .container #nav{
+            float: left;  
+            margin-top: 15px;
+            width: 200px;
+            height: 400px;
+        }
+
+        .container #contents{
+            margin-right: 5px;
+            margin-top: 10px;
+            float: right;
+            width: 580px;
+            
+        }
+        
+        th, td {
+            border: 1px solid #bcbcbc;
+        }
+        
+        .modal_table{
+            table-layout: fixed;
+            float: right;
+            width: 100%;
+            height: 600px;
+            overflow: scroll;
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="top-bar">
+        <h1>Top Bar</h1>
+        <ul>
+          <li><a href="#"> Home </a></li>
+          <li><a href="#"> About </a></li>
+          <li><a href="#"> Contact </a></li>
+        </ul>
+        <div class="right">
+          <a class='topbar_mypage' href="#">Mypage</a>
+        </div>
+    </div>
+    
+    <h1>🥰 웹툰 추천 서비스 🥰</h1><br>
+    <div style="font-size: 15px;"> 재밌게 본 웹툰 5개를 선택하면 웹툰을 추천해줍니다 </div>
+    <br> </br>
+
+    <script>
+      function work() {
+        var text = document.getElementById("a").value;
+        if(text != "") {
+          alert(text);
+        }
+      }
+    </script>
+    <input id="add_feed" type='button' value='서비스 시작' onclick='work()'/>
+    
+
+
+
+    <!-- 모달 -->
+    <div id="modal_add_feed" class="modal_overlay" >
+        <div class="modal_window"  style="overflow-y:scroll;">
+            <!-- Header -->
+            <div class="modal_title">
+                <div class="modal_title_side"></div>
+                <div> 재밌게 본 웹툰 5개를 선택해주세요 </div>
+                <div class="modal_title_side">
+                    <span id="close_modal" class="material-icons-outlined">
+                        확인
+                    </span>
+                </div>
+            </div>
+
+            <div class="container">
+                <!-- 검색창 -->
+                <div id="nav"> 
+                    <input class="modal_search" type='text' style='width:150px;height:30px;' placeholder='search' color />
+                    <input class="modal_search_check" type='button' value='검색' onclick='work()'/>
+                </div>
+            
+                <!-- 웹툰 이미지 -->
+                <div id="contents"> 
+                    
+                    <table class="modal_table" >
+                        <tr>
+                            
+                            <!--
+                            <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th>
+                            <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th>
+                            <th><img src="/static/polls/images/test.jpg" style="width: 100%"/></th> -->
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 모달 띄우기 코드
+       const modal = document.getElementById("modal_add_feed");
+       const buttonAddFeed = document.getElementById("add_feed");
+       buttonAddFeed.addEventListener("click", e => {
+           modal.style.top = window.pageYOffset + 'px'; // top을 이용해 시작 y위치를 바꿔줌 
+           modal.style.display = "flex";
+           // document.body.style.overflowY = "scroll"; // 스크롤 없애기
+       });
+       // 모달 닫기
+       const buttonCloseModal = document.getElementById("close_modal");
+       buttonCloseModal.addEventListener("click", e => {
+           modal.style.display = "none";
+           document.body.style.overflowY = "visible";
+       });
+
+   </script>
+
+
+
+
+    
+
+
+</body>
+</html>

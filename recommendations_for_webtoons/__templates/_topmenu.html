@@ -1,0 +1,31 @@
+{% load static %}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap pt-2 px-2 shadow" style="height:60px">
+    <div class="w-100 d-flex justify-content-between">
+        <div class="align-items-center">
+            <a href="./" class="text-decoration-none" style="color:#FFF; vertical-align:middle">
+                <img width='50px' src="{% static 'static/img/icon_s_w.png' %}" >
+            </a>
+        </div>
+
+        <div class="flex-fill align-self-center">
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="font-size:1.5em">
+                <li>
+                    <a href="{% url 'rcmd:intro' %}" class="nav-link px-5 link-light">
+                        Intro
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'rcmd:service' %}" class="nav-link px-5 link-light">
+                        Service
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'rcmd:about' %}" class="nav-link px-5 link-light">
+                        About
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+</header>

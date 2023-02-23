@@ -1,0 +1,16 @@
+<table id='target_table' class="table">
+    <thead>
+        <tr>
+        <th scope="col">ID</th>
+        <th scope="col">장르명</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in data %}
+        <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.name}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

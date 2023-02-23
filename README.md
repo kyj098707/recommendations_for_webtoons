@@ -18,7 +18,6 @@
 
 ## Project Member
 
-KT AIVLE AI TRACK 3th </b>
 
 <b> KT Aivler 3th, AI track :</b>
 

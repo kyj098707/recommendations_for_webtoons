@@ -37,6 +37,8 @@ KT AIVLE AI TRACK 3th </b>
 
 
 ## ERD 설계
+<img src="https://user-images.githubusercontent.com/54027397/220841905-c8d3628a-add7-413e-a603-1bcb9505e11b.png">
+
 
 ## 아키텍쳐 설계
 

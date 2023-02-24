@@ -1,10 +1,12 @@
+<div class="wrapper" style="text-align: center;">
 <form method="POST" action="{% url 'rcmd:login' %}">
   {% csrf_token %}
   <p>username</p>
-  <input type="text" name="email">
+  <input type="text" name="username">
   <br>
   <p>password</p>
   <input type="text" name="password">
   <br>
   <input type="submit" value="로그인">
-</form>
+</form> 
+</div>

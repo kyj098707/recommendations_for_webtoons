@@ -108,18 +108,20 @@ class Sim_th_th(models.Model):
 # 회원가입관련 DB
 #============================================================================
 class UserManager(BaseUserManager):
-    def create_user(self, name=None, email=None, address=None, phone_number=None,password=None):
+    def create_user(self, username=None, email=None, address=None, phone_number=None,password=None):
         if not email:
             raise ValueError("must have user email")
         user = self.model(
+                username = username,
                 email = self.normalize_email(email),
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
         
-    def create_superuser(self, name, email, address, phone_number, password):
+    def create_superuser(self, username, email, address, phone_number, password):
         user = self.create_user(
+                usernmae= username,
                 email=self.normalize_email(email),
                 password=password
         )
@@ -134,6 +136,7 @@ class Userprofile(models.Model):
 
 class Member(AbstractBaseUser):
     uid = models.AutoField(primary_key=True)
+    username = models.CharField(default='',max_length=50, null=False, blank=False,unique=True)
     email = models.EmailField(max_length=50, null=False, blank=False,unique=True)
     #userprofile = models.ForeignKey(Userprofile,on_delete=models.PROTECT,related_name='user_profile')
     
@@ -141,15 +144,15 @@ class Member(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     
     objects = UserManager()
-    USERANME_FIELD = 'account_id'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
     
     #def __str__(self):
      #   return self.uid
     
-    def is_staff(self):
+    def is_staff(self): 
         return self.is_admin
-    
+        
     def has_perm(self,perm,obj=None):
         return True
     

@@ -1,7 +1,7 @@
 <form method="POST" action="{% url 'rcmd:login' %}">
   {% csrf_token %}
   <p>username</p>
-  <input type="text" name="username">
+  <input type="text" name="email">
   <br>
   <p>password</p>
   <input type="text" name="password">

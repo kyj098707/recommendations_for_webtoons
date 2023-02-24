@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 
@@ -106,33 +107,66 @@ class Sim_th_th(models.Model):
 #============================================================================
 # 회원가입관련 DB
 #============================================================================
-
-class Password(models.Model):
-    password = models.CharField(max_length=30,null=False,blank=False)
-    salt = models.CharField(max_length=255,null=False,blank=False)
+class UserManager(BaseUserManager):
+    def create_user(self, name=None, email=None, address=None, phone_number=None,password=None):
+        if not email:
+            raise ValueError("must have user email")
+        user = self.model(
+                email = self.normalize_email(email),
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+        
+    def create_superuser(self, name, email, address, phone_number, password):
+        user = self.create_user(
+                email=self.normalize_email(email),
+                password=password
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
 
 class Userprofile(models.Model):
     nickname = models.CharField(max_length=10,null=True,blank=False)
     gender = models.IntegerField(default=0,null=False,blank=False)
     age = models.IntegerField(default=0,null=True,blank=False)
 
-class User(models.Model):
-    uid = models.IntegerField(default=0)
-    email = models.CharField(max_length=50, null=False, blank=False)
-    passwrod = models.ForeignKey(Password,on_delete=models.PROTECT,related_name='user_password')
-    userprofile = models.ForeignKey(Userprofile,on_delete=models.PROTECT,related_name='user_profile')
+class Member(AbstractBaseUser):
+    uid = models.AutoField(primary_key=True)
+    email = models.EmailField(max_length=50, null=False, blank=False,unique=True)
+    #userprofile = models.ForeignKey(Userprofile,on_delete=models.PROTECT,related_name='user_profile')
+    
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    
+    objects = UserManager()
+    USERANME_FIELD = 'account_id'
+    REQUIRED_FIELDS = ['email']
+    
+    #def __str__(self):
+     #   return self.uid
+    
+    def is_staff(self):
+        return self.is_admin
+    
+    def has_perm(self,perm,obj=None):
+        return True
+    
+    def has_module_perms(self, app_label):
+        return True
 
 class Searching_record(models.Model):
-    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='user_searching')
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='user_searching')
     record = models.CharField(max_length=50, null=True, blank=True)
 
 class Luv_user_ar(models.Model):
-    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='luv_user_artwork')
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='luv_user_artwork')
     artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='luv_artwork_user')
     score = models.IntegerField(default=0, null=True, blank=False)
 
 class Viewing_record(models.Model):
-    user = models.ForeignKey(User,on_delete=models.PROTECT,related_name='vw_user_artwork')
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='vw_user_artwork')
     artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='vw_artwork_user')
 
 

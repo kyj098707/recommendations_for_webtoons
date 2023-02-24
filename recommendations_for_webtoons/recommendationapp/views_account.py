@@ -1,28 +1,37 @@
 from django.shortcuts import render,redirect
 from django.contrib import auth
-from django.contrib.auth.models import User
+from django.http import HttpResponse
+from django.contrib.auth import login, authenticate, logout
 
 from .models import *
 
 
 def signup_test(request):
-    if request.method == 'POST':
+    user = request.user
+    if user.is_authenticated:
+        return HttpResponse("You are already authenticated as " + str(user.email))
+    if request.POST:
         if request.POST['password1'] == request.POST['password2']:
-            user = User.objects.create_user(
-                                            username=request.POST['username'],
-                                            password=request.POST['password1'],
-                                            email=request.POST['email'],)
-            auth.login(request, user)
-            return redirect('/')
-        return render(request, '_00_account/signup.html')
-    return render(request, '_00_account/signup.html')
+            email = request.POST['email']
+            username = request.POST['username']
+            password = request.POST['password1']
+            member = authenticate(request,email=email,username=username,password=password)
+            nickname, gender, age = request.POST['nickname'], request.POST['gender'], request.POST['age']
+            age = 0 if age == '남' else 1
+            login(request,member)
+            """user = Member.objects.get(email=email)
+            userprofile = Userprofile.objects.create(member=user,nickname=nickname, gender=gender,age=age)
+            userprofile.save()
+            """
+            return render(request,'_00_account/login.html')
+    return render(request,'_00_account/signup.html')
 
 def login_test(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-        user = auth.authenticate(request,username=username,password=password)
+        user = authenticate(email=email,password=password)
 
         if user:
             print("yes user")
@@ -33,8 +42,6 @@ def login_test(request):
             return render(request,"login.html",{"error:username or password is incorrect"})    
     return render(request, "./_00_account/login.html")
 
-def logout(request):
-    if request.method == 'POST':
-        auth.logout(request)
-        return redirect('/')
+def logout_test(request):
+    auth.logout(request)
     return render(request, "./_00_account/login.html")

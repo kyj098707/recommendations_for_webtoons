@@ -111,53 +111,60 @@ class UserManager(BaseUserManager):
     def create_user(self, username=None, email=None, address=None, phone_number=None,password=None):
         if not email:
             raise ValueError("must have user email")
+        if not username:
+            raise ValueError("must have user username")
         user = self.model(
                 username = username,
-                email = self.normalize_email(email),
+                email = self.normalize_email(email)
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
         
-    def create_superuser(self, username, email, address, phone_number, password):
+    def create_superuser(self, username=None, email=None, address=None, phone_number=None,password=None):
         user = self.create_user(
-                usernmae= username,
+                username= username,
                 email=self.normalize_email(email),
+                address = address,
+                phone_number=phone_number,
                 password=password
         )
         user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
-class Userprofile(models.Model):
-    nickname = models.CharField(max_length=10,null=True,blank=False)
-    gender = models.IntegerField(default=0,null=False,blank=False)
-    age = models.IntegerField(default=0,null=True,blank=False)
-
 class Member(AbstractBaseUser):
     uid = models.AutoField(primary_key=True)
-    username = models.CharField(default='',max_length=50, null=False, blank=False,unique=True)
     email = models.EmailField(max_length=50, null=False, blank=False,unique=True)
-    #userprofile = models.ForeignKey(Userprofile,on_delete=models.PROTECT,related_name='user_profile')
-    
+    username = models.CharField(default='',max_length=50, null=False, blank=False,unique=True)
+
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
     objects = UserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
     
-    #def __str__(self):
-     #   return self.uid
-    
-    def is_staff(self): 
+    def __str__(self):
+        return self.username
+ 
+    def has_perm(self, perm, obj=None):
         return self.is_admin
-        
-    def has_perm(self,perm,obj=None):
+ 
+    def has_module_perms(self, app_lable):
         return True
     
-    def has_module_perms(self, app_label):
-        return True
+class Userprofile(models.Model):
+    member = models.ForeignKey(Member,default='',on_delete=models.PROTECT,related_name='user_profile',null=False)
+    nickname = models.CharField(max_length=10,null=True,blank=False)
+    gender = models.IntegerField(default=0,null=False,blank=False)
+    age = models.IntegerField(default=0,null=True,blank=False)
+
+
 
 class Searching_record(models.Model):
     user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='user_searching')

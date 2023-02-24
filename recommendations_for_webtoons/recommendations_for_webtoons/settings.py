@@ -84,6 +84,8 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 
 

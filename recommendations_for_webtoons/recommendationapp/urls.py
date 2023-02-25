@@ -23,8 +23,7 @@ urlpatterns = [
     # ==================       Account_PAGES        =================
     # ===========================================================
 
-    path('signup',views_account.signup_test,name='signup'),
-    path('login',views_account.login_test,name='login'),
-    path('logout',views_account.logout_test,name='logout'),
-
+    path('account/',views_account.account_test,name='account'),
+    path('logout/',views_account.logout_test,name='logout'),
+    
 ]

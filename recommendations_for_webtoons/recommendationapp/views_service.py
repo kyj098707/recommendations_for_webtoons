@@ -27,6 +27,7 @@ def service_test(request):
         return HttpResponse(html)
 
 
+    user = request.user
     data1 = Genre.objects.all()
-    data = {'data1': data1}
+    data = {'data1': data1, 'user_status' : user.is_authenticated}
     return render(request, "./_02_service/main.html", data)

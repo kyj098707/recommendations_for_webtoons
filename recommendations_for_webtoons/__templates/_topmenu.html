@@ -37,15 +37,23 @@
         <div class="container-fluid mx-0">
             <ul class="navbar-nav mx-0">
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img width='40px' src="{% static 'static/img/__topmenu/users_disable.webp' %}" >
-                </a>
-                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
-                    <li><a class="dropdown-item" href="#">Login</a></li>
-                    <li><a class="dropdown-item" href="#">Mypage</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                </ul>
+                {% if user_status %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img width='40px' src="{% static 'static/img/__topmenu/users_active.webp' %}" >
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Mypage</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Logout</a></li>
+                    </ul>
+                {% else %}
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img width='40px' src="{% static 'static/img/__topmenu/users_disable.webp' %}" >
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <li><a class="dropdown-item" href="#">Login</a></li>
+                    </ul>
+                {% endif %}
                 </li>
             </ul>
         </div>

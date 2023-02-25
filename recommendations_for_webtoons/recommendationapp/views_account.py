@@ -28,12 +28,14 @@ def signup_test(request):
     return render(request,'_00_account/signup.html')
 
 def login_test(request):
+    user = request.user
+    if user.is_authenticated:
+        print(str(user.email))
     if request.method == 'POST':
-        email = request.POST.get('email')
-        password = request.POST.get('password')
-
+        email = request.POST['email']
+        password = request.POST['password']
+        print(email,password)
         user = authenticate(email=email,password=password)
-
         if user:
             print("yes user")
             auth.login(request, user)

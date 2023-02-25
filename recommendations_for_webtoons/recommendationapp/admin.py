@@ -5,7 +5,7 @@ from recommendationapp.models import Member
  
 class MemberAdmin(UserAdmin):
     # 관리자 화면에 보여질 칼럼 지정
-    list_display = ('email','username','last_login','is_admin','is_staff')
+    list_display = ('email','last_login','is_admin','is_staff')
     search_fields = ('email', 'username')
     readonly_fields = ('uid', 'last_login')
  

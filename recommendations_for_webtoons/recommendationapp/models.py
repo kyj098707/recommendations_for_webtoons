@@ -108,7 +108,7 @@ class Sim_th_th(models.Model):
 # 회원가입관련 DB
 #============================================================================
 class UserManager(BaseUserManager):
-    def create_user(self, username=None, email=None, address=None, phone_number=None,password=None):
+    def create_user(self, username=None, email=None,password=None):
         if not email:
             raise ValueError("must have user email")
         if not username:

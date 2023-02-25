@@ -67,7 +67,6 @@ MIDDLEWARE = [
 
 
 ROOT_URLCONF = "recommendations_for_webtoons.urls"
-print(os.path.join(BASE_DIR, '__templates'))
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",

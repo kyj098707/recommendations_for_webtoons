@@ -1,15 +1,11 @@
 from django.urls import path
-from . import views, views_service, views_static,views_account
+from . import views, views_service, views_static, views_account
 
 app_name = 'rcmd'
 
 urlpatterns = [
     path('manage_data', views.manage_data, name="md"),
-    
-    path('results', views.results, name='resultpage'),
     path('testpage', views.testpage, name='testpage'),
-    path('testpage2', views.testpage2, name='testpage2'),
-    path('results/', views.results, name='results'),
     
     # ===========================================================
     # ==================       TOP_PAGES        =================
@@ -22,8 +18,8 @@ urlpatterns = [
     # ===========================================================
     # ==================       Account_PAGES        =================
     # ===========================================================
-
-    path('account/',views_account.account_test,name='account'),
-    path('logout/',views_account.logout_test,name='logout'),
     
+    path('account/', views_account.account_test, name='account'),
+    path('logout/', views_account.logout_test, name='logout'),
+
 ]

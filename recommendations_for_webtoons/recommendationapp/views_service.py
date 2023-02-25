@@ -1,6 +1,5 @@
 import json
 from django.shortcuts import render
-from .parser import *
 from .models import *
 from .views_datamanage import *
 from django.db import transaction

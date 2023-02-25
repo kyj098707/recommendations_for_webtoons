@@ -39,7 +39,7 @@ def login_test(request):
         if user:
             print("yes user")
             auth.login(request, user)
-            return redirect('/')
+            return render(request,'./_02_service/main.html')
         else:
             print("no user")
             return render(request,"login.html",{"error:username or password is incorrect"})    

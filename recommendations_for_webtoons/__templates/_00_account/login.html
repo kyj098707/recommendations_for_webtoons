@@ -99,20 +99,21 @@
 }
   </style>
 </head>
-
-  <form method="post">
-    {% csrf_token %}
+<body>
+  <form method="post" class="text-center border border-light p-5">
+        {% csrf_token %}
+    
     <div class="box">
       <input type="email" name="email" placeholder="Email" />
       <input type="password" name="password" placeholder="Password" />
       <button type="submit">Sign in</button>
-    </div>
-  
-    <div class="sign-up-box">
+
+      <div class="sign-up-box">
       <i class="material-icons">create</i>
+      </div>
     </div>
-  
   </form>
+
 <script>
   /*
 Credits  Andy Tran
@@ -160,4 +161,4 @@ function handleSignUp() {
   removedActive();
 }
 </script>
-
+</body>

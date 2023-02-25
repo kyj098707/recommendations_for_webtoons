@@ -3,24 +3,24 @@
     <div class="w-100 d-flex justify-content-between">
         <div class="align-items-center">
             <a href="./" class="text-decoration-none" style="color:#FFF; vertical-align:middle">
-                <img width='50px' src="{% static 'static/img/__logo/icon_s_w.png' %}" >
+                <img class='m-2' width='40px' src="{% static 'static/img/__logo/icon_s_w.png' %}" >
             </a>
         </div>
 
         <div class="flex-fill align-self-center">
-            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0" style="font-size:1.5em">
+            <ul class="nav col-12 mb-2 justify-content-center mb-md-0" style="font-size:1.5em">
                 <li>
-                    <a href="{% url 'rcmd:intro' %}" class="nav-link px-5 link-light">
+                    <a href="{% url 'rcmd:intro' %}" class="nav-link px-4 mx-2 link-light">
                         Intro
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'rcmd:service' %}" class="nav-link px-5 link-light">
+                    <a href="{% url 'rcmd:service' %}" class="nav-link px-4 mx-2 link-light">
                         Service
                     </a>
                 </li>
                 <li>
-                    <a href="{% url 'rcmd:about' %}" class="nav-link px-5 link-light">
+                    <a href="{% url 'rcmd:about' %}" class="nav-link px-4 mx-2 link-light">
                         About
                     </a>
                 </li>
@@ -34,7 +34,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img width='35px' src="{% static 'static/img/__logo/icon_s_w.png' %}" >
+                    <img width='40px' src="{% static 'static/img/__topmenu/users_disable.webp' %}" >
                 </a>
                 <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="navbarDarkDropdownMenuLink">
                     <li><a class="dropdown-item" href="#">Login</a></li>

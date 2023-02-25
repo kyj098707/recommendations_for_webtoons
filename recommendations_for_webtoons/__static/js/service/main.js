@@ -61,3 +61,16 @@ function scrollHandler() {
 window.addEventListener('scroll', scrollHandler);
 
 
+function rowOutFocus(element){
+  let arr = element.parent().children(".artwork");
+  [].forEach.call (arr, function (el, index) {
+    arr.eq(index).addClass('outfocus');
+  });
+}
+
+function rowSetFocus(element){
+  let arr = element.parent().children(".artwork");
+  [].forEach.call (arr, function (el, index) {
+    arr.eq(index).removeClass('outfocus');
+  });
+}

@@ -61,6 +61,17 @@ $(document).on("click",".artwork", function(){
   get_artwork_detail(ajax_url, $(this).attr('uid'))
 })
 
-
+$(document).on({
+    mouseenter: function () {
+      rowOutFocus($(this))
+    },
+    mouseleave: function () {
+      rowOutFocus($(this))
+      rowSetFocus($(this))
+    },
+    mousemove :function () {
+      rowOutFocus($(this))
+    }
+}, ".artwork");
 
 {% endblock %}

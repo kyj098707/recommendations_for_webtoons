@@ -72,7 +72,6 @@
 
 .aw_array:hover .artwork {
   opacity: 1;
-  filter: brightness(0.3);
 }
 
 .aw_array:hover .artwork:hover {
@@ -83,4 +82,11 @@
 
 .artwork:hover ~.artwork {
   transform: translate3d(calc(var(--picwidth)*0.22), 0, 0);
+}
+
+.outfocus {
+  filter: brightness(0.3);
+}
+.setfocus {
+  filter: brightness(1);
 }

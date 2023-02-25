@@ -19,10 +19,10 @@
   {% include "./_modal.html" %}
 
   <div id='bg' class='position-fixed w-100 h-100'>
-    <img id='service_banner' width="100%" class='py-1 rounded d-block position-absolute' src="{% static 'static/img/_service_img01.webp' %}">
+    <img id='service_banner' width="100%" class='py-1 rounded d-block position-absolute' src="{% static 'static/img/service/_service_img01.webp' %}">
   </div>
 
-  <img id='mask_banner' width="100%" class='py-1 rounded d-block' src="{% static 'static/img/msk.png' %}">
+  <img id='mask_banner' width="100%" class='py-1 rounded d-block' src="{% static 'static/img/service/msk.png' %}">
 
 
 <div id='contents_pack' class='px-4'>
@@ -33,8 +33,8 @@
           {{gen.name}}
         </div>
         {% for i in gen.disp_artwork %}
-        <div class="artwork mx-1 position-relative">
-          <div class="artwork_imgs"  uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}" >
+        <div class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
+          <div class="artwork_imgs">
               <div class="artwork_dimmed position-absolute"></div>
               <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" alt=""/>
           </div>
@@ -57,7 +57,7 @@ $('#searchbar').on("keyup", function(){
   send_keyword(ajax_url, $(this).val())
 })
 
-$(document).on("click",".artwork_imgs", function(){
+$(document).on("click",".artwork", function(){
   get_artwork_detail(ajax_url, $(this).attr('uid'))
 })
 

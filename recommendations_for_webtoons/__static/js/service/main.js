@@ -1,8 +1,4 @@
-// setTimeout(function() {
-//   const modals = document.querySelector('#test_modal');
-//   let modal = bootstrap.Modal.getOrCreateInstance(modals)  
-//   modal.show()
-// }, 250);
+
   
 
 function get_artwork_detail(url, value){

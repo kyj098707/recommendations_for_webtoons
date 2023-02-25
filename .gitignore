@@ -45,3 +45,10 @@ MANIFEST
 
 dataset/
 webvenv/
+training/wandb/
+training/data/
+training/comic.csv
+find_sim/
+training/ckpt/
+__learning/
+training/json/

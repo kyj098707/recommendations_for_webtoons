@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 
@@ -60,6 +61,7 @@ class Artwork(models.Model): # DB Table 첫글자 대문자로 맞추겠습니�
         return f'http://kt-aivle.iptime.org:64000/static/mainsource/thumb/{self.token}_{self.uid}.jpg'
 
 
+
 #============================================================================
 #============================================================================
 # 다대다 필드 구현 : manytomanyField 사용치 않고 직접 구현하겠습니다.
@@ -92,5 +94,91 @@ class Sim_st_st(models.Model): #story 유사도
 
     class Meta:
         ordering = ['similarity']
+
+class Sim_th_th(models.Model):
+    r_artwork1 = models.ForeignKey(Artwork, on_delete = models.PROTECT, related_name='th1_th2' ,blank=True, null=True)
+    r_artwork2 = models.ForeignKey(Artwork, on_delete = models.PROTECT,related_name='th2_th1',blank=True, null=True)
+    similarity = models.FloatField(default=0, null=True, blank=False)   
+
+    class Meta:
+        ordering = ['similarity']
+
+
+#============================================================================
+# 회원가입관련 DB
+#============================================================================
+class UserManager(BaseUserManager):
+    def create_user(self, username=None, email=None,password=None):
+        if not email:
+            raise ValueError("must have user email")
+        if not username:
+            raise ValueError("must have user username")
+        user = self.model(
+                username = username,
+                email = self.normalize_email(email)
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+        
+    def create_superuser(self, username=None, email=None, address=None, phone_number=None,password=None):
+        user = self.create_user(
+                username= username,
+                email=self.normalize_email(email),
+                address = address,
+                phone_number=phone_number,
+                password=password
+        )
+        user.is_admin = True
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
+
+class Member(AbstractBaseUser):
+    uid = models.AutoField(primary_key=True)
+    email = models.EmailField(max_length=50, null=False, blank=False,unique=True)
+    username = models.CharField(default='',max_length=50, null=False, blank=False,unique=True)
+
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    objects = UserManager()
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
+    
+    def __str__(self):
+        return self.username
+ 
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+ 
+    def has_module_perms(self, app_lable):
+        return True
+    
+class Userprofile(models.Model):
+    member = models.ForeignKey(Member,default='',on_delete=models.PROTECT,related_name='user_profile',null=False)
+    nickname = models.CharField(max_length=10,null=True,blank=False)
+    gender = models.IntegerField(default=0,null=False,blank=False)
+    age = models.IntegerField(default=0,null=True,blank=False)
+
+
+
+class Searching_record(models.Model):
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='user_searching')
+    record = models.CharField(max_length=50, null=True, blank=True)
+
+class Luv_user_ar(models.Model):
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='luv_user_artwork')
+    artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='luv_artwork_user')
+    score = models.IntegerField(default=0, null=True, blank=False)
+
+class Viewing_record(models.Model):
+    user = models.ForeignKey(Member,on_delete=models.PROTECT,related_name='vw_user_artwork')
+    artwork = models.ForeignKey(Artwork,on_delete=models.PROTECT,related_name='vw_artwork_user')
+
+
 #============================================================================
 #============================================================================

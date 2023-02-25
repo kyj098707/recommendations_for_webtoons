@@ -3,6 +3,15 @@ from sentence_transformers import SentenceTransformer, util
 import requests
 import re
 from .models import *
+import torch.nn as nn
+import timm
+from glob import glob
+import albumentations as A
+from albumentations.pytorch.transforms import ToTensorV2
+import torch
+from tqdm.auto import tqdm
+
+from util import *
 
 def crawl_naverwebtoon():
     days = ['mon','tue','wed','thu','fri','sat','sun']
@@ -71,31 +80,24 @@ def crawl_naverwebtoon():
             genre_types_list.append(res)
     return webtoon_info_list,writer_info_list,genre_types_list
 
-def find_sim(story1, story2, checkpoints):
-    
-    story_vector1 = checkpoints.encode(story1)
-    story_vector2 = checkpoints.encode(story2)
-    story_sims = util.cos_sim(story_vector1,story_vector2)
-    return story_sims
-
 def find_story_similarity():
-    base_title_list = [b.title for b in Artwork.objects.all()]
+    base_uid_list = [b.uid for b in Artwork.objects.all()]
     base_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',b.story) for b in Artwork.objects.all()]
     
-    compare_title_list = [c.title for c in Artwork.objects.all()]
+    compare_uid_list = [c.uid for c in Artwork.objects.all()]
     compare_story_list = [re.sub("[^ 0-9가-힣A-Za-z]",'',c.story) for c in Artwork.objects.all()]
     checkpoints = SentenceTransformer('snunlp/KR-SBERT-V40K-klueNLI-augSTS')
     
     sim_list = find_sim(base_story_list,compare_story_list,checkpoints)
     sim_story_list = []
-    for idx,uid in enumerate(base_title_list):
-        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_title_list)]
+    for idx,uid in enumerate(base_uid_list):
+        sims = [(sim,t) for sim,t in zip(sim_list[idx],compare_uid_list)]
         sims = sorted(sims,reverse=True)[:20]
         
-        base_artwork = Artwork.objects.get(title=sims[0][1])
+        base_artwork = Artwork.objects.get(uid=sims[0][1])
         
         for sim in sims[1:]:
-            compare_artwork = Artwork.objects.get(title=sim[1])
+            compare_artwork = Artwork.objects.get(uid=sim[1])
             res = Sim_st_st(r_artwork1=base_artwork,r_artwork2=compare_artwork,similarity=sim[0].item())
             sim_story_list.append(res)
 

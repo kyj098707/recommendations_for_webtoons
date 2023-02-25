@@ -16,8 +16,8 @@ import configparser, platform, os
 if "macOS" in str(platform.platform()):
     import pymysql
     pymysql.install_as_MySQLdb()
-    
 
+AUTH_USER_MODEL = "recommendationapp.Member"
 configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
 
@@ -83,6 +83,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 

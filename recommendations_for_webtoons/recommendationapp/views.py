@@ -2,6 +2,7 @@ import json
 from django.shortcuts import render
 from .parser import *
 from .models import *
+from util import *
 from .views_datamanage import *
 from django.db import transaction
 from collections import Counter
@@ -52,10 +53,20 @@ def testpage(request):
         
     data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
     return render(request, "./__test/__learn.html", data) # app 내의 templete 폴더 참조
+
+def testpage2(request):
+    # http://localhost:8000/testpage2
+    with transaction.atomic():
+        sim_bulk_crt = find_story_similarity()
+        Sim_st_st.objects.bulk_create(sim_bulk_crt)
+        
+    data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
+    return render(request, "./__test/__learn.html", data) # app 내의 templete 폴더 참조
+
 #---------------------------------------------------------------------------------------#
 
 def results(request):
-    input_title_list = ['퀘스트지상주의','김부장','싸움독학','존망코인' , '신림/남/22']
+    input_title_list = ['광마회귀','화산 귀환','뷰티풀 군바리']
     genre_list = []
     artist_list = []
     for input_title in input_title_list:

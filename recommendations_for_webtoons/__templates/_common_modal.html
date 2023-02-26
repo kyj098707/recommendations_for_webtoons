@@ -42,13 +42,15 @@
       <div class="modal-body align-center" align='center'>
         <img class="d-block mx-auto my-5 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="80%">
 
-          <input id="ID_input" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" list="search_list" placeholder="E-MAIL">
-          <input id="PW_input" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" list="search_list" placeholder="PASSWORD">
+          <input id="ID_input" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="E-MAIL">
+          <input id="PW_input" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="PASSWORD">
 
         <button type="button" id='submit_login' class="btn btn-warning w-75 my-4" align='center'>LOGIN</button>
         <p class='info_login text-danger' style='display:none;'>인증에 실패했습니다.</p>
         <hr>
-        <div class='mt-4'>회원이 아니신가요? 회원가입</div>
+        <div class='mt-4 mb-2'>회원이 아니신가요?</div>
+        <button type="button" id='submit_join' class="btn btn-sm btn-info w-75"" align='center'>JOIN US</button>
+
       </div>
     </div>
   </div>

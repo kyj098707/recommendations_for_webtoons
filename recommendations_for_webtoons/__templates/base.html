@@ -100,10 +100,24 @@
         $(document).on("click","#btn_login", function(){
             const modals = document.querySelector('#modal_login');
             let modal = bootstrap.Modal.getOrCreateInstance(modals)  
+            let id = document.getElementById('ID_input');
+            let pw = document.getElementById('PW_input');
+            id.value = null;
+            pw.value = null;
+            $('.info_login').hide();
             modal.show()
         })
 
         $(document).on("click","#submit_login", function(){
+            login_auth()
+        })
+
+        function enterkey() {
+            if (window.event.keyCode == 13) {
+                login_auth()
+            }
+        }
+        function login_auth(){
             let id = $('#ID_input').val();
             let pw = $('#PW_input').val();
             let ajax_url = "{% url 'rcmd:log_in' %}"
@@ -114,7 +128,7 @@
             } else {
                 location.reload();
             }
-        })
+        }
 
         function error_login(){
             $('.info_login').show();

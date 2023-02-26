@@ -1,0 +1,36 @@
+{% load static %}
+
+<div class="modal fade" id='search_modal' tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
+    <div class="modal-content">
+
+      <div class="modal-body">
+        <p>Selection.</p>
+        <input id="searchbar" class="form-control w-100 p-1 m-0" type="text" list="search_list" placeholder="임시 검색창 테스트">
+        <datalist id="search_list">
+        </datalist>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <button type="button" data-bs-target="#loading_modal" data-bs-dismiss="modal" data-bs-toggle="modal"  class="btn btn-primary">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="loading_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="pending_file_loadingLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3 pt-3" align="center">
+      <div class="d-flex flex-column bd-highlight justify-content-center mt-3">
+        <div class="bd-highlight">
+          <div class="spinner-grow spinner-border text-warning" style="width: 3rem; height: 3rem;" role="status"></div>
+        </div>
+        <div class="p-3 pb-2 bd-highlight fs-5">
+          Calculating....
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

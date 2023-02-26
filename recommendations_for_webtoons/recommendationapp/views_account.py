@@ -29,11 +29,11 @@ def account_test(request):
             user = authenticate(email=email,password=password)
             if user:
                 auth.login(request, user)
-                return render(request,'./_02_service/main.html')
+                return redirect('rcmd:service')
             else:
                 return render(request,"login.html",{"error:username or password is incorrect"})
     return render(request,'_00_account/account.html')
 
 def logout_test(request):
     auth.logout(request)
-    return render(request, "./_00_account/login.html")
+    return redirect('rcmd:intro')

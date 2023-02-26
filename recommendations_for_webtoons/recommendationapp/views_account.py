@@ -14,6 +14,19 @@ import json
         return render(request,'./_02_service/main.html')
 """
 
+def join(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    print(email, password, "!")
+    user = authenticate(email=email, password=password)
+    if user:
+        auth.login(request, user)
+        result = {'response': "complete"}
+    else:
+        result = {'response': "error"}
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
 def log_in(request):
     email = request.POST.get('email')
     password = request.POST.get('password')

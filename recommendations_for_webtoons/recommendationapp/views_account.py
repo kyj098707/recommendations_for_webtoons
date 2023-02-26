@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 
 from .models import *
+import json
 
 """def account_test(request):
     user = request.user
@@ -11,12 +12,25 @@ from .models import *
     if user.is_authenticated:
         print(str(user.email))
         return render(request,'./_02_service/main.html')
-"""    
+"""
+
+def log_in(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    print(email, password, "!")
+    user = authenticate(email=email, password=password)
+    if user:
+        auth.login(request, user)
+        result = {'response': "complete"}
+    else:
+        result = {'response': "error"}
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 def account_test(request):
     user = request.user
     if user.is_authenticated:
-        return HttpResponse("You are already authenticated as " + str(user.email))
+        return redirect('rcmd:service')
+        # return HttpResponse("You are already authenticated as " + str(user.email))
     ### db 겹치면 안되는 부분에 대해서 예외처리 필요
     if request.POST:
         if request.POST['btn'] == 'signup':

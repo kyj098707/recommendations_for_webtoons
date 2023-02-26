@@ -39,6 +39,20 @@
             ::-webkit-scrollbar {
                 display: none;
                 }
+
+            .error_login {
+                animation-iteration-count: 50;
+               animation: vibration .1s infinite !important;
+            }
+
+            @keyframes vibration {
+                from {
+                    transform: rotate(1deg);
+                }
+                to {
+                    transform: rotate(-1deg);
+                }
+            }
             {% include "./__font.html" %}
             
             {% block styles %}
@@ -81,6 +95,35 @@
             let modal = bootstrap.Modal.getOrCreateInstance(modals)  
             modal.show()
         })
+
+
+        $(document).on("click","#btn_login", function(){
+            const modals = document.querySelector('#modal_login');
+            let modal = bootstrap.Modal.getOrCreateInstance(modals)  
+            modal.show()
+        })
+
+        $(document).on("click","#submit_login", function(){
+            let id = $('#ID_input').val();
+            let pw = $('#PW_input').val();
+            let ajax_url = "{% url 'rcmd:log_in' %}"
+            data_dict = {'email' : id, 'password': pw}
+            result = request_ajax(ajax_url, data_dict)
+            if (result == 'error' || result.response == 'error'){
+                error_login()
+            } else {
+                location.reload();
+            }
+        })
+
+        function error_login(){
+            $('.info_login').show();
+            $('#modal_login').addClass('error_login');
+            setTimeout(() => {
+                $('#modal_login').removeClass('error_login');
+            }, 200)
+        }
+
 
             {% block scripts %}
 

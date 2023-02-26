@@ -19,6 +19,10 @@ urlpatterns = [
     # ==================       Account_PAGES        =================
     # ===========================================================
     
+    # path('account/', views_account.join, name='account'),
+    path('auth01/', views_account.log_in, name='log_in'),
+    # path('account/', views_account.log_out, name='account'),
+    
     path('account/', views_account.account_test, name='account'),
     path('logout/', views_account.logout_test, name='logout'),
 

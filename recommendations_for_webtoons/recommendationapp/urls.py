@@ -19,7 +19,7 @@ urlpatterns = [
     # ==================       Account_PAGES        =================
     # ===========================================================
     
-    path('auth00/', views_account.join, name='account'),
+    path('auth00/', views_account.join, name='join'),
     path('auth01/', views_account.log_in, name='log_in'),
     # path('account/', views_account.log_out, name='account'),
     

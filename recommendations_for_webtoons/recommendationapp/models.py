@@ -171,7 +171,7 @@ class Userprofile(models.Model):
     member = models.ForeignKey(Member, default='', on_delete=models.PROTECT, related_name='user_profile', null=False)
     nickname = models.CharField(max_length=10, null=True, blank=False)
     gender = models.BooleanField(null=False, blank=False)
-    birth = models.DateTimeField()
+    date_birth = models.DateTimeField(null=False, blank=False)
     create_date = models.DateTimeField(auto_now_add=True)
 
 

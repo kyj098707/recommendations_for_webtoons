@@ -42,8 +42,8 @@
       <div class="modal-body align-center" align='center'>
         <img class="d-block mx-auto my-5 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="80%">
 
-          <input id="ID_input" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="E-MAIL">
-          <input id="PW_input" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="PASSWORD">
+          <input id="ID_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="E-MAIL">
+          <input id="PW_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="password" placeholder="PASSWORD">
 
         <button type="button" id='submit_login' class="btn btn-warning w-75 my-4" align='center'>LOGIN</button>
         <p class='info_login text-danger' style='display:none;'>인증에 실패했습니다.</p>
@@ -51,6 +51,66 @@
         <div class='mt-4 mb-2'>회원이 아니신가요?</div>
         <button type="button" id='submit_join' class="btn btn-sm btn-info w-75"" align='center'>JOIN US</button>
 
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id='modal_join' tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content bg-dark text-white">
+
+      <div class="modal-body align-center" align='center'>
+        <img class="d-block mx-auto my-5 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="30%">
+          <div class="input-group mb-3">
+            <span class="input-group-text w-25">
+            E-mail
+            </span>
+            <input id='id_join' placeholder="이메일 주소" type="email" class="form-control " >
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text w-25">
+            Password
+            </span>
+            <input id='pw1_join' placeholder="비밀번호" type="password" class="form-control " >
+            
+            <input id='pw2_join' placeholder="비밀번호 확인" type="password" class="form-control " >
+          </div>
+          <br>
+          <div class="input-group mb-3">
+            <span class="input-group-text w-25">
+            Name
+            </span>
+            <input id='name_join' placeholder="성명" type="text" class="form-control " >
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text w-25">
+            Nickname
+            </span>
+            <input id='nick_join' placeholder="별명" type="text" class="form-control " >
+          </div>
+
+          <div class="input-group mb-3">
+            <span class="input-group-text w-25">
+            Birth
+            </span>
+            <input id='date_join' type="date" class="form-control">
+          </div>
+
+          <div class="input-group mb-3">
+            <label class="input-group-text w-25" for="select_gender">Gender</label>
+            <select id='gender_join' class="form-select" id="select_gender">
+              <option selected>성별</option>
+              <option value="1">남</option>
+              <option value="0">여</option>
+            </select>
+          </div>
+
+        <button type="button" id='submit_join' class="btn btn-warning w-75 my-4" align='center'>SUBMIT</button>
+        <p class='info_join text-danger' style='display:none;'>인증에 실패했습니다.</p>
       </div>
     </div>
   </div>

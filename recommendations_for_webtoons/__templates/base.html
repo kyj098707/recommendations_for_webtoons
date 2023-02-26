@@ -73,6 +73,11 @@
 
 
         <script type="text/javascript">
+
+            const modals = document.querySelector('#modal_join');
+            let modal = bootstrap.Modal.getOrCreateInstance(modals)  
+            modal.show()
+
             function request_ajax(url, data_dict) {
                 $.ajax({
                     url:url,
@@ -100,8 +105,8 @@
         $(document).on("click","#btn_login", function(){
             const modals = document.querySelector('#modal_login');
             let modal = bootstrap.Modal.getOrCreateInstance(modals)  
-            let id = document.getElementById('ID_input');
-            let pw = document.getElementById('PW_input');
+            let id = document.getElementById('ID_login');
+            let pw = document.getElementById('PW_login');
             id.value = null;
             pw.value = null;
             $('.info_login').hide();
@@ -118,8 +123,8 @@
             }
         }
         function login_auth(){
-            let id = $('#ID_input').val();
-            let pw = $('#PW_input').val();
+            let id = $('#ID_login').val();
+            let pw = $('#PW_login').val();
             let ajax_url = "{% url 'rcmd:log_in' %}"
             data_dict = {'email' : id, 'password': pw}
             result = request_ajax(ajax_url, data_dict)
@@ -136,6 +141,77 @@
             setTimeout(() => {
                 $('#modal_login').removeClass('error_login');
             }, 200)
+        }
+
+        function error_join(){
+            $('.info_join').show();
+            $('#modal_join').addClass('error_login');
+            setTimeout(() => {
+                $('#modal_join').removeClass('error_login');
+            }, 200)
+        }
+
+
+        $(document).on("click","#submit_join", function(){
+            if (join_validation()) {
+                let ajax_url = "{% url 'rcmd:join' %}"
+                let id = $('#id_join').val();
+                let pw1 = $('#pw1_join').val();
+                let pw2 = $('#pw2_join').val();
+                let nm = $('#name_join').val();
+                let nc = $('#nick_join').val();
+                let dt = $('#date_join').val();
+                let gd = $('#gender_join').val();
+                data_dict = {'email' : id,
+                             'password1': pw1,
+                             'password2': pw2,
+                             'username': nm,
+                             'nickname': nc,
+                             'birth': dt,
+                             'gender': gd}
+                result = request_ajax(ajax_url, data_dict)
+                if (result == 'error' || result.response == 'error'){
+                    error_join()
+                } else {
+                    location.reload();
+                }
+            } else {
+                error_join()
+            }
+        
+        })
+
+        function join_validation() {
+            if ($('#id_join').val().indexOf("@") == -1){
+                $('.info_join').text('이메일 형식이 아닙니다.')
+                return false
+            }
+            if ($('#pw1_join').val().length < 6){
+                $('.info_join').text('비밀번호는 6자 이상으로 입력해주세요.')
+                return false
+            }
+            if ($('#pw1_join').val() !== $('#pw2_join').val()){
+                $('.info_join').text('비밀번호 구성이 다릅니다..')
+                return false
+            }
+            if ($('#name_join').val().length == 0){
+                $('.info_join').text('이름을 입력해주세요.')
+                return false
+            }
+            if ($('#nick_join').val().length == 0){
+                $('.info_join').text('별명을 입력해주세요.')
+                return false
+            }
+            if ($('#date_join').val()==''){
+                $('.info_join').text('생년월일을 입력해주세요.')
+                return false
+            }
+            if ($('#gender_join').val()=='성별'){
+                $('.info_join').text('성별을 선택해주세요.')
+                console.log("B")
+                return false
+            }
+            return true
         }
 
 

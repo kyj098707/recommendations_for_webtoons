@@ -5,14 +5,6 @@ from django.contrib.auth import login, authenticate, logout
 
 from .models import *
 
-"""def account_test(request):
-    user = request.user
-    # 로그인되어 있으면 바로 보내기
-    if user.is_authenticated:
-        print(str(user.email))
-        return render(request,'./_02_service/main.html')
-"""    
-
 def account_test(request):
     user = request.user
     if user.is_authenticated:

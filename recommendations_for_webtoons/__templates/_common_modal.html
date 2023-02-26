@@ -42,14 +42,14 @@
       <div class="modal-body align-center" align='center'>
         <img class="d-block mx-auto my-5 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="80%">
 
-          <input id="ID_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="text" placeholder="E-MAIL">
-          <input id="PW_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control form-control-lg w-100 p-1 m-0 my-2" type="password" placeholder="PASSWORD">
+          <input id="ID_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control w-100 p-1 m-0 my-2" type="text" placeholder="E-MAIL">
+          <input id="PW_login" onkeyup="if(window.event.keyCode==13){login_auth()}" class="form-control w-100 p-1 m-0 my-2" type="password" placeholder="PASSWORD">
 
         <button type="button" id='submit_login' class="btn btn-warning w-75 my-4" align='center'>LOGIN</button>
         <p class='info_login text-danger' style='display:none;'>인증에 실패했습니다.</p>
         <hr>
         <div class='mt-4 mb-2'>회원이 아니신가요?</div>
-        <button type="button" id='submit_join' class="btn btn-sm btn-info w-75"" align='center'>JOIN US</button>
+        <button type="button" id='to_join' class="btn btn-sm btn-info w-75"" align='center'>JOIN US</button>
 
       </div>
     </div>
@@ -62,7 +62,10 @@
     <div class="modal-content bg-dark text-white">
 
       <div class="modal-body align-center" align='center'>
-        <img class="d-block mx-auto my-5 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="30%">
+            <span class='fs-2'>
+            JOIN
+            </span>
+        <img class="d-block mx-auto my-3 pb-3" src="{% static 'static/img/intro/intromid01.webp' %}" alt="" width="30%">
           <div class="input-group mb-3">
             <span class="input-group-text w-25">
             E-mail

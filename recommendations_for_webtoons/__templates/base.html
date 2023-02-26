@@ -73,11 +73,6 @@
 
 
         <script type="text/javascript">
-
-            const modals = document.querySelector('#modal_join');
-            let modal = bootstrap.Modal.getOrCreateInstance(modals)  
-            modal.show()
-
             function request_ajax(url, data_dict) {
                 $.ajax({
                     url:url,
@@ -113,15 +108,24 @@
             modal.show()
         })
 
+        $(document).on("click","#to_join", function(){
+            const modals = document.querySelector('#modal_join');
+            let modal = bootstrap.Modal.getOrCreateInstance(modals)  
+            $('#id_join').val('');
+            $('#pw1_join').val('');
+            $('#pw2_join').val('');
+            $('#name_join').val('');
+            $('#nick_join').val('');
+            $('#date_join').val('');
+            $('#gender_join').val('성별');
+            $('.info_login').hide();
+            modal.show()
+        })
+
         $(document).on("click","#submit_login", function(){
             login_auth()
         })
 
-        function enterkey() {
-            if (window.event.keyCode == 13) {
-                login_auth()
-            }
-        }
         function login_auth(){
             let id = $('#ID_login').val();
             let pw = $('#PW_login').val();
@@ -178,7 +182,6 @@
             } else {
                 error_join()
             }
-        
         })
 
         function join_validation() {

@@ -2,8 +2,11 @@ from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
+from django.db import transaction
 
 from .models import *
+import json
+from datetime import datetime
 
 """def account_test(request):
     user = request.user
@@ -11,12 +14,55 @@ from .models import *
     if user.is_authenticated:
         print(str(user.email))
         return render(request,'./_02_service/main.html')
-"""    
+"""
+
+def join(request):
+    email = request.POST['email']
+    username = request.POST['username']
+    password1 = request.POST['password1']
+    password2 = request.POST['password2']
+    nickname = request.POST['nickname']
+    gender = request.POST['gender']
+    birth = request.POST['birth']
+    date_birth = datetime.strptime(birth, '%Y-%m-%d')
+    gender = True if gender == '1' else False if gender == '0' else None
+    
+    if password1 != password2 :
+        result = {'response': "error"}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+    elif gender == None :
+        result = {'response': "error"}
+        return HttpResponse(json.dumps(result), content_type="application/json")
+
+    with transaction.atomic():
+        Member.objects.create_user(email=email, username=username, password=password1)
+        user = Member.objects.get(email=email)
+        userprofile = Userprofile.objects.create(member=user,
+                                                 nickname=nickname,
+                                                 gender=gender,
+                                                 date_birth=date_birth)
+        userprofile.save()
+    result = {'response': "complete"}
+    return HttpResponse(json.dumps(result), content_type="application/json")
+
+
+def log_in(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    print(email, password, "!")
+    user = authenticate(email=email, password=password)
+    if user:
+        auth.login(request, user)
+        result = {'response': "complete"}
+    else:
+        result = {'response': "error"}
+    return HttpResponse(json.dumps(result), content_type="application/json")
 
 def account_test(request):
     user = request.user
     if user.is_authenticated:
-        return HttpResponse("You are already authenticated as " + str(user.email))
+        return redirect('rcmd:service')
+        # return HttpResponse("You are already authenticated as " + str(user.email))
     ### db 겹치면 안되는 부분에 대해서 예외처리 필요
     if request.POST:
         if request.POST['btn'] == 'signup':

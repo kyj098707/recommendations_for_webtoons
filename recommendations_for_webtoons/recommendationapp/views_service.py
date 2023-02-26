@@ -1,6 +1,5 @@
 import json
 from django.shortcuts import render
-from .parser import *
 from .models import *
 from .views_datamanage import *
 from django.db import transaction
@@ -28,6 +27,7 @@ def service_test(request):
         return HttpResponse(html)
 
 
+    user = request.user
     data1 = Genre.objects.all()
-    data = {'data1': data1}
+    data = {'data1': data1, 'user_status' : user.is_authenticated}
     return render(request, "./_02_service/main.html", data)

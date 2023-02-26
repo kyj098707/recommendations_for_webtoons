@@ -1,7 +1,11 @@
 from django.shortcuts import render
 
 def intro(request):
-    return render(request, "./_01_intro/main.html")
+    user = request.user
+    data = {'user_status' : user.is_authenticated}
+    return render(request, "./_01_intro/main.html", data)
 
 def about(request):
-    return render(request, "./base.html")
+    user = request.user
+    data = {'user_status' : user.is_authenticated}
+    return render(request, "./base.html", data)

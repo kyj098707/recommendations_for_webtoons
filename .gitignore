@@ -9,6 +9,7 @@ media
 .DS_Store
 recommendations_for_webtoons/start.bat
 recommendations_for_webtoons/db_info.conf
+recommendations_for_webtoons/secrets.conf
 
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
@@ -52,3 +53,4 @@ find_sim/
 training/ckpt/
 __learning/
 training/json/
+myvenv/

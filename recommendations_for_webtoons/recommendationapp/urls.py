@@ -25,5 +25,10 @@ urlpatterns = [
     
     path('account/', views_account.account_test, name='account'),
     path('logout/', views_account.logout_test, name='logout'),
+    path('', views_account.push_btn, name='push_btn'),
+    path('sendemail/', views_account.sendemail, name='send_mail'),
+#    path('registerauth/', views.register_success, name='register_success'),
+    path('activate/<str:uid>/<str:token>/', views_account.activate, name='activate'),
 
+    
 ]

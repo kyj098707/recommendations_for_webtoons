@@ -8,6 +8,8 @@ from collections import Counter
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, Http404
 from django.template.loader import render_to_string
+from .parser import *
+
 
 @csrf_exempt
 def manage_data(request):

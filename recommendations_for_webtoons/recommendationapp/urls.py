@@ -21,5 +21,7 @@ urlpatterns = [
     
     path('account/', views_account.account_test, name='account'),
     path('logout/', views_account.logout_test, name='logout'),
+    path('sendmsg/', views_account.sendmsg_test, name='sendmsg'),
+    path('activate/', views_account.activate, name='activate'),
 
 ]

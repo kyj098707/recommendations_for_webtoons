@@ -19,8 +19,9 @@ if "macOS" in str(platform.platform()):
 
 AUTH_USER_MODEL = "recommendationapp.Member"
 configs = configparser.ConfigParser()
+accounts_configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
-
+accounts_configs.read('./secrets.conf', encoding="utf-8")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -83,7 +84,13 @@ TEMPLATES = [
     },
 ]
 
-
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_HOST_USER = accounts_configs['ACCOUNT']['ID']
+EMAIL_HOST_PASSWORD = accounts_configs['ACCOUNT']['PASSWORD']
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+DEFAULT_FROM_MAIL = accounts_configs['ACCOUNT']['ID']
 
 WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 

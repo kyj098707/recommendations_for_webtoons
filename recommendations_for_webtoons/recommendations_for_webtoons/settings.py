@@ -19,8 +19,9 @@ if "macOS" in str(platform.platform()):
 
 
 configs = configparser.ConfigParser()
+accounts_configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
-
+accounts_configs.read('./secrets.conf', encoding="utf-8")
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -42,13 +43,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-EMAIL_HOST = 'smtp.gmail.com' 		 # 메일 호스트 서버
-EMAIL_PORT = '587' 			 # 서버 포트
-EMAIL_HOST_USER = 'dodo050108@gmail.com' 	 # 우리가 사용할 Gmail
-EMAIL_HOST_PASSWORD = 'dbdnjs12!'		 # 우리가 사용할 Gmail p
-EMAIL_USE_TLS = True			 # TLS 보안 설정
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
-
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_HOST_USER = accounts_configs['ACCOUNT']['ID']
+EMAIL_HOST_PASSWORD = accounts_configs['ACCOUNT']['PASSWORD']
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_SSL = False
 
 # Application definition
 

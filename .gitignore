@@ -52,3 +52,4 @@ find_sim/
 training/ckpt/
 __learning/
 training/json/
+myvenv/

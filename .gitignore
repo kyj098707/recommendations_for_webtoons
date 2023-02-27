@@ -52,4 +52,8 @@ find_sim/
 training/ckpt/
 __learning/
 training/json/
+<<<<<<< HEAD
 myvenv/
+=======
+myvenv/
+>>>>>>> a2eb5ca411e3b40c75057c3b7c4e9933ef411a86

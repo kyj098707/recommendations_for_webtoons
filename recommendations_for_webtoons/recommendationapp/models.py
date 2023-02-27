@@ -170,8 +170,9 @@ class Member(AbstractBaseUser):
 class Userprofile(models.Model):
     member = models.ForeignKey(Member, default='', on_delete=models.PROTECT, related_name='user_profile', null=False)
     nickname = models.CharField(max_length=10, null=True, blank=False)
-    gender = models.IntegerField(default=0, null=False, blank=False)
-    age = models.IntegerField(default=0, null=True, blank=False)
+    gender = models.BooleanField(null=False, blank=False)
+    date_birth = models.DateTimeField(null=False, blank=False)
+    create_date = models.DateTimeField(auto_now_add=True)
 
 
 class Searching_record(models.Model):

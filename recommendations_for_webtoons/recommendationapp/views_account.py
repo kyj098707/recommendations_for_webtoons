@@ -2,13 +2,17 @@ from django.shortcuts import render,redirect
 from django.contrib import auth
 from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
+from django.db import transaction
 
 from .models import *
+import json
+from datetime import datetime
 
 def account_test(request):
     user = request.user
     if user.is_authenticated:
-        return HttpResponse("You are already authenticated as " + str(user.email))
+        return redirect('rcmd:service')
+        # return HttpResponse("You are already authenticated as " + str(user.email))
     ### db 겹치면 안되는 부분에 대해서 예외처리 필요
     if request.POST:
         if request.POST['btn'] == 'signup':

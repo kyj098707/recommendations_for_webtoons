@@ -17,7 +17,7 @@ if "macOS" in str(platform.platform()):
     import pymysql
     pymysql.install_as_MySQLdb()
 
-AUTH_USER_MODEL = "recommendationapp.Member"
+
 configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
 
@@ -42,6 +42,13 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+EMAIL_HOST = 'smtp.gmail.com' 		 # 메일 호스트 서버
+EMAIL_PORT = '587' 			 # 서버 포트
+EMAIL_HOST_USER = 'dodo050108@gmail.com' 	 # 우리가 사용할 Gmail
+EMAIL_HOST_PASSWORD = 'dbdnjs12!'		 # 우리가 사용할 Gmail p
+EMAIL_USE_TLS = True			 # TLS 보안 설정
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER	 # 응답 메일 관련 설정
+
 
 # Application definition
 
@@ -53,7 +60,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
 ]
+AUTH_USER_MODEL = "recommendationapp.Member"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

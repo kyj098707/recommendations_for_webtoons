@@ -10,7 +10,6 @@ media
 recommendations_for_webtoons/start.bat
 recommendations_for_webtoons/db_info.conf
 recommendations_for_webtoons/secrets.conf
-
 # If your build process includes running collectstatic, then you probably don't need or want to include staticfiles/
 # in your Git repository. Update and uncomment the following line accordingly.
 # <django-project-name>/staticfiles/
@@ -53,4 +52,8 @@ find_sim/
 training/ckpt/
 __learning/
 training/json/
+<<<<<<< HEAD
 myvenv/
+=======
+myvenv/
+>>>>>>> a2eb5ca411e3b40c75057c3b7c4e9933ef411a86

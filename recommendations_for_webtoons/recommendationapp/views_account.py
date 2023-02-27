@@ -87,6 +87,7 @@ def account_test(request):
                 return render(request,"login.html",{"error:username or password is incorrect"})
     return render(request,'_00_account/account.html')
 
+
 def logout_test(request):
     auth.logout(request)
     return redirect('rcmd:intro')

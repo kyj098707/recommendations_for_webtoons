@@ -17,7 +17,6 @@ if "macOS" in str(platform.platform()):
     import pymysql
     pymysql.install_as_MySQLdb()
 
-AUTH_USER_MODEL = "recommendationapp.Member"
 configs = configparser.ConfigParser()
 accounts_configs = configparser.ConfigParser()
 configs.read('./db_info.conf', encoding = "utf-8")
@@ -43,6 +42,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+EMAIL_HOST = 'smtp.naver.com'
+EMAIL_HOST_USER = accounts_configs['ACCOUNT']['ID']
+EMAIL_HOST_PASSWORD = accounts_configs['ACCOUNT']['PASSWORD']
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_SSL = False
 
 # Application definition
 
@@ -54,7 +59,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
 ]
+AUTH_USER_MODEL = "recommendationapp.Member"
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

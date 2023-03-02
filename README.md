@@ -10,7 +10,7 @@
     <h3>
         <p align="center">
             <strong>
-                <a href="https://comic.naver.com/">Go to Project Page!</a>
+                <a href="http://kt-aivle.iptime.org:64000/series/service_test/">Go to Project Page!</a>
             </strong>
         </p>
     </h3>

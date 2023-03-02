@@ -1,7 +1,7 @@
 <p align="center">
     <img src="https://user-images.githubusercontent.com/62131378/220874392-0d3f6cb8-d069-434d-90b5-7c113276e71d.png" width="80%">
     <p align="center">
-      <img src="https://user-images.githubusercontent.com/54027397/222315874-cc19889b-494c-41a0-b91e-430a4b02dfc2.gif" width="160%">
+      <img src="https://user-images.githubusercontent.com/54027397/222316285-e7dc5c76-a3f4-4994-a4c0-cfb743c42203.gif" width="160%">
     </p>
     <p align="center">
         당신에게 맞는 웹툰을 에이블러들이 추천해줄께요 .<br><br> Aivler will recommend a webtoon for you

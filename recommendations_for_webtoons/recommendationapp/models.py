@@ -63,7 +63,7 @@ class Artwork(models.Model):  # DB Table 첫글자 대문자로 맞추겠습니�
         unique_together = ['token', 'uid']
     
     def temp_thumbpath(self):
-        return f'http://kt-aivle.iptime.org:64000/static/mainsource/thumb/{self.token}_{self.uid}.jpg'
+        return f'http://kt-aivle.iptime.org:64000/static/static/thumbs/{self.token}_{self.uid}.jpg'
 
 
 # ============================================================================

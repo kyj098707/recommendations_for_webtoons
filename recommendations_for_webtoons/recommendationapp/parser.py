@@ -1,8 +1,8 @@
 from bs4 import BeautifulSoup
-from sentence_transformers import SentenceTransformer, util
 import requests
 import re
 from .models import *
+# from sentence_transformers import SentenceTransformer, util
 # import torch.nn as nn
 # import timm
 # from glob import glob
@@ -10,7 +10,7 @@ from .models import *
 # from albumentations.pytorch.transforms import ToTensorV2
 # import torch
 # from tqdm.auto import tqdm
-from util import *
+# from util import *
 
 
 def crawl_naverwebtoon():

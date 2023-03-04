@@ -3,11 +3,7 @@
 
 <html lang="en">
     <head>
-        <script>
-            $.ajaxSetup({
-                headers: { "X-CSRFToken": '{{csrf_token}}' }
-            });
-        </script>
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
@@ -78,7 +74,7 @@
                     url:url,
                     type:'POST',
                     async:false,
-                    data:data_dict,
+                    data: JSON.stringify(data_dict),
                     success: function (response) {
                             result = response
                             },

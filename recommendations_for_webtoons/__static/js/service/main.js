@@ -2,15 +2,14 @@
   
 
 function get_artwork_detail(url, value){
-  data = {'keyword' : value,
-          'indicator' : 'get_aw_detail'}
+  let data = {keyword : value.toString(),
+              indicator : "get_aw_detail"}
   res = request_ajax(url, data)
   if (res != 'error'){
-      $('#modal_detail_artwork').replaceWith(res)
+      $('#modal_detail_artwork').replaceWith(res);
   }
-
   const modals = document.querySelector('#modal_detail_artwork');
-  let modal = bootstrap.Modal.getOrCreateInstance(modals)  
+  let modal = bootstrap.Modal.getOrCreateInstance(modals);
   modal.show()
 }
     

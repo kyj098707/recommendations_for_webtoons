@@ -79,3 +79,21 @@ def write_rel(gl, al, wl):
 		dict['r_artwork'] = wl[token + "%%%" + str(uid)]
 		bulk.append(Rel_gr_aw(**dict))
 	Rel_gr_aw.objects.bulk_create(bulk)
+	
+def write_thumbs_rel():
+	response = requests.get('http://kt-aivle.iptime.org:64000/test/get_thumbs')
+	response = response.json()
+	print(response)
+	alls = {str(i.token)+"_"+str(i.uid) : i for i in Artwork.objects.all()}
+	bulk = []
+	for i in response:
+		for j in response[i]:
+			token, uid = i.split("_")
+			value, target = j
+			token2, uid2 = target.split("_")
+			dict = {}
+			dict['r_artwork1'] = alls[i]
+			dict['r_artwork2'] = alls[target]
+			dict['similarity'] = value
+			bulk.append(Sim_th_th(**dict))
+	Sim_th_th.objects.bulk_create(bulk)

@@ -88,13 +88,11 @@ def log_in(request):
             result = {'response': "error"}
             return JsonResponse(result, status=200)
 
-
-def logout_test(request):
+def logout(request):
     auth.logout(request)
     return redirect('rcmd:intro')
 
-def push_btn(request):
-    return render(request,"_00_account/btn.html")
+
 
 def activate(request, uid, token):
     try:
@@ -112,6 +110,7 @@ def activate(request, uid, token):
 
     messages.error(request, '메일 인증에 실패했습니다.')
     return redirect('rcmd:account')
+
 
 def sendemail(request):
     domain = "127.0.0.1:8000"

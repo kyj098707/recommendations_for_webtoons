@@ -21,10 +21,10 @@ urlpatterns = [
     
     path('auth00/', views_account.join, name='join'),
     path('auth01/', views_account.log_in, name='log_in'),
+    path('logout/', views_account.logout, name='logout'),
     # path('account/', views_account.log_out, name='account'),
     
     path('account/', views_account.account_test, name='account'),
-    path('logout/', views_account.logout_test, name='logout'),
     path('', views_account.push_btn, name='push_btn'),
     path('sendemail/', views_account.sendemail, name='send_mail'),
 #    path('registerauth/', views.register_success, name='register_success'),

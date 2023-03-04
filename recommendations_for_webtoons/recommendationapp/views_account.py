@@ -75,49 +75,18 @@ def join(request):
         result = {'response': "complete"}
         return JsonResponse(result, status=200)
 
-from django.contrib.auth.hashers import check_password
-
 def log_in(request):
     if request.method == 'POST' :
         data = json.loads(request.body)
         email = data['email']
         password = data['password']
         user = authenticate(email=email, password=password)
-        print(check_password(password, user.password))
         if user:
             auth.login(request, user)
             return redirect('rcmd:service')
         else:
             result = {'response': "error"}
             return JsonResponse(result, status=200)
-
-def account_test(request):
-    user = request.user
-    if user.is_authenticated:
-        return redirect('rcmd:service')
-    if request.POST:
-        if request.POST['btn'] == 'signup':
-            if request.POST['password1'] == request.POST['password2']:
-                email = request.POST['email']
-                username = request.POST['username']
-                password = request.POST['password1']
-                member = Member.objects.create_user(email=email,username=username, password=password)
-                nickname, gender, age = request.POST['nickname'], request.POST['gender'], request.POST['age']
-                gender = 0 if gender == '남' else 1
-                user = Member.objects.get(email=email)
-                userprofile = Userprofile.objects.create(member=user,nickname=nickname, gender=gender,age=age)
-                userprofile.save()
-                return render(request,'_00_account/account.html')
-        if request.POST['btn'] == 'login':
-            email = request.POST['email']
-            password = request.POST['password']
-            user = authenticate(email=email,password=password)
-            if user:
-                auth.login(request, user)
-                return redirect('rcmd:service')
-            else:
-                return render(request,"login.html",{"error:username or password is incorrect"})
-    return render(request,'_00_account/account.html')
 
 
 def logout_test(request):

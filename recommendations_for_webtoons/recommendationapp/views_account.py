@@ -14,7 +14,8 @@ from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
 from django.views.decorators.csrf import csrf_exempt
-
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 
 def join(request):
     if request.method == 'POST' :
@@ -28,13 +29,34 @@ def join(request):
         birth = data['birth']
         date_birth = datetime.strptime(birth, '%Y-%m-%d')
         gender = True if gender == '1' else False if gender == '0' else None
-        
-        if password1 != password2 :
-            result = {'response': "error"}
-            return JsonResponse(result, status=200)
+
+        try:
+            validate_email(email)
+        except ValidationError as e:
+            result = {'response': "error",
+                      'message' : '이메일 형식이 올바르지 않습니다.'}
+            return JsonResponse(result, status=202)
+        if Member.objects.filter(email=email).exists() :
+            result = {'response': "error",
+                      'message' : '이미 가입된 이메일입니다.'}
+            return JsonResponse(result, status=202)
+        elif len(password1) < 7 :
+            result = {'response': "error",
+                      'message' : '패스워드가 너무 짧습니다.'}
+            return JsonResponse(result, status=202)
+        elif str(password1).isdecimal() or str(password1).isalpha():
+            result = {'response': "error",
+                      'message' : '패스워드를 영문자와 숫자로 구성해주세요.'}
+            return JsonResponse(result, status=202)
+        elif password1 != password2 :
+            result = {'response': "error",
+                      'message' : '패스워드를 확인해주세요.'}
+            return JsonResponse(result, status=202)
         elif gender == None :
-            result = {'response': "error"}
-            return JsonResponse(result, status=200)
+            result = {'response': "error",
+                      'message' : '성별을 선택해주세요.'}
+            return JsonResponse(result, status=202)
+        
     
         with transaction.atomic():
             Member.objects.create_user(email=email, username=username, password=password1)
@@ -63,13 +85,10 @@ def log_in(request):
             result = {'response': "error"}
             return JsonResponse(result, status=200)
 
-
 def account_test(request):
     user = request.user
     if user.is_authenticated:
         return redirect('rcmd:service')
-        # return HttpResponse("You are already authenticated as " + str(user.email))
-    ### db 겹치면 안되는 부분에 대해서 예외처리 필요
     if request.POST:
         if request.POST['btn'] == 'signup':
             if request.POST['password1'] == request.POST['password2']:

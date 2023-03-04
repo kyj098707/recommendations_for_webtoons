@@ -26,38 +26,44 @@ def join(request):
         password2 = data['password2']
         nickname = data['nickname']
         gender = data['gender']
-        birth = data['birth']
-        date_birth = datetime.strptime(birth, '%Y-%m-%d')
+        date = f"{data['year']}-{str(data['month']).zfill(2)}-01"
         gender = True if gender == '1' else False if gender == '0' else None
-
+        result = {'response': "error"}
+        try:
+            date_birth = datetime.strptime(date, '%Y-%m-%d')
+        except :
+            result['message'] = '날짜 형식이 올바르지 않습니다.'
+            return JsonResponse(result, status=202)
         try:
             validate_email(email)
         except ValidationError as e:
-            result = {'response': "error",
-                      'message' : '이메일 형식이 올바르지 않습니다.'}
+            result['message'] = '이메일 형식이 올바르지 않습니다.'
             return JsonResponse(result, status=202)
         if Member.objects.filter(email=email).exists() :
-            result = {'response': "error",
-                      'message' : '이미 가입된 이메일입니다.'}
+            result['message'] = '이미 가입된 이메일입니다.'
             return JsonResponse(result, status=202)
         elif len(password1) < 7 :
-            result = {'response': "error",
-                      'message' : '패스워드가 너무 짧습니다.'}
+            result['message'] = '패스워드가 너무 짧습니다.'
             return JsonResponse(result, status=202)
         elif str(password1).isdecimal() or str(password1).isalpha():
-            result = {'response': "error",
-                      'message' : '패스워드를 영문자와 숫자로 구성해주세요.'}
+            result['message'] = '패스워드를 영문자와 숫자로 구성해주세요.'
             return JsonResponse(result, status=202)
         elif password1 != password2 :
-            result = {'response': "error",
-                      'message' : '패스워드를 확인해주세요.'}
+            result['message'] = '패스워드를 확인해주세요.'
+            return JsonResponse(result, status=202)
+        elif len(data['year'].strip()) != 4 :
+            result['message'] = '연도는 4자리로 입력해주세요.'
+            return JsonResponse(result, status=202)
+        elif username == '' :
+            result['message'] = '이름을 입력해주세요.'
+            return JsonResponse(result, status=202)
+        elif nickname == '' :
+            result['message'] = '닉네임을 입력해주세요.'
             return JsonResponse(result, status=202)
         elif gender == None :
-            result = {'response': "error",
-                      'message' : '성별을 선택해주세요.'}
+            result['message'] = '성별을 선택해주세요.'
             return JsonResponse(result, status=202)
         
-    
         with transaction.atomic():
             Member.objects.create_user(email=email, username=username, password=password1)
             user = Member.objects.get(email=email)

@@ -154,65 +154,36 @@
 
 
         $(document).on("click","#submit_join", function(){
-            if (join_validation()) {
-                let ajax_url = "{% url 'rcmd:join' %}"
-                let id = $('#id_join').val();
-                let pw1 = $('#pw1_join').val();
-                let pw2 = $('#pw2_join').val();
-                let nm = $('#name_join').val();
-                let nc = $('#nick_join').val();
-                let dt = $('#date_join').val();
-                let gd = $('#gender_join').val();
-                let data_dict = {email : id.toString(),
-                                password1: pw1.toString(),
-                                password2: pw2.toString(),
-                                username: nm.toString(),
-                                nickname: nc.toString(),
-                                birth: dt.toString(),
-                                gender: gd.toString()}
-                result = request_ajax(ajax_url, data_dict)
-                if (result == 'error' || result.response == 'error'){
-                    error_join()
-                } else {
-                    location.reload();
-                }
-            } else {
+            let ajax_url = "{% url 'rcmd:join' %}"
+            let id = $('#id_join').val();
+            let pw1 = $('#pw1_join').val();
+            let pw2 = $('#pw2_join').val();
+            let nm = $('#name_join').val();
+            let nc = $('#nick_join').val();
+            let yr = $('#year_join').val();
+            let mt = $('#month_join').val();
+            let gd = $('#gender_join').val();
+            let data_dict = {email : id.toString(),
+                            password1: pw1.toString(),
+                            password2: pw2.toString(),
+                            username: nm.toString(),
+                            nickname: nc.toString(),
+                            year: yr.toString(),
+                            month: mt.toString(),
+                            gender: gd.toString()}
+            result = request_ajax(ajax_url, data_dict)
+            if (result == 'error' || result.response == 'error'){
+                console.log(typeof(result.message))
+                let x = document.getElementById('info_join')
+                x.innerText=result.message;
+                
+                $('#info_join').text(result.message)
+                $('#info_join').show()
                 error_join()
+            } else {
+                location.reload();
             }
         })
-
-        function join_validation() {
-            if ($('#id_join').val().indexOf("@") == -1){
-                $('.info_join').text('이메일 형식이 아닙니다.')
-                return false
-            }
-            if ($('#pw1_join').val().length < 6){
-                $('.info_join').text('비밀번호는 6자 이상으로 입력해주세요.')
-                return false
-            }
-            if ($('#pw1_join').val() !== $('#pw2_join').val()){
-                $('.info_join').text('비밀번호 구성이 다릅니다..')
-                return false
-            }
-            if ($('#name_join').val().length == 0){
-                $('.info_join').text('이름을 입력해주세요.')
-                return false
-            }
-            if ($('#nick_join').val().length == 0){
-                $('.info_join').text('별명을 입력해주세요.')
-                return false
-            }
-            if ($('#date_join').val()==''){
-                $('.info_join').text('생년월일을 입력해주세요.')
-                return false
-            }
-            if ($('#gender_join').val()=='성별'){
-                $('.info_join').text('성별을 선택해주세요.')
-                console.log("B")
-                return false
-            }
-            return true
-        }
 
 
             {% block scripts %}

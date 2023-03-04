@@ -126,8 +126,9 @@
             let id = $('#ID_login').val();
             let pw = $('#PW_login').val();
             let ajax_url = "{% url 'rcmd:log_in' %}"
-            data_dict = {'email' : id, 'password': pw}
+            data_dict = {email : id.toString(), password: pw.toString()}
             result = request_ajax(ajax_url, data_dict)
+            console.log(result)
             if (result == 'error' || result.response == 'error'){
                 error_login()
             } else {
@@ -162,13 +163,13 @@
                 let nc = $('#nick_join').val();
                 let dt = $('#date_join').val();
                 let gd = $('#gender_join').val();
-                data_dict = {'email' : id,
-                             'password1': pw1,
-                             'password2': pw2,
-                             'username': nm,
-                             'nickname': nc,
-                             'birth': dt,
-                             'gender': gd}
+                let data_dict = {email : id.toString(),
+                                password1: pw1.toString(),
+                                password2: pw2.toString(),
+                                username: nm.toString(),
+                                nickname: nc.toString(),
+                                birth: dt.toString(),
+                                gender: gd.toString()}
                 result = request_ajax(ajax_url, data_dict)
                 if (result == 'error' || result.response == 'error'){
                     error_join()

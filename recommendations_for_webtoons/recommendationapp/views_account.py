@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import auth, messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import login, authenticate, logout
 from django.db import transaction
 from django.core.mail import send_mail
@@ -8,54 +8,61 @@ from django.core.exceptions import PermissionDenied,ValidationError
 from .models import *
 import json
 from datetime import datetime
-
 from django.urls import reverse
 from django.template.loader import render_to_string
 from django.utils.http import urlsafe_base64_encode,urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.contrib.auth.tokens import default_token_generator
+from django.views.decorators.csrf import csrf_exempt
+
 
 def join(request):
-    email = request.POST['email']
-    username = request.POST['username']
-    password1 = request.POST['password1']
-    password2 = request.POST['password2']
-    nickname = request.POST['nickname']
-    gender = request.POST['gender']
-    birth = request.POST['birth']
-    date_birth = datetime.strptime(birth, '%Y-%m-%d')
-    gender = True if gender == '1' else False if gender == '0' else None
+    if request.method == 'POST' :
+        data = json.loads(request.body)
+        email = data['email']
+        username = data['username']
+        password1 = data['password1']
+        password2 = data['password2']
+        nickname = data['nickname']
+        gender = data['gender']
+        birth = data['birth']
+        date_birth = datetime.strptime(birth, '%Y-%m-%d')
+        gender = True if gender == '1' else False if gender == '0' else None
+        
+        if password1 != password2 :
+            result = {'response': "error"}
+            return JsonResponse(result, status=200)
+        elif gender == None :
+            result = {'response': "error"}
+            return JsonResponse(result, status=200)
     
-    if password1 != password2 :
-        result = {'response': "error"}
-        return HttpResponse(json.dumps(result), content_type="application/json")
-    elif gender == None :
-        result = {'response': "error"}
-        return HttpResponse(json.dumps(result), content_type="application/json")
+        with transaction.atomic():
+            Member.objects.create_user(email=email, username=username, password=password1)
+            user = Member.objects.get(email=email)
+            userprofile = Userprofile.objects.create(member=user,
+                                                     nickname=nickname,
+                                                     gender=gender,
+                                                     date_birth=date_birth)
+            userprofile.save()
+        result = {'response': "complete"}
+        return JsonResponse(result, status=200)
 
-    with transaction.atomic():
-        Member.objects.create_user(email=email, username=username, password=password1)
-        user = Member.objects.get(email=email)
-        userprofile = Userprofile.objects.create(member=user,
-                                                 nickname=nickname,
-                                                 gender=gender,
-                                                 date_birth=date_birth)
-        userprofile.save()
-    result = {'response': "complete"}
-    return HttpResponse(json.dumps(result), content_type="application/json")
-
+from django.contrib.auth.hashers import check_password
 
 def log_in(request):
-    email = request.POST.get('email')
-    password = request.POST.get('password')
-    print(email, password, "!")
-    user = authenticate(email=email, password=password)
-    if user:
-        auth.login(request, user)
-        result = {'response': "complete"}
-    else:
-        result = {'response': "error"}
-    return HttpResponse(json.dumps(result), content_type="application/json")
+    if request.method == 'POST' :
+        data = json.loads(request.body)
+        email = data['email']
+        password = data['password']
+        user = authenticate(email=email, password=password)
+        print(check_password(password, user.password))
+        if user:
+            auth.login(request, user)
+            return redirect('rcmd:service')
+        else:
+            result = {'response': "error"}
+            return JsonResponse(result, status=200)
+
 
 def account_test(request):
     user = request.user

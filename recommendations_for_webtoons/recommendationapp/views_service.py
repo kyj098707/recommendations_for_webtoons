@@ -10,22 +10,21 @@ from django.template.loader import render_to_string
 
 def service_test(request):
     # http://localhost:8000/service_test
-    indicator = request.POST.get('indicator')
+    if request.method == 'POST' :
+        data = json.loads(request.body)
+        indicator = data['indicator']
+        keyword = data['keyword']
+        
+        if indicator == "get_startswith":
+            data = Artwork.objects.filter(title__startswith=keyword)[0:15]
+            html = render_to_string('_02_service/__addon/startswith_list.html', {'data': data})
+            return HttpResponse(html)
     
-    if indicator == "get_startswith":
-        keyword = request.POST.get('keyword')
-        print(keyword)
-        data = Artwork.objects.filter(title__startswith=keyword)[0:15]
-        html = render_to_string('_02_service\\__addon\\startswith_list.html', {'data': data})
-        return HttpResponse(html)
-
-    elif indicator == "get_aw_detail":
-        keyword = request.POST.get('keyword')
-        token, uid = keyword.split("_")
-        data = Artwork.objects.get(token=token, uid = uid)
-        html = render_to_string('_02_service\\__addon\\modal_detail_artwork.html', {'data': data})
-        return HttpResponse(html)
-
+        elif indicator == "get_aw_detail":
+            token, uid = keyword.split("_")
+            data = Artwork.objects.get(token=token, uid = uid)
+            html = render_to_string('_02_service/__addon/modal_detail_artwork.html', {'data': data})
+            return HttpResponse(html)
 
     user = request.user
     data1 = Genre.objects.all()

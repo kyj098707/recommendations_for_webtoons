@@ -2,7 +2,7 @@
 
 
 
-<div class="modal fade" id='modal_detail_artwork' tabindex="-1">
+{% comment %} <div class="modal fade" id='modal_detail_artwork' tabindex="-1">
   <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
     <div class="modal-content bg-dark" style='box-shadow: 0px 0px 30px -2px #999'>
 
@@ -25,4 +25,104 @@
       </div>
     </div>
   </div>
+</div> {% endcomment %}
+
+
+<div class="modal fade text-white" id="modal_detail_artwork" tabindex="-1" role="dialog" aria-labelledby="artworkModalLabel">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content bg-dark">
+      <div class="modal-header">
+        <h5 class="modal-title fs-3 fw-bolder" id="artwork-modal-label">『{{data.title}}』</h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <img class="img-fluid" src="{{data.temp_thumbpath}}" alt="Artwork Thumbnail">
+          </div>
+          <div class="col-md-9">
+              <div class="row">
+                      <div class="input-group input-group mb-1">
+                          <span class="input-group-text artwork-info-modal-input bg-dark w-25" style="text-align: center;">
+                              <div class='tagtitle text-white fw-bolder'>
+                                  서비스
+                              </div>
+                          </span>
+                          <div class="form-control bg-dark" style="display:flex; flex-wrap:wrap;">
+                              <div class="border rounded-pill px-2 bg-dark me-1 my-2 text-white">
+                                  {{data.publisher.name}}
+                              </div>
+                          </div>
+                      </div>
+                      <div class="input-group input-group mb-1">
+                          <span class="input-group-text artwork-info-modal-input bg-dark w-25" style="text-align: center;">
+                              <div class='tagtitle text-white fw-bolder'>
+                                  장르
+                              </div>
+                          </span>
+                          <div class="form-control bg-dark" style="display:flex; flex-wrap:wrap;">
+                              {% for d in data.aw_gr.all %}
+                              <div class="border rounded-pill px-2 bg-dark me-1 my-2  text-white">
+                                  {{d.r_genre.name}}
+                              </div>
+                              {% endfor %}
+                          </div>
+                      </div>
+                      <div class="input-group input-group mb-1">
+                          <span class="input-group-text artwork-info-modal-input bg-dark w-25" style="text-align: center;">
+                              <div class='tagtitle text-white fw-bolder'>
+                                  작가
+                              </div>
+                          </span>
+                          <div class="form-control bg-dark" style="display:flex; flex-wrap:wrap;">
+                              {% for d in data.aw_ar.all %}
+                              <div class="border rounded-pill px-2 bg-dark me-1 my-2 text-white">
+                                {% if d.type == 'A' %}
+                                  글/{{d.r_artist.name}}
+                                {% elif d.type == 'I' %}
+                                  그림/{{d.r_artist.name}}
+                                {% elif d.type == 'O' %}
+                                  원작/{{d.r_artist.name}}
+                                {% elif d.type == 'P' %}
+                                  배급/{{d.r_artist.name}}
+                                {% endif %}
+                              </div>
+                              {% endfor %}
+                          </div>
+                      </div>
+                      <div class="input-group input-group mb-1">
+                          <span class="input-group-text artwork-info-modal-input bg-dark w-25" style="text-align: center;">
+                              <div class='tagtitle text-white fw-bolder my-2'>
+                                  시놉시스
+                              </div>
+                          </span>
+                          <div class="form-control bg-dark text-white align-middle" style="display:flex; vertical-align:center; flex-wrap:wrap;">
+                          <div class='my-2'>
+                                  {{data.story}}
+                          </div>
+                          </div>
+                      </div>
+
+                
+              </div>
+          </div>
+        </div>
+        <hr>
+        <h5>연관 작품</h5>
+        <div class="row">
+          <div id="container" class='m-2'>
+            <div class="photobanner">
+        {% for d in data.th1_th2.all %}
+              <img src="{{d.r_artwork2.temp_thumbpath}}">
+        {% endfor %}
+        {% for d in data.get_style_rels %}
+              <img src="{{d.r_artwork2.temp_thumbpath}}">
+        {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+

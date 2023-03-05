@@ -10,6 +10,45 @@
 
 
 {% block styles %}
+#container {
+  height:200px; 
+  position:relative; 
+  overflow:hidden;
+  width:98%;
+}
+.photobanner {
+  position:absolute; 
+  top:0px; 
+  left:0px; 
+  overflow:hidden; 
+  white-space: nowrap;
+  animation: bannermove 45s linear infinite;
+}
+
+.photobanner img {    
+  margin: 0 0.5em ;
+  height : 200px;
+}
+.tagtitle{
+  font-size:17px;
+}
+
+@keyframes bannermove {
+  0% {
+      transform: translate(0, 0);
+  }
+  100% {
+      transform: translate(-50%, 0);
+  }
+}
+
+#container:hover {
+   overflow: auto;
+}
+
+#container:hover .photobanner {
+   animation-play-state:paused;
+}
 
 {% endblock %}
 
@@ -73,5 +112,4 @@ $(document).on({
       rowOutFocus($(this))
     }
 }, ".artwork");
-
 {% endblock %}

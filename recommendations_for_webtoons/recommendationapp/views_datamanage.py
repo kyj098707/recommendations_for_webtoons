@@ -7,6 +7,7 @@ def clear_db():
 	Rel_ar_aw.objects.all().delete()
 	Rel_gr_aw.objects.all().delete()
 	Sim_st_st.objects.all().delete()
+	Sim_th_th.objects.all().delete()
 	Artist.objects.all().delete()
 	Artwork.objects.all().delete()
 	Publisher.objects.all().delete()

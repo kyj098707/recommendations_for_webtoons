@@ -64,8 +64,10 @@ class Artwork(models.Model):  # DB Table 첫글자 대문자로 맞추겠습니�
     
     def temp_thumbpath(self):
         return f'http://kt-aivle.iptime.org:64000/static/static/thumbs/{self.token}_{self.uid}.jpg'
-
-
+    
+    def get_rels(self):
+        return Sim_th_th.objects.filter(r_artwork1=self.id)
+    
 # ============================================================================
 # ============================================================================
 # 다대다 필드 구현 : manytomanyField 사용치 않고 직접 구현하겠습니다.
@@ -79,7 +81,7 @@ class Rel_ar_aw(models.Model):  # N개의 작가들이 N개의 작품에 대해 
     # 해당 작가-작품이 어떤 관계인지(글작가, 그림작가, 원작자, 배급사) 타입 기재
     
     class Meta:
-        ordering = ['r_artist__name', 'r_artwork__title', 'type']
+        ordering = ['r_artist__name', 'r_artwork__title', '-type']
         # 일반적으로 산출할 때, 한 작가의 같은 작품을 우선하여 type 순으로 가져옵니다.
 
 

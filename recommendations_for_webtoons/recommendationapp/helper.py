@@ -1,7 +1,6 @@
 from django.core.mail import send_mail,EmailMultiAlternatives
 import threading
 
-##
 class EmailThread(threading.Thread):
     def __init__(self, subject, body, from_email, recipient_list, fail_silently, html):
         self.subject = subject

@@ -3,12 +3,14 @@ import pymysql
 import re
 import json
 import copy
-
+import configparser
 from util import *
 
 
 if __name__ == "__main__":
-    conn=pymysql.connect(host="kt-aivle.iptime.org",port=64010, user="aivle02", password="aivle02!", db="aivle02")
+    configs = configparser.ConfigParser()
+    db_info = configs.read('./db_info.conf', encoding = "utf-8")
+    conn=pymysql.connect(host=db_info['DB']["HOST"],port=db_info['DB']['PORT'], user=db_info['DB']['ID'], password=db_info['DB']['PW'], db=db_info['DB']['NAME'])
     cur = conn.cursor()
     cur.execute("SELECT * FROM recommendationapp_artwork")
     dic = {}

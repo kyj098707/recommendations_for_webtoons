@@ -53,3 +53,4 @@ training/ckpt/
 __learning/
 training/json/
 myvenv/
+training/db_info.conf

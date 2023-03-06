@@ -3,13 +3,6 @@ from sentence_transformers import SentenceTransformer, util
 import requests
 import re
 from .models import *
-# import torch.nn as nn
-# import timm
-# from glob import glob
-# import albumentations as A
-# from albumentations.pytorch.transforms import ToTensorV2
-# import torch
-# from tqdm.auto import tqdm
 from util import *
 
 

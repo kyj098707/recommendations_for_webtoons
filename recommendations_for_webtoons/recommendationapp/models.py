@@ -143,7 +143,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
+#
 class Member(AbstractBaseUser):
     uid = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=50, null=False, blank=False, unique=True)

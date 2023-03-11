@@ -35,6 +35,7 @@ def manage_data(request):
         wl = {i.token+"%%%"+str(i.uid) : i for i in Artwork.objects.all()}
         write_rel(gl, al, wl)
         write_thumbs_rel()
+        write_storys_rel()
         result = {'response': 'complete'}
         return HttpResponse(json.dumps(result), content_type="application/json")
     

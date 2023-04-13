@@ -115,5 +115,5 @@ def write_storys_rel():
 			dict['r_artwork1'] = alls[i]
 			dict['r_artwork2'] = alls[target]
 			dict['similarity'] = value
-			bulk.append(Sim_th_th(**dict))
-	Sim_th_th.objects.bulk_create(bulk)
+			bulk.append(Sim_st_st(**dict))
+	Sim_st_st.objects.bulk_create(bulk)

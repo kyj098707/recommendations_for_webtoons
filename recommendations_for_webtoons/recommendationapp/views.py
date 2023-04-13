@@ -56,3 +56,4 @@ def testpage(request):
         
     data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
     return render(request, "./__test/__learn.html", data) # app 내의 templete 폴더 참조
+

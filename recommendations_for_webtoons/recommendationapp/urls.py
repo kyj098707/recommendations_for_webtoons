@@ -11,8 +11,16 @@ urlpatterns = [
     # ==================       TOP_PAGES        =================
     # ===========================================================
     
-    path('service_test/', views_service.service_test, name='service'),
+    path('search/', views_service.service_artwork, name='search'),
+    path('search/<str:keyword>', views_service.service_artwork, name='search_result'),
+    
+    path('service/', views_service.main, name='service'),
+    path('service/artwork/<str:artwork_id>/', views_service.service_artwork, name='service_artwork'),
+    
+    
+    
     path('intro/', views_static.intro, name='intro'),
+    
     path('about/', views_static.about, name='about'),
     
     # ===========================================================

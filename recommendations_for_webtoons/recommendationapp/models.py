@@ -61,9 +61,12 @@ class Artwork(models.Model):  # DB Table 첫글자 대문자로 맞추겠습니�
     class Meta:
         ordering = ['title']  # 기본적으로 db에서 불러올 때 title 순으로 정렬
         unique_together = ['token', 'uid']
-    
+
+    def get_id(self):
+        return f"{self.token}_{self.uid}"
+
     def temp_thumbpath(self):
-        return f'http://kt-aivle.iptime.org:64000/static/static/thumbs/{self.token}_{self.uid}.jpg'
+        return f'https://set.ramdatech.online/static/static/thumbs/{self.token}_{self.uid}.jpg'
     
     def get_rels(self):
         return Sim_th_th.objects.filter(r_artwork1=self.id)
@@ -101,8 +104,10 @@ class Sim_st_st(models.Model):  # story 유사도
     similarity = models.FloatField(default=0, null=True, blank=False)
     
     class Meta:
-        ordering = ['similarity']
+        ordering = ['-similarity']
 
+    def get_score(self):
+        return str(int(self.similarity*100))
 
 class Sim_th_th(models.Model):
     r_artwork1 = models.ForeignKey(Artwork, on_delete=models.PROTECT, related_name='th1_th2', blank=True, null=True)
@@ -110,8 +115,10 @@ class Sim_th_th(models.Model):
     similarity = models.FloatField(default=0, null=True, blank=False)
     
     class Meta:
-        ordering = ['similarity']
+        ordering = ['-similarity']
 
+    def get_score(self):
+        return str(int(self.similarity*1000))[1:]
 
 # ============================================================================
 # 회원가입관련 DB

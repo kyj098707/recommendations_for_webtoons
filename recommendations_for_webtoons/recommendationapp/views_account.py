@@ -17,6 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
+
 def join(request):
     if request.method == 'POST' :
         data = json.loads(request.body)
@@ -75,6 +76,7 @@ def join(request):
         result = {'response': "complete"}
         return JsonResponse(result, status=200)
 
+
 def log_in(request):
     if request.method == 'POST' :
         data = json.loads(request.body)
@@ -91,7 +93,6 @@ def log_in(request):
 def logout(request):
     auth.logout(request)
     return redirect('rcmd:intro')
-
 
 
 def activate(request, uid, token):
@@ -117,7 +118,7 @@ def sendemail(request):
     user = Member.objects.get(email='kyj098707@gmail.com')
     uid = user.uid
     token = default_token_generator.make_token(user)
-
+    
     send_mail("안녕하세요, 에이블툰입니다.",
                 f"http://{domain}/activate/{uid}/{token}/",
                 "kyj098707@naver.com",# 보내는 메일
@@ -128,13 +129,9 @@ def sendemail(request):
     self.request.session['register_auth'] = True
     messages.success(self.request, '회원님의 입력한 Email 주소로 인증 메일이 발송되었습니다. 인증 후 로그인이 가능합니다.')
     return redirect('rcmd:intro')
-
 def register_success(request):
     if not request.session.get('register_auth', False):
         raise PermissionDenied
     request.session['register_auth'] = False
-
     return render(request, 'users/register_success.html')
 """
-            
-              

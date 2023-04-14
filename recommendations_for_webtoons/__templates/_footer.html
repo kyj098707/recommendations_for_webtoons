@@ -79,25 +79,64 @@
             opacity: .4;
             font-weight: 200;
         }
+        .github-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            display: inline-block;
+            overflow: hidden;
+            vertical-align: middle;
+        }
+        .gitlink{
+        color: white;
+        text-decoration: none;
+        }
+        .gitlink:hover {
+        color: white;
+        cursor: pointer;
+        text-decoration: underline;
+        }
 
     </style>
-
 <footer style="height:300px">
     <div class="w-100 justify-content-between">
         <div class = "footer-content">
-            <h4>Recommendations_for_webtoons</h4>
-            <p>kim yoonjong  &nbsp;&nbsp;  park kyoungdeok</p>
+            <h4 class='mb-5'>Toy Project : "AIVLETOON"</h4>
+
+                <div class="row w-25 justify-content-center my-2">
+                    <div class="col-md-6 text-center">
+                        <a class='gitlink' href="https://github.com/kyj098707"><svg class="github-icon"><use xlink:href="#github"></use></svg> Kim yoonjong</a>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <a class='gitlink' href="https://github.com/Ramdatech"><svg class="github-icon"><use xlink:href="#github"></use></svg> Park kyoungdeok</a>
+                    </div>
+                </div>
+                <div class="row w-25 justify-content-center my-2">
+                    <div class="col-md-4 text-center">
+                        <a class='gitlink' href="https://github.com/dannxdr"><svg class="github-icon"><use xlink:href="#github"></use></svg> Kim daneun</a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <a class='gitlink' href="https://github.com/jian1114"><svg class="github-icon"><use xlink:href="#github"></use></svg> Lee jian</a>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <a class='gitlink' href="https://github.com/Sunny14578"><svg class="github-icon"><use xlink:href="#github"></use></svg> Choi taeyang</a>
+                    </div>
+                </div>
+
+
+
+            {% comment %} <p>kim yoonjong  &nbsp;&nbsp;  park kyoungdeok</p>
             <p>kim daneun  &nbsp;&nbsp;  lee jian &nbsp;&nbsp;   choi taeyang</p>
             <ul class = "socials" style = "padding-left: 0rem;">
-                <li><a href = "#"><i class = "fa fa-facebook"></i></a></li>
+
                 <li><a href = "#"><i class = "fa fa-twitter"></i></a></li>
                 <li><a href = "#"><i class = "fa fa-google-plus"></i></a></li>
                 <li><a href = "#"><i class = "fa fa-youtube"></i></a></li>
                 <li><a href = "#"><i class = "fa fa-linkedin"></i></a></li>
-            </ul>
+            </ul> {% endcomment %}
         </div>
-        <div style = "background-color : #212529">
-            <p align = "center">WebTREX &copy; 2023 codeOpacity. developed by <span> kt aivler </span></p>
+        <div class='mt-5' style = "background-color : #212529">
+            <p align = "center">AIVLETOON &copy; 2023. developed by <span><b> KT Aivler 3rd</b></span></p>
             <p>&nbsp;</p>
         </div>
     </div>

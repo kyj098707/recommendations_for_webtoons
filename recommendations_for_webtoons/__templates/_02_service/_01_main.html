@@ -34,6 +34,34 @@
    overflow: auto;
 }
 
+.horizontal_scroll_wrapper {
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.scroll-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  margin-top:30px;
+  cursor: pointer;
+}
+
+
+.scroll-left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scroll-right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+
 {% endblock %}
 
 
@@ -51,25 +79,30 @@
 <div id='contents_pack' class='px-4'>
   {% for gen in data1 %}
     <div class="row w-100 overflow-scroll">
-      <div class="aw_array py-4 my-3 overflow-hidden">
+      <div class="aw_array py-4 my-3 overflow-hidden position-relative">
+        <button class="scroll-btn scroll-left position-absolute" type="button">&#8249;</button>
         <div class='genre_title fs-2 text-white my-3'>
           {{gen.name}}
         </div>
-        {% for i in gen.disp_artwork %}
-        <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
-          <div class="artwork_imgs">
-              <div class="artwork_dimmed position-absolute"></div>
-              <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" alt=""/>
-          </div>
-          <div class="artwork_title position-absolute p-2 text-white fs-6 text-truncate"  style="max-width: 180px;">
-            {{i.r_artwork.title}}
-          </div>
-        </a>
-        {% endfor %}
+        <div class='horizontal_scroll_wrapper'>
+          {% for i in gen.disp_artwork %}
+          <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
+            <div class="artwork_imgs">
+                <div class="artwork_dimmed position-absolute"></div>
+                <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" alt=""/>
+            </div>
+            <div class="artwork_title position-absolute p-2 text-white fs-6 text-truncate"  style="max-width: 180px;">
+              {{i.r_artwork.title}}
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        <button class="scroll-btn scroll-right position-absolute" type="button">&#8250;</button>
       </div>
     </div>
   {% endfor %}
 </div>
+
 
 {% endblock %}
 
@@ -97,5 +130,29 @@ $(document).on({
     }
 }, ".artwork");
 
+
+$(document).ready(function () {
+  const scrollAmount = 200;
+
+  $('.scroll-left').click(function () {
+    const parent = $(this).siblings('.horizontal_scroll_wrapper');
+    parent.animate(
+      {
+        scrollLeft: parent.scrollLeft() - scrollAmount,
+      },
+      500
+    );
+  });
+
+  $('.scroll-right').click(function () {
+    const parent = $(this).siblings('.horizontal_scroll_wrapper');
+    parent.animate(
+      {
+        scrollLeft: parent.scrollLeft() + scrollAmount,
+      },
+      500
+    );
+  });
+});
 
 {% endblock %}

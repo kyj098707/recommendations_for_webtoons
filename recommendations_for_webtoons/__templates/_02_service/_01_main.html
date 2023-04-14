@@ -16,26 +16,14 @@
   overflow:hidden;
   width:98%;
 }
-.photobanner {
-  position:absolute; 
-  top:0px; 
-  left:0px; 
-  overflow:hidden; 
-  white-space: nowrap;
-  animation: bannermove 45s linear infinite;
-}
 
-.photobanner img {    
-  margin: 0 0.5em ;
-  height : 200px;
-}
 .tagtitle{
   font-size:17px;
 }
 
 @keyframes bannermove {
   0% {
-      transform: translate(0, 0);
+      transform: translate(0%, 0);
   }
   100% {
       transform: translate(-50%, 0);
@@ -44,10 +32,6 @@
 
 #container:hover {
    overflow: auto;
-}
-
-#container:hover .photobanner {
-   animation-play-state:paused;
 }
 
 {% endblock %}
@@ -72,7 +56,7 @@
           {{gen.name}}
         </div>
         {% for i in gen.disp_artwork %}
-        <div class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
+        <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
           <div class="artwork_imgs">
               <div class="artwork_dimmed position-absolute"></div>
               <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" alt=""/>
@@ -80,7 +64,7 @@
           <div class="artwork_title position-absolute p-2 text-white fs-6 text-truncate"  style="max-width: 180px;">
             {{i.r_artwork.title}}
           </div>
-        </div>
+        </a>
         {% endfor %}
       </div>
     </div>
@@ -96,9 +80,9 @@ $('#searchbar').on("keyup", function(){
   send_keyword(ajax_url, $(this).val())
 })
 
-$(document).on("click",".artwork", function(){
+{% comment %} $(document).on("click",".artwork", function(){
   get_artwork_detail(ajax_url, $(this).attr('uid'))
-})
+}) {% endcomment %}
 
 $(document).on({
     mouseenter: function () {
@@ -112,4 +96,6 @@ $(document).on({
       rowOutFocus($(this))
     }
 }, ".artwork");
+
+
 {% endblock %}

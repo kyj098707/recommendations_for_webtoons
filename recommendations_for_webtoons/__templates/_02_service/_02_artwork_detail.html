@@ -1,0 +1,323 @@
+{% extends "../base.html" %}
+{% load static %}
+
+
+
+{% block loads %}
+  <link rel="stylesheet" type="text/css" href="{% static 'static/css/service/contents.css'%}">
+  <script type="text/javascript" src="{% static 'static/js/service/main.js'%}"></script>
+{% endblock %}
+
+
+{% block styles %}
+.artwork-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px;
+}
+
+.artwork-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.artwork-image {
+  flex: 0 0 40%;
+}
+
+.artwork-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.artwork-summary {
+  flex: 0 0 55%;
+}
+
+.artwork-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.artwork-artist {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.related-artworks {
+  margin-top: 40px;
+}
+
+.artworks-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+
+.product-details {
+  display: flex;
+  align-items: center;
+  background-color: #c5c5c5;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.product-thumbnail img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.product-info {
+  flex-grow: 1;
+  margin-left: 20px;
+}
+
+.product-title {
+  font-size: 20px;
+  font-weight : 700;
+  margin: 0 0 10px;
+}
+
+.product-author {
+  margin: 0 0 10px;
+  font-style: italic;
+}
+
+.product-score {
+  margin: 0 0 10px;
+  font-weight: bold;
+}
+
+.product-story {
+  margin: 0;
+}
+
+
+@property --p{
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+.pie {
+  --p:50;
+  --b:12px;
+  --c:#369c69;
+  --w:120px;
+  
+  width:var(--w);
+  aspect-ratio:1;
+  position:relative;
+  display:inline-grid;
+  margin:0px;
+  place-content:center;
+  font-size:20px;
+  font-weight:bold;
+}
+.pie:before,
+.pie:after {
+  content:"";
+  position:absolute;
+  border-radius:80%;
+}
+.pie:before {
+  inset:0;
+  background:
+    radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+    conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+  -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+          mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+}
+.pie:after {
+  inset:calc(50% - var(--b)/2);
+  background:var(--c);
+  transform:rotate(calc(var(--p)*3.6deg)) translateY(calc(50% - var(--w)/2));
+}
+.animate {
+  animation:p 1s .5s both;
+}
+.no-round:before {
+  background-size:0 0,auto;
+}
+.no-round:after {
+  content:none;
+}
+@keyframes p {
+  from{--p:0}
+}
+
+
+
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="artwork-detail-container">
+    <div class="artwork-info">
+      <div class="artwork-image">
+        <img src="{{target.temp_thumbpath}}" alt="artwork-image" style='width:300px'>
+      </div>
+      <div class="artwork-summary text-white">
+        <h2 class="artwork-title text-white mb-5">{{target.title}}</h2>
+        {% for d in target.aw_ar.all|slice:":3" %}
+        <p class="artwork-artist text-white">
+            {% if d.type == 'A' %}
+              글 / {{d.r_artist.name}}
+            {% elif d.type == 'I' %}
+              그림 / {{d.r_artist.name}}
+            {% elif d.type == 'O' %}
+              원작 / {{d.r_artist.name}}
+            {% elif d.type == 'P' %}
+              배급 / {{d.r_artist.name}}
+            {% endif %}
+          </p>
+        {% endfor %}
+        <p class="artwork-description text-white mt-4 pt-3">{{target.story}}</p>
+      </div>
+    </div>
+
+
+
+    <div class='row'>
+      <div class='col'>
+      <h3 class='text-white'>스타일 유사도</h3>
+            {% for artwork in target.th1_th2.all %}
+                          <div class="product-details my-2">
+                            <div class="product-thumbnail">
+                              <img src="{{artwork.r_artwork2.temp_thumbpath}}" alt="Product Thumbnail" style='width:130px'>
+                            </div>
+                            <div class="product-info">
+                              <h2 class="product-title truncate" data='{{artwork.r_artwork2.title}}'>{{artwork.r_artwork2.title}}</h2>
+                              <p class="product-author pt-1">
+                              {% for d in artwork.r_artwork2.aw_ar.all|slice:":2" %}
+                              <div class="px-2 me-1 my-2">
+                                {% if d.type == 'A' %}
+                                  글/{{d.r_artist.name}}
+                                {% elif d.type == 'I' %}
+                                  그림/{{d.r_artist.name}}
+                                {% elif d.type == 'O' %}
+                                  원작/{{d.r_artist.name}}
+                                {% elif d.type == 'P' %}
+                                  배급/{{d.r_artist.name}}
+                                {% endif %}
+                              </div>
+                              {% endfor %}</p>
+                              <p class="product-score">Score: {{artwork.r_artwork2.rating|floatformat:1}}</p>
+                            </div>
+
+                                  <div class="progress-chart py-4">
+                                    <div class="chart">            
+                                        <div class="pie animate" data-value="{{artwork.get_score}}" style="--p:{{artwork.get_score}};"></div>
+
+                                    </div>
+                                  </div>
+
+
+                          </div>
+            {% endfor %}
+      </div>
+      <div class='col'>
+      <h3 class='text-white'>스토리 유사도</h3>
+            {% for artwork in target.st1_st2.all %}
+                          <div class="product-details my-2">
+                            <div class="product-thumbnail">
+                              <img src="{{artwork.r_artwork2.temp_thumbpath}}" alt="Product Thumbnail" style='width:130px'>
+                            </div>
+                            <div class="product-info">
+                              <h2 class="product-title truncate" data='{{artwork.r_artwork2.title}}'>{{artwork.r_artwork2.title}}</h2>
+                              <p class="product-author pt-1">
+                              {% for d in artwork.r_artwork2.aw_ar.all|slice:":2" %}
+                              <div class="px-2 me-1 my-2">
+                                {% if d.type == 'A' %}
+                                  글/{{d.r_artist.name}}
+                                {% elif d.type == 'I' %}
+                                  그림/{{d.r_artist.name}}
+                                {% elif d.type == 'O' %}
+                                  원작/{{d.r_artist.name}}
+                                {% elif d.type == 'P' %}
+                                  배급/{{d.r_artist.name}}
+                                {% endif %}
+                              </div>
+                              {% endfor %}</p>
+                              <p class="product-score">Score: {{artwork.r_artwork2.rating|floatformat:1}}</p>
+                            </div>
+                                  <div class="progress-chart py-4">
+                                    <div class="chart">            
+                                        <div class="pie animate" data-value="{{artwork.get_score}}" style="--p:{{artwork.get_score}};"></div>
+                                    </div>
+                                  </div>
+                          </div>
+            {% endfor %}
+
+      </div>
+    </div>
+
+
+
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+$(document).ready(function() {
+  const pies = document.querySelectorAll('.pie');
+  pies.forEach(pie => {
+    const dataValue = pie.getAttribute('data-value');
+    let progress = 0;
+    var interval = setInterval(function() {
+          if (progress >= dataValue) {
+            clearInterval(interval);
+          } else {
+            progress++;
+            pie.textContent =  progress  + '%';
+          }
+    }, 10);
+
+  });
+
+  truncateText();
+
+});
+
+
+
+function truncateText() {
+  const viewportWidth = window.innerWidth;
+  let maxChars;
+
+  // 뷰포트의 너비에 따라 최대 글자 수 조정
+  if (viewportWidth > 1140) {
+    maxChars = 12;
+  } else if (viewportWidth > 950 ) {
+    maxChars = 10;
+  } else if (viewportWidth > 900) {
+    maxChars = 5;
+  } else {
+    maxChars = 20;
+  }
+
+  // 글자 수가 최대 글자 수를 초과하면 말줄임표(...) 추가
+  const elements = document.querySelectorAll('.truncate');
+  elements.forEach((el) => {
+    const text = el.innerText;
+    let dataValue = el.getAttribute('data');
+    if (dataValue.length > maxChars) {
+      el.innerText = dataValue.substring(0, maxChars) + '...';
+    }
+    if (dataValue.length <= maxChars) {
+      el.innerText = dataValue.substring(0, maxChars);
+    }
+  });
+}
+
+window.addEventListener('resize', truncateText);
+
+
+{% endblock %}

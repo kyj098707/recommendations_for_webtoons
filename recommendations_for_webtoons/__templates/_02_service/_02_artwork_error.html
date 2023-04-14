@@ -1,0 +1,39 @@
+{% extends "../base.html" %}
+{% load static %}
+
+
+
+{% block loads %}
+  <link rel="stylesheet" type="text/css" href="{% static 'static/css/service/contents.css'%}">
+  <script type="text/javascript" src="{% static 'static/js/service/main.js'%}"></script>
+{% endblock %}
+
+
+{% block styles %}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.box {
+  height: 100px;
+  margin: 10px;
+}
+
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+  <div class="box text-white fs-1">잘못된 접근입니다.</div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+
+{% endblock %}

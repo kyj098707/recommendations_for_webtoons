@@ -24,18 +24,17 @@
 <div id="intromid2" class="container col-xxl-8 px-4 py-5">
     <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
       <div class="col-10 col-sm-8 col-lg-6 intromid2s">
-        <img src="{% static 'static/img/intro/intromid02.webp' %}" class="d-block mx-lg-auto img-fluid" loading="lazy" width="400" >
+        <img src="{% static 'static/img/intro/intromid04.webp' %}" class="d-block mx-lg-auto img-fluid" loading="lazy" width="400" >
       </div>
       <div class="col-lg-6 intromid2s text-white">
-        <h1 class="display-5 fs-1 fw-bold lh-1 mb-3">We are AIVLER!</h1><br>
-        <p class="lead">KT 위주로 공부했어요.
+        <h1 class="display-5 fs-1 fw-bold lh-1 mb-3">For Detail..</h1><br>
+        <p class="lead">본 프로젝트에 대해 좀 더 자세히 알고 싶나요?
         <br><br>
-        KT AIVLE은 KT에서 진행하는 실무형 AI/DX 인재 양성 프로그램입니다.
-        <br>저희는 KT AIVLE AI track의 3기 교육생이며 늘 발전하는 것을 목표로 달려가는
-        예비 AI개발자들입니다. </p>
+        팀 소개부터, 구현 방식, 기술 등에 대해 적어두었습니다.
         <br>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-outline-secondary btn-lg px-4">자세히 보기</button>
+        더불어, 리소스에 대한 출처표기, 라이센스 등을 포함하였습니다.
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start mt-5">
+          <button type="button" onclick = "location.href = '{% url 'rcmd:about' %}'" class="btn btn-outline-secondary btn-lg px-4">자세히 보기</button>
         </div>
       </div>
     </div>
@@ -43,23 +42,3 @@
 
 
 
-<div id="intromid3" class="container col-xxl-8 px-4 py-5">
-    <div class="row flex-lg-row align-items-center g-5 py-5">
-      <div class="col-10 col-sm-8 col-lg-6 intromid3s">
-        <img src="{% static 'static/img/intro/intromid03.webp' %}" class="d-block mx-lg-auto img-fluid" loading="lazy" width="400" >
-      </div>
-      <div class="col-lg-6 intromid3s text-white">
-        <h1 class="display-5 fs-1 fw-bold lh-1 mb-3">딥러닝 기반 웹툰 추천</h1><br>
-        <p class="lead">약 3600개 작품의 모든 대표 이미지를 표본 추출하였습니다.
-        <br><br>
-        그림체는 파인튜닝한 EfficientNetV2를, 줄거리는 미리 사전학습된 SBERT를 사용하여 특성값을 추출하여 cosine값을 통해 유사도를 구하였습니다. 
-        <br>
-        얼마나 딥러닝이 잘 추천해주는지 경험해보세요! </p>
-        <br>
-        
-        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-outline-secondary btn-lg px-4">자세히 보기</button>
-        </div>
-      </div>
-    </div>
-</div>

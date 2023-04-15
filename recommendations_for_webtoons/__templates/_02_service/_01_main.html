@@ -102,7 +102,7 @@
         <div class='genre_title fs-2 text-white mt-1'>
           {{gen.name}}
         </div>
-        <div class='horizontal_scroll_wrapper'>
+        <div class='horizontal_scroll_wrapper mx-3'>
           {% for i in gen.disp_artwork %}
           <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
             <div class="artwork_imgs">

@@ -107,7 +107,7 @@
           <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
             <div class="artwork_imgs">
                 <div class="artwork_dimmed position-absolute"></div>
-                <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" alt=""/>
+                <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" onerror="removeParent(this)" alt=""/>
             </div>
             <div class="artwork_title position-absolute p-2 text-white fs-6 text-truncate"  style="max-width: 180px;">
               {{i.r_artwork.title}}
@@ -126,6 +126,11 @@
 
 {% block scripts %}
 let ajax_url = "{% url 'rcmd:service' %}"
+
+function removeParent(imgElement) {
+  // 이미지의 부모 요소를 찾아 삭제합니다.
+  imgElement.parentNode.parentNode.remove();
+}
 
 $('#searchbar').on("keyup", function(){
   send_keyword(ajax_url, $(this).val())

@@ -34,6 +34,8 @@ def manage_data(request):
         al = {i.name : i for i in Artist.objects.all()}
         wl = {i.token+"%%%"+str(i.uid) : i for i in Artwork.objects.all()}
         write_rel(gl, al, wl)
+        write_thumbs_rel()
+        write_storys_rel()
         result = {'response': 'complete'}
         return HttpResponse(json.dumps(result), content_type="application/json")
     
@@ -42,7 +44,7 @@ def manage_data(request):
         html = render_to_string('./__manage/__genre_table.html', {'data': model})
         result = {'response': 'complete', 'html':html}
         return HttpResponse(json.dumps(result), content_type="application/json")
-    
+
     return render(request, "./__manage/data.html", {}) # app 내의 templete 폴더 참조
 
 
@@ -54,3 +56,4 @@ def testpage(request):
         
     data = {'pack' : {'':''}} # front로 데이터를 던지기 위해 pack (body.html 참조)
     return render(request, "./__test/__learn.html", data) # app 내의 templete 폴더 참조
+

@@ -7,6 +7,7 @@ def clear_db():
 	Rel_ar_aw.objects.all().delete()
 	Rel_gr_aw.objects.all().delete()
 	Sim_st_st.objects.all().delete()
+	Sim_th_th.objects.all().delete()
 	Artist.objects.all().delete()
 	Artwork.objects.all().delete()
 	Publisher.objects.all().delete()
@@ -79,3 +80,40 @@ def write_rel(gl, al, wl):
 		dict['r_artwork'] = wl[token + "%%%" + str(uid)]
 		bulk.append(Rel_gr_aw(**dict))
 	Rel_gr_aw.objects.bulk_create(bulk)
+	
+def write_thumbs_rel():
+	response = requests.get('http://kt-aivle.iptime.org:64000/test/get_thumbs')
+	response = response.json()
+	print(response)
+	alls = {str(i.token)+"_"+str(i.uid) : i for i in Artwork.objects.all()}
+	bulk = []
+	for i in response:
+		for j in response[i]:
+			token, uid = i.split("_")
+			value, target = j
+			token2, uid2 = target.split("_")
+			dict = {}
+			dict['r_artwork1'] = alls[i]
+			dict['r_artwork2'] = alls[target]
+			dict['similarity'] = value
+			bulk.append(Sim_th_th(**dict))
+	Sim_th_th.objects.bulk_create(bulk)
+	
+
+def write_storys_rel():
+	response = requests.get('http://kt-aivle.iptime.org:64000/test/get_storys')
+	response = response.json()
+	print(response)
+	alls = {str(i.token)+"_"+str(i.uid) : i for i in Artwork.objects.all()}
+	bulk = []
+	for i in response:
+		for j in response[i]:
+			token, uid = i.split("_")
+			value, target = j
+			token2, uid2 = target.split("_")
+			dict = {}
+			dict['r_artwork1'] = alls[i]
+			dict['r_artwork2'] = alls[target]
+			dict['similarity'] = value
+			bulk.append(Sim_st_st(**dict))
+	Sim_st_st.objects.bulk_create(bulk)

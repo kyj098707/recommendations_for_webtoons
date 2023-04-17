@@ -100,7 +100,8 @@
             <span class="input-group-text w-25">
             Birth
             </span>
-            <input id='date_join' type="date" class="form-control">
+            <input id='year_join' placeholder="year" type="number" class="form-control " >
+            <input id='month_join' placeholder="month" type="number" class="form-control " >
           </div>
 
           <div class="input-group mb-3">
@@ -113,7 +114,7 @@
           </div>
 
         <button type="button" id='submit_join' class="btn btn-warning w-75 my-4" align='center'>SUBMIT</button>
-        <p class='info_join text-danger' style='display:none;'>인증에 실패했습니다.</p>
+        <p id='info_join' class='text-danger' style='display:none;'>인증에 실패했습니다.</p>
       </div>
     </div>
   </div>

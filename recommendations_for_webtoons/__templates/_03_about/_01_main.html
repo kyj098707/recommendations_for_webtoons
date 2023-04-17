@@ -1,0 +1,196 @@
+{% extends "../base.html" %}
+{% load static %}
+
+
+
+{% block loads %}
+{% endblock %}
+
+
+{% block styles %}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.chapter {
+  background-color: white;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.chapter-title {
+  margin: 0;
+  padding-bottom: 5px;
+  font-size: 1.5rem;
+}
+
+.divider {
+  border: 0;
+  border-top: 1px solid #333;
+  margin-bottom: 20px;
+}
+
+.chapter-content {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.team-title {
+  font-size: 32px;
+  margin-bottom: 30px;
+  text-align:center;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align:center;
+}
+
+.team-member {
+  width: 20%;
+  padding: 10px;
+  text-align:center;
+  padding: 0 auto;
+}
+
+.github-icon-main {
+  width : 7rem;
+  display: block;
+  margin: 0 auto;
+  padding: 0px 0px 0px 0px;
+  text-align:center;
+}
+
+.member-name {
+  font-size: 16px;
+  margin-top: 10px;
+  text-align:center;
+  padding: 0 auto;
+}
+{% endblock %}
+
+
+{% block body %}
+  <div class="container">
+    <div class="chapter">
+      <h2 class="chapter-title">개요</h2>
+      <hr class="divider">
+      <p class="chapter-content">딥러닝을 통해 스토리 유사도, 아트스타일 유사도를 분석하고, 수치화하여 정량적인 관계를 만들고자 했습니다. <br><br>
+      딥러닝의 결과로써 산출된 데이터를 DB에 인입하고자, 정규화에 기반한 스키마 설계, 데이터 통신 방식을 구상하였습니다.<br>
+      이를 웹 상에서 확인하고, 나아가 비교하는 것을 목표로 삼아 프로젝트를 진행했습니다.
+      <br>
+      </p>
+
+    </div>
+    <div class="chapter">
+      <h2 class="chapter-title">리소스 출처</h2>
+      <hr class="divider">
+      <p class="chapter-content">웹툰 Thumbnail img의 경우 GIT을 포함한 온라인 스토리지에 노출시키지 않으려 최대한 노력하였으나, <br> 
+      학습 결과를 시연함에 있어 부득이하게 노출된 사항이 있습니다. <br>
+      <br> 썸네일 이미지 사용에 관하여, 
+      <a href='https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=695&ccfNo=3&cciNo=2&cnpClsNo=2' target="_blank">생활법령정보:공표저작물 이용</a> 페이지를 참조하였습니다.<br>
+      그럼에도 미처 파악치 못한 문제의 소지나, 삭제 등의 권고를 주시면 서버의 내용을 모두 지우고, 더미로 이미지를 대체하겠습니다. <br>
+      <br>
+      <b>Font</b>
+      <br>
+      본 서비스는 Kotra에서 제작된 KOTRA_BOLD-Bold체를 사용하고 있습니다.
+      <br>
+      <br>
+      
+      <b>Src</b>
+      <br>
+      Webtoon thumbnail : Naver 및 Daum의 webtoon 플랫폼의 리소스를 사용하였습니다.<br>
+      미리캔버스 구독 권한으로, 본 페이지 디자인을 위해 리소스를 일부 사용하였습니다.<br>
+      unsplash의 무료 라이센스에 해당하는 이미지를 사용하였습니다.
+       </p>
+    </div>
+
+
+    <div class="chapter">
+      <h2 class="chapter-title">Team</h2>
+      <hr class="divider">
+      <p class="chapter-content">
+      
+      <div class="container">
+        <h1 class="team-title">KT Aivler 3rd</h1>
+        <div class="team-members">
+
+            <div class="team-member">
+              <a href="https://github.com/kyj098707" class='text-dark d-flex justify-content-center align-items-center'  target="_blank">
+                <svg class="github-icon-main"><use xlink:href="#github-gray"></svg>
+              </a>
+              <p class="member-name">Kim yoonjong</p>
+
+            </div>
+            <div class="team-member">
+              <a href="https://github.com/Ramdatech" class='text-dark d-flex justify-content-center align-items-center'  target="_blank">
+                <svg class="github-icon-main"><use xlink:href="#github-gray"></svg>
+              </a>
+              <p class="member-name">Park kyoungdeok</p>
+
+            </div>
+            <div class="team-member">
+              <a href="https://github.com/dannxdr" class='text-dark d-flex justify-content-center align-items-center'  target="_blank">
+                <svg class="github-icon-main"><use xlink:href="#github-gray"></svg>
+              </a>
+              <p class="member-name">Kim daneun</p>
+
+            </div>
+            <div class="team-member">
+              <a href="https://github.com/jian1114" class='text-dark d-flex justify-content-center align-items-center'  target="_blank">
+                <svg class="github-icon-main"><use xlink:href="#github-gray"></svg>
+              </a>
+              <p class="member-name">Lee jian</p>
+
+            </div>
+            <div class="team-member">
+              <a href="https://github.com/Sunny14578" class='text-dark d-flex justify-content-center align-items-center'  target="_blank">
+                <svg class="github-icon-main"><use xlink:href="#github-gray"></svg>
+              </a>
+              <p class="member-name">Choi taeyang</p>
+
+            </div>
+        </div>
+      </div>
+      
+      
+      </p>
+    </div>
+
+    <div class="chapter">
+      <h2 class="chapter-title">딥러닝(1) : 유사도 분석</h2>
+      <hr class="divider">
+      <p class="chapter-content">챕터 내용입니다...</p>
+    </div>
+
+    <div class="chapter">
+      <h2 class="chapter-title">딥러닝(2) : 아트스타일 분석</h2>
+      <hr class="divider">
+      <p class="chapter-content">챕터 내용입니다...</p>
+    </div>
+
+    <div class="chapter">
+      <h2 class="chapter-title">Django Backend(1) : Database</h2>
+      <hr class="divider">
+      <p class="chapter-content">챕터 내용입니다...</p>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block scripts %}
+
+{% endblock %}

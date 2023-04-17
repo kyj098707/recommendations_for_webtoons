@@ -1,0 +1,181 @@
+{% extends "../base.html" %}
+{% load static %}
+
+
+
+{% block loads %}
+  <link rel="stylesheet" type="text/css" href="{% static 'static/css/service/contents.css'%}">
+  <script type="text/javascript" src="{% static 'static/js/service/main.js'%}"></script>
+{% endblock %}
+
+
+{% block styles %}
+#container {
+  height:200px; 
+  position:relative; 
+  overflow:hidden;
+  width:98%;
+}
+
+.tagtitle{
+  font-size:17px;
+}
+
+@keyframes bannermove {
+  0% {
+      transform: translate(0%, 0);
+  }
+  100% {
+      transform: translate(-50%, 0);
+  }
+}
+
+#container:hover {
+   overflow: auto;
+}
+
+.horizontal_scroll_wrapper {
+  overflow-x: hidden;
+  white-space: nowrap;
+}
+
+.scroll-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 3rem;
+  margin-top:20px;
+  cursor: pointer;
+  z-index: 20;
+}
+
+
+.scroll-left {
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.scroll-right {
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.aw_array {
+  overflow: visible;
+}
+
+.artwork {
+  transition: all 0.3s;
+}
+
+.artwork:hover {
+  transform: scale(1.1);
+  z-index: 10;
+  margin: 0 10px;
+}
+
+.horizontal_scroll_wrapper {
+  padding: 30px 0;
+}
+
+{% endblock %}
+
+
+{% block body %}
+
+  <div class="modal fade" id='modal_detail_artwork' tabindex="-1"></div>
+
+  <div id='bg' class='position-fixed w-100 h-100'>
+    <img id='service_banner' width="100%" class='py-1 rounded d-block position-absolute' src="{% static 'static/img/service/_service_img01.webp' %}">
+  </div>
+
+  <img id='mask_banner' width="100%" class='py-1 rounded d-block' src="{% static 'static/img/service/msk.png' %}">
+
+
+<div id='contents_pack' class='px-4'>
+  {% for gen in data1 %}
+    <div class="row w-100 overflow-scroll">
+      <div class="aw_array py-4 my-3 overflow-hidden position-relative">
+        <button class="scroll-btn scroll-left position-absolute" type="button">&#8249;</button>
+        <div class='genre_title fs-2 text-white mt-3'>
+          {{gen.name}}
+        </div>
+        <div class='horizontal_scroll_wrapper mx-3'>
+          {% for i in gen.disp_artwork %}
+          <a href="{% url 'rcmd:service_artwork' i.r_artwork.get_id %}" class="artwork mx-1 position-relative" uid="{{i.r_artwork.token}}_{{i.r_artwork.uid}}">
+            <div class="artwork_imgs">
+                <div class="artwork_dimmed position-absolute"></div>
+                <img class="artwork_img artwork_img" src="{{i.r_artwork.temp_thumbpath}}" onerror="removeParent(this)" alt=""/>
+            </div>
+            <div class="artwork_title position-absolute p-2 text-white fs-6 text-truncate"  style="max-width: 180px;">
+              {{i.r_artwork.title}}
+            </div>
+          </a>
+          {% endfor %}
+        </div>
+        <button class="scroll-btn scroll-right position-absolute" type="button">&#8250;</button>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+let ajax_url = "{% url 'rcmd:service' %}"
+
+function removeParent(imgElement) {
+  // 이미지의 부모 요소를 찾아 삭제합니다.
+  imgElement.parentNode.parentNode.remove();
+}
+
+$('#searchbar').on("keyup", function(){
+  send_keyword(ajax_url, $(this).val())
+})
+
+{% comment %} $(document).on("click",".artwork", function(){
+  get_artwork_detail(ajax_url, $(this).attr('uid'))
+}) {% endcomment %}
+
+$(document).on({
+    mouseenter: function () {
+      rowOutFocus($(this))
+    },
+    mouseleave: function () {
+      rowOutFocus($(this))
+      rowSetFocus($(this))
+    },
+    mousemove :function () {
+      rowOutFocus($(this))
+    }
+}, ".artwork");
+
+
+$(document).ready(function () {
+  const scrollAmount = 200;
+
+  $('.scroll-left').click(function () {
+    const parent = $(this).siblings('.horizontal_scroll_wrapper');
+    parent.animate(
+      {
+        scrollLeft: parent.scrollLeft() - scrollAmount,
+      },
+      500
+    );
+  });
+
+  $('.scroll-right').click(function () {
+    const parent = $(this).siblings('.horizontal_scroll_wrapper');
+    parent.animate(
+      {
+        scrollLeft: parent.scrollLeft() + scrollAmount,
+      },
+      500
+    );
+  });
+});
+
+{% endblock %}

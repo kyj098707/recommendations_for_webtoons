@@ -8,4 +8,4 @@ def intro(request):
 def about(request):
     user = request.user
     data = {'user_status' : user.is_authenticated}
-    return render(request, "./base.html", data)
+    return render(request, "./_03_about/_01_main.html", data)

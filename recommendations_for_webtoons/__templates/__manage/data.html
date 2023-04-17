@@ -7,9 +7,9 @@
 {% comment %} 크롬으로 들어가서 개발자 도구로 보면, url 호출 부분이 정식 url로 바뀌어 있습니다. {% endcomment %}
 
 {% block body %}
-<div class='row m-5'>
+<div class='row m-5 text-white'>
     <div class='col m-2'> 
-        <table class="table">
+        <table class="table text-white">
             <thead>
                 <tr>
                 <th scope="col">분류</th>
@@ -53,7 +53,7 @@
         </table>
     </div>
     <div class='col m-2'> 
-        <table id='target_table' class="table">
+        <table id='target_table' class="table text-white">
             <thead>
                 <tr>
                 <th scope="col">#</th>
@@ -103,9 +103,11 @@
     }
 
     $(document).on("click","#del_data",function(){
+        $("#del_data").attr("disabled", true);
         data = {'indicator' : 'delete_all_data'}
         var res = request_ajax(ajax_url, data)
         if (res.response === 'complete') {
+            $("#del_data").attr("disabled", false);
             alert('데이터 삭제 완료')
         } else {
             alert("통신 오류")
@@ -114,12 +116,16 @@
 
     $(document).on("click","#get_data",function(){
         data = {'indicator' : 'download_all_data'}
-        var res = request_ajax(ajax_url, data)
-        if (res.response === 'complete') {
-            alert('데이터 등재 완료')
-        } else {
-            alert("통신 오류")
-        }
+        $("#get_data").attr("disabled", true);
+        setTimeout(() => {
+            $("#get_data").attr("disabled", false);
+            var res = request_ajax(ajax_url, data)
+            if (res.response === 'complete') {
+                alert('데이터 등재 완료')
+            } else {
+                alert("통신 오류")
+            }
+        }, 200)
     })
 
     $(document).on("click","#read_genre",function(){

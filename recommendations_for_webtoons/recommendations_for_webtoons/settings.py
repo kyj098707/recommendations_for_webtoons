@@ -42,12 +42,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-EMAIL_HOST = 'smtp.naver.com'
-EMAIL_HOST_USER = accounts_configs['ACCOUNT']['ID']
-EMAIL_HOST_PASSWORD = accounts_configs['ACCOUNT']['PASSWORD']
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_SSL = False
 
 # Application definition
 
@@ -79,7 +73,8 @@ ROOT_URLCONF = "recommendations_for_webtoons.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        'DIRS': [os.path.join(BASE_DIR, '__templates')],
+        'DIRS': [os.path.join(BASE_DIR, '__templates'),
+                 '/home/_aivle00_toy/recommendations_for_webtoons/recommendationapp/__templates',],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -91,16 +86,6 @@ TEMPLATES = [
         },
     },
 ]
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.naver.com'
-EMAIL_HOST_USER = accounts_configs['ACCOUNT']['ID']
-EMAIL_HOST_PASSWORD = accounts_configs['ACCOUNT']['PASSWORD']
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-DEFAULT_FROM_MAIL = accounts_configs['ACCOUNT']['ID']
-
-WSGI_APPLICATION = "recommendations_for_webtoons.wsgi.application"
 
 
 # Database
@@ -156,7 +141,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
-
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 

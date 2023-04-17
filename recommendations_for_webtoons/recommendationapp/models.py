@@ -61,11 +61,16 @@ class Artwork(models.Model):  # DB Table 첫글자 대문자로 맞추겠습니�
     class Meta:
         ordering = ['title']  # 기본적으로 db에서 불러올 때 title 순으로 정렬
         unique_together = ['token', 'uid']
-    
+
+    def get_id(self):
+        return f"{self.token}_{self.uid}"
+
     def temp_thumbpath(self):
-        return f'http://kt-aivle.iptime.org:64000/static/mainsource/thumb/{self.token}_{self.uid}.jpg'
-
-
+        return f'https://set.ramdatech.online/static/static/thumbs/{self.token}_{self.uid}.jpg'
+    
+    def get_rels(self):
+        return Sim_th_th.objects.filter(r_artwork1=self.id)
+    
 # ============================================================================
 # ============================================================================
 # 다대다 필드 구현 : manytomanyField 사용치 않고 직접 구현하겠습니다.
@@ -79,7 +84,7 @@ class Rel_ar_aw(models.Model):  # N개의 작가들이 N개의 작품에 대해 
     # 해당 작가-작품이 어떤 관계인지(글작가, 그림작가, 원작자, 배급사) 타입 기재
     
     class Meta:
-        ordering = ['r_artist__name', 'r_artwork__title', 'type']
+        ordering = ['r_artist__name', 'r_artwork__title', '-type']
         # 일반적으로 산출할 때, 한 작가의 같은 작품을 우선하여 type 순으로 가져옵니다.
 
 
@@ -99,8 +104,10 @@ class Sim_st_st(models.Model):  # story 유사도
     similarity = models.FloatField(default=0, null=True, blank=False)
     
     class Meta:
-        ordering = ['similarity']
+        ordering = ['-similarity']
 
+    def get_score(self):
+        return str(int(self.similarity*100))
 
 class Sim_th_th(models.Model):
     r_artwork1 = models.ForeignKey(Artwork, on_delete=models.PROTECT, related_name='th1_th2', blank=True, null=True)
@@ -108,8 +115,10 @@ class Sim_th_th(models.Model):
     similarity = models.FloatField(default=0, null=True, blank=False)
     
     class Meta:
-        ordering = ['similarity']
+        ordering = ['-similarity']
 
+    def get_score(self):
+        return str(int(self.similarity*1000))[1:]
 
 # ============================================================================
 # 회원가입관련 DB
@@ -129,27 +138,13 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
     
-    def create_superuser(self, username=None, email=None, address=None, phone_number=None, password=None):
-        user = self.create_user(
-            username=username,
-            email=self.normalize_email(email),
-            address=address,
-            phone_number=phone_number,
-            password=password
-        )
-        user.is_admin = True
-        user.is_staff = True
-        user.is_superuser = True
-        user.save(using=self._db)
-        return user
 
-#
 class Member(AbstractBaseUser):
     uid = models.AutoField(primary_key=True)
     email = models.EmailField(max_length=50, null=False, blank=False, unique=True)
-    username = models.CharField(default='', max_length=50, null=False, blank=False, unique=True)
+    username = models.CharField(default='', max_length=50, null=False, blank=False)
     
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)

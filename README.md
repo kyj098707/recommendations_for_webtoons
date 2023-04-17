@@ -9,7 +9,7 @@
     <h3>
         <p align="center">
             <strong>
-                <a href="http://kt-aivle.iptime.org:5900/">Go to Project Page!</a>
+                <a href="http://kt-aivle.iptime.org:59000/service/">Go to Project Page!</a>
             </strong>
         </p>
     </h3>

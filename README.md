@@ -95,11 +95,9 @@ BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 �
 <br>
 <img src="https://user-images.githubusercontent.com/62131378/220957599-deac6aef-7a0f-4f49-9740-2c7365a245ce.png">
 
-### AI PART
-
-| [<img src="https://user-images.githubusercontent.com/54027397/220613807-2f96deca-165c-4b66-9cff-f49da80414cd.png" width="96px;"/><br><sup>PYTORCH</sup>](https://pytorch.org/)| [<img src="https://user-images.githubusercontent.com/54027397/220612835-cf1f9b62-3337-4a0b-9e7e-09e7e0fa015a.png" width="96px;"/><br><sup>HUGGING FACE</sup>](https://huggingface.co/welcome)| [<img src="https://user-images.githubusercontent.com/54027397/220613512-87d633ab-a19c-4632-aeea-6b53b922c46b.png" width="96px;"/><br><sup>WANDB</sup>](https://wandb.ai)
-| :---: | :---: | :---: |
-
+<img src="https://img.shields.io/badge/Wandb-black"/></a><img src="https://img.shields.io/badge/HuggingFace-yellow"/></a><img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=PyTorch&logoColor=white"/></a> 
+<img src="https://img.shields.io/badge/Django-092E20?style=flat&logo=Django&logoColor=white"/><img src="https://img.shields.io/badge/docker-2496ED?style=flat&logo=Docker&logoColor=white"/>
+<img src="https://img.shields.io/badge/Wandb-black"/></a>&nbsp
 
 
 

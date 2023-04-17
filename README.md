@@ -9,7 +9,7 @@
     <h3>
         <p align="center">
             <strong>
-                <a href="http://kt-aivle.iptime.org:64000/series/service_test/">Go to Project Page!</a>
+                <a href="http://kt-aivle.iptime.org:5900/">Go to Project Page!</a>
             </strong>
         </p>
     </h3>
@@ -34,10 +34,6 @@
 <Br>
 <b>KT Aivler 3rd, AI track</b>
 </div>
-<br>
-<hr>
-<br>
-<img src="https://user-images.githubusercontent.com/62131378/220957557-cac3392f-d9e8-491a-ab64-05f12044fafd.png">
 
     
 <br>
@@ -46,11 +42,6 @@
 <img src="https://user-images.githubusercontent.com/62131378/220957565-8195c772-4c76-4b30-a25c-1028f06f89c8.png">
 <img src="https://user-images.githubusercontent.com/54027397/220891020-f4eb4227-482a-4550-9db2-8054ab231d5e.png">
 
-
-<br>
-<hr>
-<br>
-<img src="https://user-images.githubusercontent.com/62131378/220957588-6b0dbc29-de27-4ed7-8257-a17d57d86a18.png">
 
 ## Detail [More Information](https://americanoisice.tistory.com/219)
 

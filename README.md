@@ -4,7 +4,7 @@
       <img src="https://user-images.githubusercontent.com/54027397/222316541-17da0380-1018-43a6-90eb-3c085bc83811.png">
     </p>
     <p align="center">
-        당신에게 맞는 웹툰을 에이블러들이 추천해줄께요 .<br><br> Aivler will recommend a webtoon for you
+        당신에게 맞는 웹툰을 에이블러들이 추천해줄게요 .<br><br> Aivler will recommend a webtoon for you
     </p>
     <h3>
         <p align="center">

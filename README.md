@@ -90,14 +90,6 @@ BERT에서 Sentecnce에서 좀 더 의미론적인 임베딩을 뽑아낼 수 �
 ```
 
     
-<br>
-<hr>
-<br>
-<img src="https://user-images.githubusercontent.com/62131378/220957599-deac6aef-7a0f-4f49-9740-2c7365a245ce.png">
-
-<img src="https://img.shields.io/badge/Wandb-black"/></a><img src="https://img.shields.io/badge/HuggingFace-yellow"/></a><img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat&logo=PyTorch&logoColor=white"/></a> 
-<img src="https://img.shields.io/badge/Django-092E20?style=flat&logo=Django&logoColor=white"/><img src="https://img.shields.io/badge/docker-2496ED?style=flat&logo=Docker&logoColor=white"/>
-<img src="https://img.shields.io/badge/Wandb-black"/></a>&nbsp
 
 
 
